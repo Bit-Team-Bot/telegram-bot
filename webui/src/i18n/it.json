@@ -1,0 +1,23 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Willkommen zum Bit-Team Bot WebUI! Hier steuerst du alles.",
+    "feature_groups": "Gruppen verwalten und verknüpfen",
+    "feature_signals": "Krypto-Signale empfangen",
+    "feature_news": "Aktuelle Krypto-News",
+    "feature_jokes": "Flachwitze zum Lachen",
+    "feature_payments": "Pakete & Zahlungen verwalten"
+  },
+  "groups": {
+    "title": "Gruppenverwaltung",
+    "manage": "Hier kannst du deine Gruppen sehen und verwalten."
+  },
+  "payments": {
+    "title": "Pakete & Zahlungen",
+    "info": "Hier findest du alle Zahlungsinformationen, Rechnungen und Paket-Upgrades."
+  },
+  "owner": {
+    "title": "Owner Einstellungen",
+    "info": "Sonderfunktionen für Owner und Partner."
+  }
+}

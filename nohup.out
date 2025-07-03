@@ -1,0 +1,675 @@
+2025-07-02 08:54:59,448 - group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 08:54:59,449 - group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+2025-07-02 08:54:59,456 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+2025-07-02 08:54:59,706 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+2025-07-02 08:55:00,799 - pyrogram.connection.connection - INFO - Connecting...
+2025-07-02 08:55:00,835 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-07-02 08:55:00,835 - pyrogram.session.session - INFO - NetworkTask started
+2025-07-02 08:55:00,988 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-07-02 08:55:00,989 - pyrogram.session.session - INFO - Device: CPython 3.11.2 - Pyrogram 2.0.106
+2025-07-02 08:55:00,989 - pyrogram.session.session - INFO - System: Linux 6.12.25+rpt-rpi-2712 (en)
+2025-07-02 08:55:00,989 - pyrogram.session.session - INFO - Session started
+2025-07-02 08:55:00,990 - pyrogram.session.session - INFO - PingTask started
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+Telethon: 1.34.0
+2025-07-02 08:55:02,072 - __main__ - ERROR - Uncaught exception
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 399, in <module>
+    app.run()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/run.py", line 84, in run
+    self.start()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/sync.py", line 66, in async_to_sync_wrap
+    return loop.run_until_complete(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/start.py", line 73, in start
+    self.me = await self.get_me()
+              ^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/users/get_me.py", line 41, in get_me
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/advanced/invoke.py", line 86, in invoke
+    await self.fetch_peers(getattr(r, "users", []))
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/client.py", line 531, in fetch_peers
+    await self.storage.update_peers(parsed_peers)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/sqlite_storage.py", line 129, in update_peers
+    self.conn.executemany(
+sqlite3.OperationalError: database is locked
+2025-07-02 08:57:42,200 - group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 08:57:42,200 - group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+2025-07-02 08:57:42,207 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+2025-07-02 08:57:42,426 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+2025-07-02 08:57:42,921 - pyrogram.connection.connection - INFO - Connecting...
+2025-07-02 08:57:42,950 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-07-02 08:57:42,951 - pyrogram.session.session - INFO - NetworkTask started
+2025-07-02 08:57:43,145 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-07-02 08:57:43,145 - pyrogram.session.session - INFO - Device: CPython 3.11.2 - Pyrogram 2.0.106
+2025-07-02 08:57:43,145 - pyrogram.session.session - INFO - System: Linux 6.12.25+rpt-rpi-2712 (en)
+2025-07-02 08:57:43,145 - pyrogram.session.session - INFO - Session started
+2025-07-02 08:57:43,147 - pyrogram.session.session - INFO - PingTask started
+2025-07-02 08:57:43,280 - pyrogram.dispatcher - INFO - Started 8 HandlerTasks
+2025-07-02 08:58:27,144 - group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 08:58:27,145 - group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+2025-07-02 08:58:27,151 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+2025-07-02 08:58:27,366 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+Telethon: 1.34.0
+2025-07-02 08:58:28,373 - __main__ - ERROR - Uncaught exception
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 399, in <module>
+    app.run()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/run.py", line 84, in run
+    self.start()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/sync.py", line 66, in async_to_sync_wrap
+    return loop.run_until_complete(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/start.py", line 58, in start
+    is_authorized = await self.connect()
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/auth/connect.py", line 40, in connect
+    await self.load_session()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/client.py", line 616, in load_session
+    await self.storage.open()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 63, in open
+    self.update()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 52, in update
+    self.version(version)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/sqlite_storage.py", line 219, in version
+    self.conn.execute(
+sqlite3.OperationalError: database is locked
+2025-07-02 08:59:23,996 - root - INFO - Stop signal received (SIGTERM). Exiting...
+2025-07-02 08:59:28,277 - pyrogram.dispatcher - INFO - Stopped 8 HandlerTasks
+2025-07-02 08:59:28,277 - pyrogram.session.session - INFO - PingTask stopped
+2025-07-02 08:59:28,278 - pyrogram.connection.connection - INFO - Disconnected
+2025-07-02 08:59:28,278 - pyrogram.session.session - INFO - NetworkTask stopped
+2025-07-02 08:59:28,278 - pyrogram.session.session - INFO - Session stopped
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+Telethon: 1.34.0
+2025-07-02 09:09:35,880 - group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 09:09:35,880 - group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+2025-07-02 09:09:35,887 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+2025-07-02 09:09:36,110 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+Telethon: 1.34.0
+2025-07-02 09:09:37,112 - __main__ - ERROR - Uncaught exception
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 399, in <module>
+    app.run()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/run.py", line 84, in run
+    self.start()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/sync.py", line 66, in async_to_sync_wrap
+    return loop.run_until_complete(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/start.py", line 58, in start
+    is_authorized = await self.connect()
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/auth/connect.py", line 40, in connect
+    await self.load_session()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/client.py", line 616, in load_session
+    await self.storage.open()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 63, in open
+    self.update()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 52, in update
+    self.version(version)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/sqlite_storage.py", line 219, in version
+    self.conn.execute(
+sqlite3.OperationalError: database is locked
+2025-07-02 09:11:58,505 - group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 09:11:58,505 - group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+2025-07-02 09:11:58,511 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+2025-07-02 09:11:58,811 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+Telethon: 1.34.0
+2025-07-02 09:11:59,813 - __main__ - ERROR - Uncaught exception
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 399, in <module>
+    app.run()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/run.py", line 84, in run
+    self.start()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/sync.py", line 66, in async_to_sync_wrap
+    return loop.run_until_complete(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/start.py", line 58, in start
+    is_authorized = await self.connect()
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/auth/connect.py", line 40, in connect
+    await self.load_session()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/client.py", line 616, in load_session
+    await self.storage.open()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 63, in open
+    self.update()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 52, in update
+    self.version(version)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/sqlite_storage.py", line 219, in version
+    self.conn.execute(
+sqlite3.OperationalError: database is locked
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 9, in <module>
+    from group_management import GroupManagement
+  File "/home/manny/telegram-bot/bot/group_management.py", line 15, in <module>
+    class GroupManagement:
+  File "/home/manny/telegram-bot/bot/group_management.py", line 858, in GroupManagement
+    @self.client.on_callback_query(filters.regex(r"^admin_member_action_"))
+     ^^^^
+NameError: name 'self' is not defined
+2025-07-02 09:41:16,282 - group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 09:41:16,282 - group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+2025-07-02 09:41:16,289 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+2025-07-02 09:41:16,504 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+2025-07-02 09:41:16,672 - pyrogram.connection.connection - INFO - Connecting...
+2025-07-02 09:41:16,700 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-07-02 09:41:16,700 - pyrogram.session.session - INFO - NetworkTask started
+2025-07-02 09:41:16,861 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-07-02 09:41:16,861 - pyrogram.session.session - INFO - Device: CPython 3.11.2 - Pyrogram 2.0.106
+2025-07-02 09:41:16,861 - pyrogram.session.session - INFO - System: Linux 6.12.25+rpt-rpi-2712 (en)
+2025-07-02 09:41:16,861 - pyrogram.session.session - INFO - Session started
+2025-07-02 09:41:16,862 - pyrogram.session.session - INFO - PingTask started
+2025-07-02 09:41:16,932 - pyrogram.dispatcher - INFO - Started 8 HandlerTasks
+2025-07-02 09:41:25,245 - __main__ - INFO - 🚀 /start von User 5719897345 (Sascha)
+2025-07-02 09:41:25,409 - api_client - ERROR - POST https://api.bit-team-bot.online/users/register_or_update fehlgeschlagen: 530 Server Error: <none> for url: https://api.bit-team-bot.online/users/register_or_update
+2025-07-02 09:41:25,409 - __main__ - ERROR - ❌ Fehler beim Senden der User-Daten: 530 Server Error: <none> for url: https://api.bit-team-bot.online/users/register_or_update
+2025-07-02 09:41:25,457 - __main__ - INFO - ✅ Antwort an User 5719897345 gesendet
+2025-07-02 09:41:33,797 - group_management - INFO - /admin: User 5719897345 in Chat -4947931528 (Bot Besprechung) versucht Admin-Menü zu öffnen.
+2025-07-02 09:41:33,959 - group_management - INFO - /admin: get_chat_member returned: status=ChatMemberStatus.OWNER, status_str=chatmemberstatus.owner, is_admin=True, member={
+    "_": "ChatMember",
+    "status": "ChatMemberStatus.OWNER",
+    "user": {
+        "_": "User",
+        "id": 5719897345,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": false,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "Sascha",
+        "last_name": "Esspunkt",
+        "status": "UserStatus.RECENTLY",
+        "username": "Saschaesspunkt",
+        "language_code": "de",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADmPQxG2GZoUsAEAIAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "small_photo_unique_id": "AgADmPQxG2GZoUs",
+            "big_file_id": "AQADAgADmPQxG2GZoUsAEAMAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "big_photo_unique_id": "AgADmPQxG2GZoUs"
+        }
+    }
+}
+2025-07-02 09:42:52,408 - group_management - INFO - /admin: User 5719897345 in Chat -4947931528 (Bot Besprechung) versucht Admin-Menü zu öffnen.
+2025-07-02 09:42:52,640 - group_management - INFO - /admin: get_chat_member returned: status=ChatMemberStatus.OWNER, status_str=chatmemberstatus.owner, is_admin=True, member={
+    "_": "ChatMember",
+    "status": "ChatMemberStatus.OWNER",
+    "user": {
+        "_": "User",
+        "id": 5719897345,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": false,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "Sascha",
+        "last_name": "Esspunkt",
+        "status": "UserStatus.RECENTLY",
+        "username": "Saschaesspunkt",
+        "language_code": "de",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADmPQxG2GZoUsAEAIAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "small_photo_unique_id": "AgADmPQxG2GZoUs",
+            "big_file_id": "AQADAgADmPQxG2GZoUsAEAMAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "big_photo_unique_id": "AgADmPQxG2GZoUs"
+        }
+    }
+}
+2025-07-02 09:42:55,603 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 456, in admin_welcome_handler
+    await self.handle_admin_welcome_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1053, in handle_admin_welcome_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 09:43:02,758 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 459, in admin_nightmode_handler
+    await self.handle_admin_nightmode_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1072, in handle_admin_nightmode_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 09:43:05,999 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 462, in admin_forward_handler
+    await self.handle_admin_forward_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1092, in handle_admin_forward_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 09:43:09,245 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 465, in admin_info_settings_handler
+    await self.handle_admin_info_settings_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1109, in handle_admin_info_settings_callback
+    chat_id = int(callback_query.data.split("_")[4])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 09:43:14,641 - group_management - INFO - /admin: get_chat_member returned: status=ChatMemberStatus.OWNER, status_str=chatmemberstatus.owner, is_admin=True, member={
+    "_": "ChatMember",
+    "status": "ChatMemberStatus.OWNER",
+    "user": {
+        "_": "User",
+        "id": 5719897345,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": false,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "Sascha",
+        "last_name": "Esspunkt",
+        "status": "UserStatus.RECENTLY",
+        "username": "Saschaesspunkt",
+        "language_code": "de",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADmPQxG2GZoUsAEAIAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "small_photo_unique_id": "AgADmPQxG2GZoUs",
+            "big_file_id": "AQADAgADmPQxG2GZoUsAEAMAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "big_photo_unique_id": "AgADmPQxG2GZoUs"
+        }
+    }
+}
+2025-07-02 09:43:16,985 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 468, in admin_badwords_handler
+    await self.handle_admin_badwords_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1132, in handle_admin_badwords_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 09:43:19,700 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 471, in admin_links_handler
+    await self.handle_admin_links_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1152, in handle_admin_links_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 09:52:57,968 - group_management - INFO - /admin: User 5719897345 in Chat -1002444102740 (Trade2Go) versucht Admin-Menü zu öffnen.
+2025-07-02 09:52:58,011 - group_management - INFO - /admin: get_chat_member returned: status=ChatMemberStatus.MEMBER, status_str=chatmemberstatus.member, is_admin=False, member={
+    "_": "ChatMember",
+    "status": "ChatMemberStatus.MEMBER",
+    "user": {
+        "_": "User",
+        "id": 5719897345,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": false,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "Sascha",
+        "last_name": "Esspunkt",
+        "status": "UserStatus.RECENTLY",
+        "username": "Saschaesspunkt",
+        "language_code": "de",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADmPQxG2GZoUsAEAIAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "small_photo_unique_id": "AgADmPQxG2GZoUs",
+            "big_file_id": "AQADAgADmPQxG2GZoUsAEAMAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "big_photo_unique_id": "AgADmPQxG2GZoUs"
+        }
+    },
+    "joined_date": "2025-06-22 19:38:31"
+}
+2025-07-02 09:58:02,504 - root - INFO - Stop signal received (SIGTERM). Exiting...
+2025-07-02 09:58:02,924 - pyrogram.dispatcher - INFO - Stopped 8 HandlerTasks
+2025-07-02 09:58:02,925 - pyrogram.session.session - INFO - PingTask stopped
+2025-07-02 09:58:02,925 - pyrogram.connection.connection - INFO - Disconnected
+2025-07-02 09:58:02,926 - pyrogram.session.session - INFO - NetworkTask stopped
+2025-07-02 09:58:02,926 - pyrogram.session.session - INFO - Session stopped
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+Telethon: 1.34.0
+2025-07-02 09:58:05,094 - group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 09:58:05,094 - group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+2025-07-02 09:58:05,101 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+2025-07-02 09:58:05,317 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+2025-07-02 09:58:05,480 - pyrogram.connection.connection - INFO - Connecting...
+2025-07-02 09:58:05,508 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-07-02 09:58:05,509 - pyrogram.session.session - INFO - NetworkTask started
+2025-07-02 09:58:05,675 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-07-02 09:58:05,675 - pyrogram.session.session - INFO - Device: CPython 3.11.2 - Pyrogram 2.0.106
+2025-07-02 09:58:05,675 - pyrogram.session.session - INFO - System: Linux 6.12.25+rpt-rpi-2712 (en)
+2025-07-02 09:58:05,675 - pyrogram.session.session - INFO - Session started
+2025-07-02 09:58:05,677 - pyrogram.session.session - INFO - PingTask started
+2025-07-02 09:58:05,753 - pyrogram.dispatcher - INFO - Started 8 HandlerTasks
+2025-07-02 09:58:11,675 - group_management - INFO - /admin: User 5719897345 in Chat -4947931528 (Bot Besprechung) versucht Admin-Menü zu öffnen.
+2025-07-02 09:58:11,735 - group_management - INFO - /admin: get_chat_member returned: status=ChatMemberStatus.OWNER, status_str=chatmemberstatus.owner, is_admin=True, member={
+    "_": "ChatMember",
+    "status": "ChatMemberStatus.OWNER",
+    "user": {
+        "_": "User",
+        "id": 5719897345,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": false,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "Sascha",
+        "last_name": "Esspunkt",
+        "status": "UserStatus.RECENTLY",
+        "username": "Saschaesspunkt",
+        "language_code": "de",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADmPQxG2GZoUsAEAIAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "small_photo_unique_id": "AgADmPQxG2GZoUs",
+            "big_file_id": "AQADAgADmPQxG2GZoUsAEAMAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "big_photo_unique_id": "AgADmPQxG2GZoUs"
+        }
+    }
+}
+2025-07-02 10:00:15,905 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 456, in admin_welcome_handler
+    await self.handle_admin_welcome_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1022, in handle_admin_welcome_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 10:00:37,219 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 459, in admin_nightmode_handler
+    await self.handle_admin_nightmode_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1041, in handle_admin_nightmode_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 10:01:03,344 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 462, in admin_forward_handler
+    await self.handle_admin_forward_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1061, in handle_admin_forward_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 10:01:11,143 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 465, in admin_info_settings_handler
+    await self.handle_admin_info_settings_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1078, in handle_admin_info_settings_callback
+    chat_id = int(callback_query.data.split("_")[4])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 10:01:26,219 - group_management - INFO - ✅ Gruppeneinstellungen für -4947931528 aktualisiert
+2025-07-02 10:01:26,320 - pyrogram.dispatcher - ERROR - invalid literal for int() with base 10: 'set'
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 590, in admin_role_set_handler
+    await admin_roles_handler(client, callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 545, in admin_roles_handler
+    chat_id = int(callback_query.data.split("_")[2])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'set'
+2025-07-02 10:02:12,837 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 468, in admin_badwords_handler
+    await self.handle_admin_badwords_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1101, in handle_admin_badwords_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 10:02:30,183 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 471, in admin_links_handler
+    await self.handle_admin_links_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1121, in handle_admin_links_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 10:03:20,114 - __main__ - INFO - Callback von User 5719897345 (Sascha): menu_-4947931528
+2025-07-02 10:03:20,267 - api_client - ERROR - GET https://api.bit-team-bot.online/users/5719897345/is_paid fehlgeschlagen: 530 Server Error: <none> for url: https://api.bit-team-bot.online/users/5719897345/is_paid
+2025-07-02 10:03:25,428 - group_management - INFO - /admin: User 5719897345 in Chat -4947931528 (Bot Besprechung) versucht Admin-Menü zu öffnen.
+2025-07-02 10:03:25,571 - group_management - INFO - /admin: get_chat_member returned: status=ChatMemberStatus.OWNER, status_str=chatmemberstatus.owner, is_admin=True, member={
+    "_": "ChatMember",
+    "status": "ChatMemberStatus.OWNER",
+    "user": {
+        "_": "User",
+        "id": 5719897345,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": false,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "Sascha",
+        "last_name": "Esspunkt",
+        "status": "UserStatus.RECENTLY",
+        "username": "Saschaesspunkt",
+        "language_code": "de",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADmPQxG2GZoUsAEAIAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "small_photo_unique_id": "AgADmPQxG2GZoUs",
+            "big_file_id": "AQADAgADmPQxG2GZoUsAEAMAAwG17lQBAAMOweO5afGt-AAEHgQ",
+            "big_photo_unique_id": "AgADmPQxG2GZoUs"
+        }
+    }
+}
+2025-07-02 10:06:52,180 - root - INFO - Stop signal received (SIGTERM). Exiting...
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 9, in <module>
+    from group_management import GroupManagement
+  File "/home/manny/telegram-bot/bot/group_management.py", line 15, in <module>
+    class GroupManagement:
+  File "/home/manny/telegram-bot/bot/group_management.py", line 1078, in GroupManagement
+    @self.client.on_callback_query(filters.regex(r"^admin_mute_"))
+     ^^^^
+NameError: name 'self' is not defined
+2025-07-02 10:06:56,219 - pyrogram.dispatcher - INFO - Stopped 8 HandlerTasks
+2025-07-02 10:06:56,219 - pyrogram.session.session - INFO - PingTask stopped
+2025-07-02 10:06:56,219 - pyrogram.connection.connection - INFO - Disconnected
+2025-07-02 10:06:56,219 - pyrogram.session.session - INFO - NetworkTask stopped
+2025-07-02 10:06:56,219 - pyrogram.session.session - INFO - Session stopped
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+Telethon: 1.34.0
+2025-07-02 10:44:56,265 - handlers.group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 10:44:56,265 - handlers.group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+2025-07-02 10:44:56,272 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+2025-07-02 10:44:56,488 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+Telethon: 1.34.0
+2025-07-02 10:44:57,490 - __main__ - ERROR - Uncaught exception
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 399, in <module>
+    app.run()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/run.py", line 84, in run
+    self.start()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/sync.py", line 66, in async_to_sync_wrap
+    return loop.run_until_complete(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/start.py", line 58, in start
+    is_authorized = await self.connect()
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/auth/connect.py", line 40, in connect
+    await self.load_session()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/client.py", line 616, in load_session
+    await self.storage.open()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 63, in open
+    self.update()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 52, in update
+    self.version(version)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/sqlite_storage.py", line 219, in version
+    self.conn.execute(
+sqlite3.OperationalError: database is locked
+python3: can't open file '/home/manny/telegram-bot/main.py': [Errno 2] No such file or directory
+2025-07-02 11:19:20,586 - handlers.group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 11:19:20,586 - handlers.group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+2025-07-02 11:19:20,595 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+Telethon: 1.34.0
+2025-07-02 11:19:20,833 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+2025-07-02 11:19:21,835 - __main__ - ERROR - Uncaught exception
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 399, in <module>
+    app.run()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/run.py", line 84, in run
+    self.start()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/sync.py", line 66, in async_to_sync_wrap
+    return loop.run_until_complete(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/start.py", line 58, in start
+    is_authorized = await self.connect()
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/auth/connect.py", line 40, in connect
+    await self.load_session()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/client.py", line 616, in load_session
+    await self.storage.open()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 63, in open
+    self.update()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 52, in update
+    self.version(version)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/sqlite_storage.py", line 219, in version
+    self.conn.execute(
+sqlite3.OperationalError: database is locked
+2025-07-02 11:37:18,974 - handlers.group_management - INFO - ✅ Gruppenverwaltungs-Handler registriert
+2025-07-02 11:37:18,974 - handlers.group_management - INFO - ✅ Nachtmodus-Scheduler gestartet
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+2025-07-02 11:37:18,981 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+Telethon: 1.34.0
+2025-07-02 11:37:19,195 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+2025-07-02 11:37:20,097 - pyrogram.connection.connection - INFO - Connecting...
+2025-07-02 11:37:20,127 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-07-02 11:37:20,128 - pyrogram.session.session - INFO - NetworkTask started
+2025-07-02 11:37:20,296 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-07-02 11:37:20,296 - pyrogram.session.session - INFO - Device: CPython 3.11.2 - Pyrogram 2.0.106
+2025-07-02 11:37:20,296 - pyrogram.session.session - INFO - System: Linux 6.12.25+rpt-rpi-2712 (en)
+2025-07-02 11:37:20,296 - pyrogram.session.session - INFO - Session started
+2025-07-02 11:37:20,298 - pyrogram.session.session - INFO - PingTask started
+2025-07-02 11:37:20,435 - pyrogram.dispatcher - INFO - Started 8 HandlerTasks
+2025-07-02 11:37:35,495 - __main__ - INFO - Callback von User 5719897345 (Sascha): admin_warn_-4947931528_6033945544
+2025-07-02 11:37:35,651 - api_client - ERROR - GET https://api.bit-team-bot.online/users/5719897345/is_paid fehlgeschlagen: 530 Server Error: <none> for url: https://api.bit-team-bot.online/users/5719897345/is_paid
+2025-07-02 11:49:23,297 - __main__ - INFO - 🚀 /start von User 5719897345 (Sascha)
+2025-07-02 11:49:23,453 - api_client - ERROR - POST https://api.bit-team-bot.online/users/register_or_update fehlgeschlagen: 530 Server Error: <none> for url: https://api.bit-team-bot.online/users/register_or_update
+2025-07-02 11:49:23,453 - __main__ - ERROR - ❌ Fehler beim Senden der User-Daten: 530 Server Error: <none> for url: https://api.bit-team-bot.online/users/register_or_update
+2025-07-02 11:49:23,547 - __main__ - INFO - ✅ Antwort an User 5719897345 gesendet
+2025-07-02 11:49:34,794 - __main__ - INFO - Callback von User 5719897345 (Sascha): admin_warn_-4947931528_6033945544
+2025-07-02 11:49:34,914 - api_client - ERROR - GET https://api.bit-team-bot.online/users/5719897345/is_paid fehlgeschlagen: 530 Server Error: <none> for url: https://api.bit-team-bot.online/users/5719897345/is_paid
+2025-07-02 11:51:42,813 - pyrogram.dispatcher - ERROR - list index out of range
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/manny/telegram-bot/bot/handlers/group_management.py", line 466, in admin_welcome_handler
+    await self.admin_menu.handle_admin_welcome_callback(callback_query)
+  File "/home/manny/telegram-bot/bot/handlers/group_admin_menu.py", line 70, in handle_admin_welcome_callback
+    chat_id = int(callback_query.data.split("_")[3])
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+2025-07-02 11:56:05,582 - root - INFO - Stop signal received (SIGTERM). Exiting...
+2025-07-02 11:56:08,796 - pyrogram.dispatcher - INFO - Stopped 8 HandlerTasks
+2025-07-02 11:56:08,797 - pyrogram.session.session - INFO - PingTask stopped
+2025-07-02 11:56:08,797 - pyrogram.connection.connection - INFO - Disconnected
+2025-07-02 11:56:08,798 - pyrogram.session.session - INFO - NetworkTask stopped
+2025-07-02 11:56:08,798 - pyrogram.session.session - INFO - Session stopped

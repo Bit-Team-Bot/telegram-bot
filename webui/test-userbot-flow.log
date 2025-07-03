@@ -1,0 +1,7 @@
+[1m🤖 Userbot-Flow Test Suite[0m
+[0mDieses Skript testet die automatisierten Userbot-API-Calls[0m
+[33mStelle sicher, dass der Userbot-Service auf Port 8001 läuft![0m
+[36m
+0. Prüfe Userbot-Service-Verfügbarkeit...[0m
+[31m❌ 
+❌ Test-Suite fehlgeschlagen: connect ECONNREFUSED ::1:8001[0m

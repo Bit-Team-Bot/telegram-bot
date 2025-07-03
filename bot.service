@@ -1,0 +1,13 @@
+[Unit]
+Description=Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/manny/telegram-bot
+ExecStart=/home/manny/telegram-bot/venv/bin/python3 -m bot.bot
+Restart=on-failure
+User=manny
+
+[Install]
+WantedBy=multi-user.target 

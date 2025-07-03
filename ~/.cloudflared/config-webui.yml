@@ -1,0 +1,13 @@
+tunnel: 7e652cd5-01af-4f3e-a819-7db2da176857
+credentials-file: ~/.cloudflared/7e652cd5-01af-4f3e-a819-7db2da176857.json
+
+ingress:
+  - hostname: api.bit-team-bot.online
+    service: http://localhost:8000
+    originRequest:
+      noTLSVerify: true
+  - hostname: webui.bit-team-bot.online
+    service: http://localhost:80
+    originRequest:
+      noTLSVerify: true
+  - service: http_status:404 

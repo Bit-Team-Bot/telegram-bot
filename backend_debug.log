@@ -1,0 +1,2104 @@
+[32mINFO[0m:     Will watch for changes in these directories: ['/home/manny/telegram-bot/backend']
+[32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:8000[0m (Press CTRL+C to quit)
+[32mINFO[0m:     Started reloader process [[36m[1m3318[0m] using [36m[1mWatchFiles[0m
+2025-06-30 17:32:54,229 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-1:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/payments.py", line 9, in <module>
+    from ..payments.utils import verify_transaction, create_payment
+  File "/home/manny/telegram-bot/backend/app/payments/utils.py", line 33, in <module>
+    logging.FileHandler(LOG_PATH),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/manny/telegram-bot/backend/app/dist/app.log'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/main.py'. Reloading...
+2025-06-30 17:34:00,658 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/payments.py", line 9, in <module>
+    from ..payments.utils import verify_transaction, create_payment
+  File "/home/manny/telegram-bot/backend/app/payments/utils.py", line 33, in <module>
+    logging.FileHandler(LOG_PATH),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/manny/telegram-bot/backend/app/dist/app.log'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/main.py'. Reloading...
+[33mWARNING[0m:  WatchFiles detected changes in 'app/payments/utils.py'. Reloading...
+2025-06-30 17:34:04,004 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 17:34:05,510 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 17:34:05,627 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m3678[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 17:34:05,631 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 17:34:05,631 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/payments/utils.py'. Reloading...
+2025-06-30 17:34:06,749 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 17:34:07,878 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 17:34:07,961 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m3689[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 17:34:07,963 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 17:34:07,963 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+2025-06-30 17:34:09,000 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 17:34:10,141 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 17:34:10,202 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m3703[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 17:34:10,203 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 17:34:10,203 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:34:45,240 [WARNING] app.routes.auth: Auto-Login ohne Session-Token für Telegram-ID 5719897345 verweigert
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:34:49,048 [INFO] app.routes.users: ✅ Telefonnummer +4917680561392 mit Telegram-ID 5719897345 verknüpft
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mPOST /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:34:49,168 [INFO] app.routes.auth: Suche nach Telegram-ID 5719897345: gefunden
+2025-06-30 17:34:49,170 [INFO] app.routes.auth: 🚀 Starte Userbot-Verifizierung für +4917680561392
+2025-06-30 17:34:49,209 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 17:34:49,210 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code für +4917680561392
+2025-06-30 17:34:49,574 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot7728499932:AAHtlgq71p2XL0UcgV-HfYXadbUu8oFH2gk/sendMessage "HTTP/1.1 200 OK"
+2025-06-30 17:34:49,576 [INFO] app.utils.telegram_bot: Nachricht erfolgreich an 5719897345 gesendet
+2025-06-30 17:34:49,576 [INFO] app.routes.auth: Login-Code an +4917680561392 (TG: 5719897345) gesendet.
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mPOST /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /auth/verify-code HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:35:14,810 [INFO] app.routes.auth: Verify-code request für Telefonnummer: +4917680561392
+2025-06-30 17:35:14,811 [INFO] app.routes.auth: 🔐 Versuche Userbot-Verifizierung für +4917680561392
+2025-06-30 17:35:14,860 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 17:35:14,860 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code-Verifizierung für +4917680561392
+2025-06-30 17:35:14,860 [INFO] app.routes.auth: User 1 gefunden - login_code: 984815, expires_at: 2025-06-30 15:39:49.210122
+2025-06-30 17:35:14,876 [INFO] app.routes.auth: Code erfolgreich verifiziert für User 1
+2025-06-30 17:35:14,895 [INFO] app.utils.sessions: Session erstellt für User 1 (TG: 5719897345)
+2025-06-30 17:35:14,896 [INFO] app.routes.auth: Session erstellt für User 1
+2025-06-30 17:35:14,896 [INFO] app.routes.auth: Login erfolgreich für +4917680561392 (TG: 5719897345)
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mPOST /auth/verify-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /payments/pending HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2a02:3100:242f:4200:1985:15d1:f033:3181:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:39:47,131 [WARNING] app.routes.auth: Auto-Login ohne Session-Token für Telegram-ID 1023012031 verweigert
+[32mINFO[0m:     2a02:3100:242f:4200:1985:15d1:f033:3181:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:40:09,113 [WARNING] app.routes.auth: Auto-Login ohne Session-Token für Telegram-ID 5719897345 verweigert
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:40:20,722 [INFO] app.routes.users: ✅ Telefonnummer +4917680591392 mit Telegram-ID 5719897345 verknüpft
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mPOST /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:40:20,848 [INFO] app.routes.auth: Suche nach Telegram-ID 5719897345: gefunden
+2025-06-30 17:40:20,849 [INFO] app.routes.auth: 🚀 Starte Userbot-Verifizierung für +4917680591392
+2025-06-30 17:40:20,912 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 17:40:20,912 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code für +4917680591392
+2025-06-30 17:40:21,134 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot7728499932:AAHtlgq71p2XL0UcgV-HfYXadbUu8oFH2gk/sendMessage "HTTP/1.1 200 OK"
+2025-06-30 17:40:21,135 [INFO] app.utils.telegram_bot: Nachricht erfolgreich an 5719897345 gesendet
+2025-06-30 17:40:21,135 [INFO] app.routes.auth: Login-Code an +4917680591392 (TG: 5719897345) gesendet.
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mPOST /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /auth/verify-code HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:40:35,179 [INFO] app.routes.auth: Verify-code request für Telefonnummer: +4917680591392
+2025-06-30 17:40:35,181 [INFO] app.routes.auth: 🔐 Versuche Userbot-Verifizierung für +4917680591392
+2025-06-30 17:40:35,268 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 17:40:35,268 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code-Verifizierung für +4917680591392
+2025-06-30 17:40:35,268 [INFO] app.routes.auth: User 1 gefunden - login_code: 498732, expires_at: 2025-06-30 15:45:20.912286
+2025-06-30 17:40:35,285 [INFO] app.routes.auth: Code erfolgreich verifiziert für User 1
+2025-06-30 17:40:35,321 [INFO] app.utils.sessions: Session erstellt für User 1 (TG: 5719897345)
+2025-06-30 17:40:35,322 [INFO] app.routes.auth: Session erstellt für User 1
+2025-06-30 17:40:35,322 [INFO] app.routes.auth: Login erfolgreich für +4917680591392 (TG: 5719897345)
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mPOST /auth/verify-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /payments/pending HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     89.144.222.124:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:41:33,304 [WARNING] app.routes.auth: Auto-Login für User ohne Telefonnummer 1694985361 verweigert
+[32mINFO[0m:     89.144.222.124:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     89.144.222.124:0 - "[1mOPTIONS /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:41:46,305 [INFO] app.routes.users: ✅ Telefonnummer +4368110211356 mit Telegram-ID 1694985361 verknüpft
+[32mINFO[0m:     89.144.222.124:0 - "[1mPOST /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     89.144.222.124:0 - "[1mOPTIONS /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:41:46,508 [INFO] app.routes.auth: Suche nach Telegram-ID 1694985361: gefunden
+2025-06-30 17:41:46,508 [INFO] app.routes.auth: 🚀 Starte Userbot-Verifizierung für +4368110211356
+2025-06-30 17:41:46,550 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 17:41:46,550 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code für +4368110211356
+2025-06-30 17:41:46,771 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot7728499932:AAHtlgq71p2XL0UcgV-HfYXadbUu8oFH2gk/sendMessage "HTTP/1.1 200 OK"
+2025-06-30 17:41:46,772 [INFO] app.utils.telegram_bot: Nachricht erfolgreich an 1694985361 gesendet
+2025-06-30 17:41:46,772 [INFO] app.routes.auth: Login-Code an +4368110211356 (TG: 1694985361) gesendet.
+[32mINFO[0m:     89.144.222.124:0 - "[1mPOST /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:42:45,163 [INFO] app.utils.sessions: Session validiert für User 1 (TG: 5719897345)
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+2025-06-30 17:42:51,437 [WARNING] app.routes.auth: Auto-Login ohne Session-Token für Telegram-ID 1694985361 verweigert
+[32mINFO[0m:     89.144.222.124:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+2025-06-30 17:43:10,496 [INFO] app.routes.users: ✅ Telefonnummer +4368110211356 mit Telegram-ID 1694985361 verknüpft
+[32mINFO[0m:     89.144.222.124:0 - "[1mPOST /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:43:10,615 [INFO] app.routes.auth: Suche nach Telegram-ID 1694985361: gefunden
+2025-06-30 17:43:10,616 [INFO] app.routes.auth: 🚀 Starte Userbot-Verifizierung für +4368110211356
+2025-06-30 17:43:10,655 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 17:43:10,655 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code für +4368110211356
+2025-06-30 17:43:10,979 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot7728499932:AAHtlgq71p2XL0UcgV-HfYXadbUu8oFH2gk/sendMessage "HTTP/1.1 200 OK"
+2025-06-30 17:43:10,980 [INFO] app.utils.telegram_bot: Nachricht erfolgreich an 1694985361 gesendet
+2025-06-30 17:43:10,980 [INFO] app.routes.auth: Login-Code an +4368110211356 (TG: 1694985361) gesendet.
+[32mINFO[0m:     89.144.222.124:0 - "[1mPOST /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:43:50,491 [WARNING] app.routes.auth: Auto-Login ohne Session-Token für Telegram-ID 1694985361 verweigert
+[32mINFO[0m:     89.144.222.124:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:44:13,003 [INFO] app.routes.users: ✅ Telefonnummer +4368110211356 mit Telegram-ID 1694985361 verknüpft
+[32mINFO[0m:     89.144.222.124:0 - "[1mPOST /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:44:13,134 [INFO] app.routes.auth: Suche nach Telegram-ID 1694985361: gefunden
+2025-06-30 17:44:13,135 [INFO] app.routes.auth: 🚀 Starte Userbot-Verifizierung für +4368110211356
+2025-06-30 17:44:13,177 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 17:44:13,177 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code für +4368110211356
+2025-06-30 17:44:13,339 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot7728499932:AAHtlgq71p2XL0UcgV-HfYXadbUu8oFH2gk/sendMessage "HTTP/1.1 200 OK"
+2025-06-30 17:44:13,340 [INFO] app.utils.telegram_bot: Nachricht erfolgreich an 1694985361 gesendet
+2025-06-30 17:44:13,340 [INFO] app.routes.auth: Login-Code an +4368110211356 (TG: 1694985361) gesendet.
+[32mINFO[0m:     89.144.222.124:0 - "[1mPOST /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mOPTIONS /payments/create HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:c19c:339f:400c:a7bd:0 - "[1mPOST /payments/create HTTP/1.1[0m" [31m405 Method Not Allowed[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 17:58:41,003 [INFO] app.utils.sessions: Session validiert für User 1 (TG: 5719897345)
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /payments/pending HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mOPTIONS /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:78fd:4e90:397e:37ea:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 18:11:27,100 [INFO] app.utils.sessions: Session validiert für User 1 (TG: 5719897345)
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mOPTIONS /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mOPTIONS /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mOPTIONS /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mOPTIONS /payments/pending HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mOPTIONS /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mOPTIONS /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mOPTIONS /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mOPTIONS /payments/pending HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:6044:5f8d:421a:b347:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:efa:b63a:7d9d:f6ce:0 - "[1mOPTIONS /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:efa:b63a:7d9d:f6ce:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:efa:b63a:7d9d:f6ce:0 - "[1mOPTIONS /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:efa:b63a:7d9d:f6ce:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:efa:b63a:7d9d:f6ce:0 - "[1mOPTIONS /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:efa:b63a:7d9d:f6ce:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:efa:b63a:7d9d:f6ce:0 - "[1mOPTIONS /payments/pending HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2a02:8071:7931:81c0:efa:b63a:7d9d:f6ce:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/admin.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:24:44,335 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m3703[0m]
+2025-06-30 19:24:45,799 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:24:47,057 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:24:47,119 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m38566[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:24:47,120 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:24:47,120 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:24:59,245 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m38566[0m]
+2025-06-30 19:25:00,707 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:25:02,024 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:25:02,087 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m38620[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:25:02,088 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:25:02,088 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:25:08,603 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m38620[0m]
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+2025-06-30 19:25:09,800 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:25:10,954 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:25:11,024 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m38664[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:25:11,025 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:25:11,025 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+2025-06-30 19:25:12,167 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:25:13,316 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:25:13,377 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m38675[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:25:13,378 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:25:13,378 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:25:14,983 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m38675[0m]
+2025-06-30 19:25:16,068 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:25:17,265 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:25:17,328 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m38695[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:25:17,329 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:25:17,329 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:25:24,542 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m38695[0m]
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+2025-06-30 19:25:25,610 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:25:26,772 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:25:26,833 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m38734[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:25:26,834 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:25:26,834 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+2025-06-30 19:25:27,936 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:25:29,077 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:25:29,141 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m38742[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:25:29,142 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:25:29,142 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/admin.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:25:34,452 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m38742[0m]
+2025-06-30 19:25:35,622 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:25:36,774 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:25:36,842 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m38782[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:25:36,843 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:25:36,843 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/admin.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:25:45,459 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m38782[0m]
+2025-06-30 19:25:46,665 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:25:47,820 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:25:47,884 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m38828[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:25:47,885 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:25:47,885 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+2025-06-30 19:35:46,179 [INFO] app.routes.users: 🆕 Erstelle neuen User mit Telegram-ID 7438578772
+[32mINFO[0m:     2a02:8071:7931:81c0::77f8:0 - "[1mPOST /users/register_or_update HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 19:35:56,754 [WARNING] app.routes.auth: Auto-Login für User ohne Telefonnummer 7438578772 verweigert
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 19:36:28,433 [INFO] app.routes.users: ✅ Telefonnummer +491703481443 mit Telegram-ID 7438578772 verknüpft
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 19:36:29,428 [INFO] app.routes.auth: Suche nach Telegram-ID 7438578772: gefunden
+2025-06-30 19:36:29,430 [INFO] app.routes.auth: 🚀 Starte Userbot-Verifizierung für +491703481443
+2025-06-30 19:36:29,470 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 19:36:29,470 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code für +491703481443
+2025-06-30 19:36:29,747 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot7728499932:AAHtlgq71p2XL0UcgV-HfYXadbUu8oFH2gk/sendMessage "HTTP/1.1 200 OK"
+2025-06-30 19:36:29,747 [INFO] app.utils.telegram_bot: Nachricht erfolgreich an 7438578772 gesendet
+2025-06-30 19:36:29,747 [INFO] app.routes.auth: Login-Code an +491703481443 (TG: 7438578772) gesendet.
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     127.0.0.1:56310 - "[1mGET /api/admin/signal-groups HTTP/1.1[0m" [31m404 Not Found[0m
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:39:52,329 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m38828[0m]
+2025-06-30 19:39:53,898 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:39:55,182 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:39:55,247 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m42629[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:39:55,248 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:39:55,248 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:40:06,069 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m42629[0m]
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+2025-06-30 19:40:07,278 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:40:08,435 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:40:08,498 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m42685[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:40:08,499 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:40:08,499 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+2025-06-30 19:40:09,552 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:40:10,689 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:40:10,752 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m42697[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:40:10,753 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:40:10,753 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:40:23,775 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m42697[0m]
+2025-06-30 19:40:24,913 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:40:26,090 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:40:26,154 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m42766[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:40:26,156 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:40:26,156 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:40:29,967 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m42766[0m]
+2025-06-30 19:40:31,034 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:40:32,218 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:40:32,281 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m42786[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:40:32,282 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:40:32,283 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:40:39,201 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m42786[0m]
+2025-06-30 19:40:40,359 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:40:41,542 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:40:41,611 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m42832[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:40:41,612 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:40:41,612 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:40:47,930 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m42832[0m]
+2025-06-30 19:40:49,059 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:40:50,221 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:40:50,287 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m42868[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:40:50,288 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:40:50,288 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:41:10,421 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m42868[0m]
+2025-06-30 19:41:11,546 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:41:12,724 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:41:12,787 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m42957[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:41:12,789 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:41:12,789 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:41:18,599 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m42957[0m]
+2025-06-30 19:41:19,757 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:41:20,937 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:41:21,003 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m42995[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:41:21,004 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:41:21,004 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:41:31,924 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m42995[0m]
+2025-06-30 19:41:33,044 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:41:34,225 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:41:34,291 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m43051[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:41:34,292 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:41:34,292 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/admin.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:42:28,884 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m43051[0m]
+2025-06-30 19:42:30,204 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:42:31,367 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:42:31,432 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m43317[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:42:31,433 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:42:31,433 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/admin.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:42:55,173 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m43317[0m]
+2025-06-30 19:42:56,362 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:42:57,525 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:42:57,588 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m43439[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:42:57,589 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:42:57,589 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /health HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 19:43:37,992 [WARNING] app.routes.auth: Auto-Login ohne Session-Token für Telegram-ID 7438578772 verweigert
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 19:43:50,276 [INFO] app.routes.users: ✅ Telefonnummer +491703481443 mit Telegram-ID 7438578772 verknüpft
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /users/link_phone HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 19:43:50,759 [INFO] app.routes.auth: Suche nach Telegram-ID 7438578772: gefunden
+2025-06-30 19:43:50,761 [INFO] app.routes.auth: 🚀 Starte Userbot-Verifizierung für +491703481443
+2025-06-30 19:43:50,825 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 19:43:50,825 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code für +491703481443
+2025-06-30 19:43:51,145 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot7728499932:AAHtlgq71p2XL0UcgV-HfYXadbUu8oFH2gk/sendMessage "HTTP/1.1 200 OK"
+2025-06-30 19:43:51,146 [INFO] app.utils.telegram_bot: Nachricht erfolgreich an 7438578772 gesendet
+2025-06-30 19:43:51,147 [INFO] app.routes.auth: Login-Code an +491703481443 (TG: 7438578772) gesendet.
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /auth/request-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /auth/verify-code HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 19:44:09,215 [INFO] app.routes.auth: Verify-code request für Telefonnummer: +491703481443
+2025-06-30 19:44:09,216 [INFO] app.routes.auth: 🔐 Versuche Userbot-Verifizierung für +491703481443
+2025-06-30 19:44:09,256 [ERROR] app.routes.auth: ❌ Userbot-Verbindung fehlgeschlagen: All connection attempts failed
+2025-06-30 19:44:09,257 [INFO] app.routes.auth: 🔄 Verwende Fallback-Code-Verifizierung für +491703481443
+2025-06-30 19:44:09,257 [INFO] app.routes.auth: User 11 gefunden - login_code: 834828, expires_at: 2025-06-30 17:48:50.826326
+2025-06-30 19:44:09,270 [INFO] app.routes.auth: Code erfolgreich verifiziert für User 11
+2025-06-30 19:44:09,295 [INFO] app.utils.sessions: Session erstellt für User 11 (TG: 7438578772)
+2025-06-30 19:44:09,296 [INFO] app.routes.auth: Session erstellt für User 11
+2025-06-30 19:44:09,297 [INFO] app.routes.auth: Login erfolgreich für +491703481443 (TG: 7438578772)
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /auth/verify-code HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /payments/pending HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 19:45:28,487 [INFO] app.utils.sessions: Session validiert für User 11 (TG: 7438578772)
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+2025-06-30 19:46:04,527 [INFO] app.utils.sessions: Session validiert für User 11 (TG: 7438578772)
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+2025-06-30 19:49:10,451 [INFO] app.utils.sessions: Session validiert für User 11 (TG: 7438578772)
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mPOST /auth/auto-login HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /auth/me HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/stats HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /dashboard/activity HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /payments/pending HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /payments/pending HTTP/1.1[0m" [31m422 Unprocessable Entity[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mOPTIONS /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /user/packages/current HTTP/1.1[0m" [32m200 OK[0m
+[32mINFO[0m:     2003:c8:bf1a:1afc:8478:1acc:16eb:5019:0 - "[1mGET /user/packages/available HTTP/1.1[0m" [32m200 OK[0m
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:51:48,312 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m43439[0m]
+2025-06-30 19:51:50,010 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:51:51,490 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:51:51,613 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m46806[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:51:51,615 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:51:51,616 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:52:01,136 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m46806[0m]
+2025-06-30 19:52:02,311 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+2025-06-30 19:52:03,715 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:52:03,848 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m46862[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:52:03,850 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:52:03,850 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+2025-06-30 19:52:05,070 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:52:06,270 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:52:06,336 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m46877[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:52:06,338 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:52:06,338 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:52:12,348 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m46877[0m]
+2025-06-30 19:52:13,441 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:52:14,654 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:52:14,716 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m46918[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:52:14,717 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:52:14,717 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:52:17,523 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m46918[0m]
+2025-06-30 19:52:18,695 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-06-30 19:52:19,942 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-06-30 19:52:20,006 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m46938[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-06-30 19:52:20,007 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-06-30 19:52:20,008 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/users.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+2025-06-30 19:52:50,560 [INFO] app.main: 🛑 Backend wird gestoppt...
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m46938[0m]
+2025-06-30 19:52:52,112 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-32:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+2025-06-30 19:53:08,015 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-33:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/users.py'. Reloading...
+2025-06-30 19:54:51,977 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-34:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+2025-06-30 19:54:59,171 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-35:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+2025-06-30 19:57:30,452 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-36:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+2025-06-30 19:57:53,753 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+Process SpawnProcess-37:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+2025-06-30 19:57:56,557 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-38:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+2025-06-30 19:58:05,505 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-39:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+2025-06-30 19:58:08,406 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-40:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/users.py'. Reloading...
+2025-06-30 19:58:17,573 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-41:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/users.py'. Reloading...
+2025-06-30 19:59:05,923 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-42:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/tasks/session_cleanup.py'. Reloading...
+2025-06-30 19:59:28,864 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+[33mWARNING[0m:  WatchFiles detected changes in 'app/tasks/session_cleanup.py'. Reloading...
+Process SpawnProcess-43:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/tasks/session_cleanup.py'. Reloading...
+2025-06-30 19:59:32,173 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-44:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+2025-06-30 19:59:35,004 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+Process SpawnProcess-45:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 64, in <module>
+    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages
+  File "/home/manny/telegram-bot/backend/app/routes/users.py", line 280, in <module>
+    @router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'UserbotSessionResponse' is not defined
+[33mWARNING[0m:  WatchFiles detected changes in 'app/main.py'. Reloading...
+[33mWARNING[0m:  WatchFiles detected changes in 'app/main.py'. Reloading...
+Process SpawnProcess-46:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+Process SpawnProcess-47:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/main.py'. Reloading...
+Process SpawnProcess-48:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+Process SpawnProcess-49:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+Process SpawnProcess-50:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+Process SpawnProcess-51:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/models.py'. Reloading...
+Process SpawnProcess-52:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+Process SpawnProcess-53:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/schemas.py'. Reloading...
+Process SpawnProcess-54:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/admin.py'. Reloading...
+Process SpawnProcess-55:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/admin.py'. Reloading...
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/admin.py'. Reloading...
+Process SpawnProcess-56:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+Process SpawnProcess-57:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+[33mWARNING[0m:  WatchFiles detected changes in 'app/routes/users.py'. Reloading...
+Process SpawnProcess-58:
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/manny/telegram-bot/backend/app/main.py", line 9, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'

@@ -1,0 +1,52 @@
+2025-06-27 19:20:29,193 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 316, in <module>
+    app.run()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/run.py", line 84, in run
+    self.start()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/sync.py", line 66, in async_to_sync_wrap
+    return loop.run_until_complete(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/start.py", line 58, in start
+    is_authorized = await self.connect()
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/auth/connect.py", line 40, in connect
+    await self.load_session()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/client.py", line 616, in load_session
+    await self.storage.open()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 63, in open
+    self.update()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 52, in update
+    self.version(version)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/sqlite_storage.py", line 219, in version
+    self.conn.execute(
+sqlite3.OperationalError: database is locked
+2025-06-27 19:25:55,398 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 316, in <module>
+    app.run()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/run.py", line 84, in run
+    self.start()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/sync.py", line 66, in async_to_sync_wrap
+    return loop.run_until_complete(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/utilities/start.py", line 58, in start
+    is_authorized = await self.connect()
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/methods/auth/connect.py", line 40, in connect
+    await self.load_session()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/client.py", line 616, in load_session
+    await self.storage.open()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 63, in open
+    self.update()
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/file_storage.py", line 52, in update
+    self.version(version)
+  File "/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pyrogram/storage/sqlite_storage.py", line 219, in version
+    self.conn.execute(
+sqlite3.OperationalError: database is locked

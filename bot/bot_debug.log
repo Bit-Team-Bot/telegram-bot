@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 15, in <module>
+    from handlers.group_admin_menu import GroupAdminMenu, register_group_admin_menu_handlers
+  File "/home/manny/telegram-bot/bot/handlers/group_admin_menu.py", line 101
+    settings = await self.get_group_settings(chat_id)
+    ^
+IndentationError: expected an indented block after 'try' statement on line 100

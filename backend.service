@@ -1,0 +1,16 @@
+[Unit]
+Description=Telegram Bot Backend (FastAPI)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/manny/telegram-bot
+# .env laden und PYTHONPATH setzen
+EnvironmentFile=/home/manny/telegram-bot/.env
+Environment=PYTHONPATH=/home/manny/telegram-bot
+ExecStart=/home/manny/telegram-bot/venv/bin/python3 -m backend.app.main
+Restart=on-failure
+User=manny
+
+[Install]
+WantedBy=multi-user.target 

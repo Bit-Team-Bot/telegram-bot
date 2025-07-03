@@ -1,0 +1,21 @@
+[32mINFO[0m:     Will watch for changes in these directories: ['/home/manny/telegram-bot/backend']
+[32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:8000[0m (Press CTRL+C to quit)
+[32mINFO[0m:     Started reloader process [[36m[1m111998[0m] using [36m[1mWatchFiles[0m
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-07-03 16:22:45,037 [INFO] app.main: ✅ Datenbank-Tabellen erfolgreich erstellt
+/home/manny/telegram-bot/venv/lib/python3.11/site-packages/pydantic/_internal/_config.py:321: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-07-03 16:22:45,119 [INFO] app.monitoring: Monitoring-Datenbank initialisiert
+2025-07-03 16:22:45,196 [INFO] app.main: ✅ Alle Router erfolgreich eingebunden
+[32mINFO[0m:     Started server process [[36m112002[0m]
+[32mINFO[0m:     Waiting for application startup.
+2025-07-03 16:22:45,197 [INFO] app.main: 🚀 Backend wird gestartet...
+2025-07-03 16:22:45,197 [INFO] app.main: 📍 Server läuft auf 0.0.0.0:8000
+2025-07-03 16:22:45,199 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-07-03 16:22:45,200 [INFO] apscheduler.scheduler: Added job "run_daily_maintenance" to job store "default"
+2025-07-03 16:22:45,200 [INFO] apscheduler.scheduler: Scheduler started
+2025-07-03 16:22:45,200 [INFO] app.main: ✅ Automatische Wartung geplant (täglich um 2:00 Uhr)
+[32mINFO[0m:     Application startup complete.
