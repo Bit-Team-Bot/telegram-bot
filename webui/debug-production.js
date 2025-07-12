@@ -198,8 +198,10 @@ async function testAPIEndpoints() {
   
   const endpoints = [
     { name: 'Backend Auth Request Code', url: `${BACKEND_URL}/auth/request-code`, method: 'POST' },
-    { name: 'Userbot Start', url: `${USERBOT_URL}/start`, method: 'POST' },
-    { name: 'Userbot Status', url: `${USERBOT_URL}/status`, method: 'GET' }
+    { name: 'Userbot Create Session', url: `${USERBOT_URL}/userbot/create-session`, method: 'POST' },
+    { name: 'Userbot Verify Code', url: `${USERBOT_URL}/userbot/verify-code`, method: 'POST' },
+    { name: 'Userbot Session Status', url: `${USERBOT_URL}/userbot/session-status/+49123456789`, method: 'GET' },
+    { name: 'Userbot Chats', url: `${USERBOT_URL}/userbot/chats/+49123456789`, method: 'GET' }
   ];
   
   for (const endpoint of endpoints) {

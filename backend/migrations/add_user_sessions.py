@@ -4,7 +4,6 @@ Migration: Add user_sessions table
 
 import sys
 import os
-from datetime import datetime
 
 # Füge das Backend-Verzeichnis zum Python-Pfad hinzu
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

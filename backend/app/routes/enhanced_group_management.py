@@ -5,15 +5,13 @@ Stellt sicher, dass alle abhängigen Daten korrekt angelegt/gelöscht werden
 import logging
 from datetime import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import and_, or_
-from typing import Dict, List, Optional
 import json
+from typing import Dict
 
-from app.models import (
+from ..models import (
     Group, GroupUserRole, GroupWarning, GroupMute, 
     ScheduledMessage, User, SignalGroup
 )
-from ..database import get_db
 
 logger = logging.getLogger(__name__)
 

@@ -9,18 +9,19 @@ import Payments from "./views/Payments.vue"
 import Debug from "./views/Debug.vue"
 import TestUrl from "./views/TestUrl.vue"
 import NotFound from "./views/NotFound.vue"
-import Monitoring from "./views/Monitoring.vue"
 import PackageDetails from "./views/PackageDetails.vue"
-import SignalGroups from "./views/SignalGroups.vue"
 
 // Admin Imports
 import UserManager from "./views/admin/UserManager.vue"
 import PackageManager from "./views/admin/PackageManager.vue"
 import PartnerManager from "./views/admin/PartnerManager.vue"
 import SignalGroupsManager from "./views/admin/SignalGroupsManager.vue"
+import AdminDashboard from "../admin/AdminDashboard.vue"
+import PartnerDashboard from "./views/admin/PartnerDashboard.vue"
+import UserbotSessionsManager from "./views/admin/UserbotSessionsManager.vue"
 
 const routes = [
-  { path: "/", redirect: "/login" },
+  { path: '/', redirect: to => ({ path: '/login', query: to.query }) },
   { path: "/login", component: Login },
   { path: "/debug", component: Debug },
   { path: "/test-url", component: TestUrl },
@@ -29,14 +30,15 @@ const routes = [
   { path: "/packages/details/:id", component: PackageDetails },
   { path: "/groups", component: Groups },
   { path: "/payments", component: Payments },
-  { path: "/monitoring", component: Monitoring },
-  { path: "/signal-groups", component: SignalGroups },
   
-  // Admin Routes
+  // Admin Routes - nur über Admin-Button erreichbar
+  { path: "/admin-dashboard", component: AdminDashboard },
+  { path: "/partner-dashboard", component: PartnerManager },
   { path: "/admin/users", component: UserManager },
   { path: "/admin/packages", component: PackageManager },
   { path: "/admin/partners", component: PartnerManager },
   { path: "/admin/signal-groups", component: SignalGroupsManager },
+  { path: "/admin/userbot-sessions", component: UserbotSessionsManager },
   
   {
     path: "/:pathMatch(.*)*",

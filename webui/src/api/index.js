@@ -15,15 +15,18 @@ export const API_ENDPOINTS = {
   REFRESH: '/auth/refresh',
   VERIFY: '/auth/verify',
   
-  // Userbot
-  USERBOT_START: '/start',
-  USERBOT_VERIFY: '/verify',
-  USERBOT_DIALOGS: '/api/dialogs',
-  USERBOT_CREATE_GROUP: '/api/create_group',
-  USERBOT_SEND_MESSAGE: '/api/send_message',
-  USERBOT_ADD_USER: '/api/add_user_to_group',
-  USERBOT_TRANSFER_OWNERSHIP: '/api/transfer_ownership',
-  USERBOT_STATUS: '/status',
+  // Userbot (Multi-User)
+  USERBOT_CREATE_SESSION: '/userbot/create-session',
+  USERBOT_SEND_CODE: '/userbot/send-code',
+  USERBOT_VERIFY_CODE: '/userbot/verify-code',
+  USERBOT_SESSION_STATUS: '/userbot/session-status',
+  USERBOT_DISCONNECT_SESSION: '/userbot/disconnect-session',
+  USERBOT_GET_CHATS: '/userbot/chats',
+  USERBOT_CLEANUP_SESSIONS: '/userbot/cleanup-inactive-sessions',
+  USERBOT_ACTIVE_SESSIONS_COUNT: '/userbot/active-sessions-count',
+  USERBOT_ALL_SESSIONS: '/userbot/all-sessions',
+  USERBOT_MY_SESSIONS: '/userbot/my-sessions',
+  USERBOT_SESSIONS: '/userbot/sessions',
   
   // Admin
   ADMIN_USERS: '/admin/users',
@@ -173,11 +176,12 @@ export const api = {
     return response.data
   },
   
-  async requestCode(phone, telegram_id = null, use_userbot = true) {
-    const payload = { phone, use_userbot }
+  async requestCode(phone, telegram_id = null) {
+    const payload = { phone }
     if (telegram_id) {
       payload.telegram_id = telegram_id
     }
+    // use_userbot NICHT setzen, damit Backend-Default (false) greift
     const response = await apiClient.post('/auth/request-code', payload)
     return response.data
   },
@@ -191,61 +195,135 @@ export const api = {
     return response.data
   },
   
-  // Userbot API
-  async userbotStart(phone) {
+  // Userbot API (Multi-User)
+  async userbotCreateSession(phoneNumber) {
     try {
-      const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_START}`, { phone }, {
+      const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_CREATE_SESSION}`, { 
+        phone_number: phoneNumber 
+      }, {
         timeout: 15000,
         headers: { 'Content-Type': 'application/json' }
       })
       return response.data
     } catch (error) {
-      console.error('Userbot Start Error:', error)
-      throw new Error('Userbot-Service nicht erreichbar. Verwende Backend-Fallback.')
+      console.error('Userbot Create Session Error:', error)
+      throw new Error('Userbot-Service nicht erreichbar.')
     }
   },
   
-  async userbotVerify(phone, code) {
+  async userbotSendCode(phoneNumber) {
     try {
-      const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_VERIFY}`, { phone, code }, {
+      const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_SEND_CODE}`, { 
+        phone_number: phoneNumber 
+      }, {
         timeout: 15000,
         headers: { 'Content-Type': 'application/json' }
       })
       return response.data
     } catch (error) {
-      console.error('Userbot Verify Error:', error)
-      throw new Error('Userbot-Verifizierung fehlgeschlagen. Verwende Backend-Fallback.')
+      console.error('Userbot Send Code Error:', error)
+      throw new Error('Userbot-Code-Versand fehlgeschlagen.')
     }
   },
   
-  async userbotGetDialogs() {
-    const response = await axios.get(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_DIALOGS}`)
+  async userbotVerifyCode(phoneNumber, code, password = null) {
+    try {
+      const payload = { 
+        phone_number: phoneNumber,
+        code: code
+      }
+      
+      // Nur password hinzufügen, wenn es nicht null/undefined ist
+      if (password !== null && password !== undefined) {
+        payload.password = password
+      }
+      
+      const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_VERIFY_CODE}`, payload, {
+        timeout: 15000,
+        headers: { 'Content-Type': 'application/json' }
+      })
     return response.data
+    } catch (error) {
+      console.error('Userbot Verify Code Error:', error)
+      throw new Error('Userbot-Code-Verifizierung fehlgeschlagen.')
+    }
   },
   
-  async userbotCreateGroup(title, supergroup = false) {
-    const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_CREATE_GROUP}`, { title, supergroup })
+  async userbotGetSessionStatus(phoneNumber) {
+    try {
+      const response = await axios.get(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_SESSION_STATUS}/${phoneNumber}`, {
+        timeout: 10000,
+        headers: { 'Content-Type': 'application/json' }
+      })
     return response.data
+    } catch (error) {
+      console.error('Userbot Session Status Error:', error)
+      throw new Error('Userbot-Session-Status nicht verfügbar.')
+    }
   },
   
-  async userbotSendMessage(groupId, message) {
-    const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_SEND_MESSAGE}`, { group_id: groupId, message })
+  async userbotDisconnectSession(phoneNumber) {
+    try {
+      const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_DISCONNECT_SESSION}`, { 
+        phone_number: phoneNumber 
+      }, {
+        timeout: 10000,
+        headers: { 'Content-Type': 'application/json' }
+      })
     return response.data
+    } catch (error) {
+      console.error('Userbot Disconnect Session Error:', error)
+      throw new Error('Userbot-Session-Trennung fehlgeschlagen.')
+    }
   },
   
-  async userbotAddUserToGroup(userId, groupId) {
-    const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_ADD_USER}`, { user_id: userId, group_id: groupId })
+  async userbotGetChats(phoneNumber) {
+    try {
+      const response = await axios.get(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_GET_CHATS}/${phoneNumber}`, {
+        timeout: 10000,
+        headers: { 'Content-Type': 'application/json' }
+      })
     return response.data
+    } catch (error) {
+      console.error('Userbot Get Chats Error:', error)
+      throw new Error('Userbot-Chats nicht verfügbar.')
+    }
   },
   
-  async userbotTransferOwnership(groupId, newOwnerId) {
-    const response = await axios.post(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_TRANSFER_OWNERSHIP}`, { group_id: groupId, new_owner_id: newOwnerId })
+  async userbotGetActiveSessionsCount() {
+    try {
+      const response = await axios.get(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_ACTIVE_SESSIONS_COUNT}`, {
+        timeout: 10000,
+        headers: { 'Content-Type': 'application/json' }
+      })
     return response.data
+    } catch (error) {
+      console.error('Userbot Active Sessions Count Error:', error)
+      throw new Error('Userbot-Sessions-Count nicht verfügbar.')
+    }
   },
   
-  async userbotGetStatus() {
-    const response = await axios.get(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_STATUS}`)
+  async userbotGetAllSessions() {
+    try {
+      const response = await axios.get(`${USERBOT_API_URL}${API_ENDPOINTS.USERBOT_ALL_SESSIONS}`, {
+        timeout: 10000,
+        headers: { 'Content-Type': 'application/json' }
+      })
     return response.data
+    } catch (error) {
+      console.error('Userbot All Sessions Error:', error)
+      throw new Error('Userbot-Sessions nicht verfügbar.')
+    }
+  },
+  
+  async userbotGetMySessions() {
+    try {
+      const response = await apiClient.get(API_ENDPOINTS.USERBOT_MY_SESSIONS)
+      return response.data
+    } catch (error) {
+      console.error('Userbot My Sessions Error:', error)
+      throw new Error('Userbot-My-Sessions nicht verfügbar.')
+    }
   },
   
   // Admin
@@ -308,6 +386,29 @@ export const api = {
   async getStatus() {
     const response = await apiClient.get(API_ENDPOINTS.STATUS)
     return response.data
+  },
+
+  // Userbot-Session im eigenen Backend speichern
+  async saveUserbotSession(sessionData) {
+    // Erwartet: { phone, session_name, session_type, telegram_session_string, is_active }
+    const response = await apiClient.post(API_ENDPOINTS.USERBOT_SESSIONS, sessionData)
+    return response.data
+  },
+
+  // Neue Funktion für klassisches Web-Login
+  async verifyWebLoginCode(phone, code) {
+    try {
+      const payload = { phone, code }
+      const response = await apiClient.post('/auth/verify-code', payload)
+      return response.data
+    } catch (error) {
+      console.error('Web-Login Code-Verifizierung fehlgeschlagen:', error)
+      // Versuche Backend-Fehlermeldung durchzureichen
+      if (error.response && error.response.data && error.response.data.detail) {
+        throw new Error(error.response.data.detail)
+      }
+      throw error
+    }
   }
 }
 
@@ -320,69 +421,66 @@ export const authAPI = {
 }
 
 export const userbotAPI = {
-  start: api.userbotStart,
-  verify: api.userbotVerify,
-  getDialogs: api.userbotGetDialogs,
-  createGroup: api.userbotCreateGroup,
-  sendMessage: api.userbotSendMessage,
-  addUserToGroup: api.userbotAddUserToGroup,
-  transferOwnership: api.userbotTransferOwnership,
-  getStatus: api.userbotGetStatus,
+  // Neue Multi-User-Funktionen
+  createSession: api.userbotCreateSession,
+  sendCode: api.userbotSendCode,
+  verifyCode: api.userbotVerifyCode,
+  getSessionStatus: api.userbotGetSessionStatus,
+  disconnectSession: api.userbotDisconnectSession,
+  getChats: api.userbotGetChats,
+  getActiveSessionsCount: api.userbotGetActiveSessionsCount,
+  getAllSessions: api.userbotGetAllSessions,
+  getMySessions: api.userbotGetMySessions,
   
-  // Neue Funktionen für automatisierten Session-Flow
+  // Legacy-Funktionen für Kompatibilität (werden auf neue Endpunkte umgeleitet)
   async requestCode(phone) {
     try {
+      console.log('🔧 Userbot: Erstelle Session für:', phone)
+      const sessionResult = await api.userbotCreateSession(phone)
+      
+      if (sessionResult.success) {
       console.log('🔧 Userbot: Sende Verifizierungscode für:', phone)
-      const response = await axios.post(`${USERBOT_API_URL}/start`, { phone }, {
-        timeout: 15000,
-        headers: { 'Content-Type': 'application/json' }
-      })
-      console.log('✅ Userbot: Code erfolgreich gesendet:', response.data)
-      return response.data
+        const codeResult = await api.userbotSendCode(phone)
+        
+        if (codeResult.success) {
+          console.log('✅ Userbot: Code erfolgreich gesendet:', codeResult)
+          return { status: 'code_sent', phone: phone, message: 'Telegram-Code wurde an Ihre Nummer gesendet' }
+        } else {
+          throw new Error(codeResult.error || 'Code-Versand fehlgeschlagen')
+        }
+      } else {
+        throw new Error(sessionResult.error || 'Session-Erstellung fehlgeschlagen')
+      }
     } catch (error) {
       console.error('❌ Userbot: Fehler beim Senden des Codes:', error)
-      throw new Error(`Userbot-Code-Versand fehlgeschlagen: ${error.response?.data?.message || error.message}`)
+      throw new Error(`Userbot-Code-Versand fehlgeschlagen: ${error.message}`)
     }
   },
   
   async verifyCode(phone, code) {
     try {
       console.log('🔧 Userbot: Verifiziere Code für:', phone)
-      const response = await axios.post(`${USERBOT_API_URL}/verify`, { phone, code }, {
-        timeout: 15000,
-        headers: { 'Content-Type': 'application/json' }
-      })
-      console.log('✅ Userbot: Code erfolgreich verifiziert:', response.data)
-      return response.data
+      const result = await api.userbotVerifyCode(phone, code)
+      
+      if (result.success) {
+        console.log('✅ Userbot: Code erfolgreich verifiziert:', result)
+        return { status: 'success', message: 'Code erfolgreich verifiziert' }
+      } else {
+        throw new Error(result.error || 'Code-Verifizierung fehlgeschlagen')
+      }
     } catch (error) {
       console.error('❌ Userbot: Fehler bei Code-Verifizierung:', error)
-      throw new Error(`Userbot-Code-Verifizierung fehlgeschlagen: ${error.response?.data?.message || error.message}`)
+      throw new Error(`Userbot-Code-Verifizierung fehlgeschlagen: ${error.message}`)
     }
   },
   
   async getSessionStatus(phone) {
     try {
-      const response = await axios.get(`${USERBOT_API_URL}/status`, {
-        timeout: 10000,
-        headers: { 'Content-Type': 'application/json' }
-      })
-      return response.data
+      const result = await api.userbotGetSessionStatus(phone)
+      return result
     } catch (error) {
       console.error('❌ Userbot: Fehler beim Abrufen des Status:', error)
       throw new Error('Userbot-Status nicht verfügbar')
-    }
-  },
-  
-  async stopSession() {
-    try {
-      const response = await axios.post(`${USERBOT_API_URL}/stop`, {}, {
-        timeout: 10000,
-        headers: { 'Content-Type': 'application/json' }
-      })
-      return response.data
-    } catch (error) {
-      console.error('❌ Userbot: Fehler beim Stoppen der Session:', error)
-      throw new Error('Userbot-Session konnte nicht gestoppt werden')
     }
   }
 }

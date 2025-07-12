@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
-from ..database import get_db
-from app.models import User, Package, Payment, Feature, SignalGroup, UserRole, PaymentStatus, PackageStatus, UserbotSession, SignalGroupSubscription, SignalTheme
-from ..schemas import (
+from backend.app.database import get_db
+from backend.app.schemas import (
     UserCreate, UserUpdate, UserResponse,
     PackageCreate, PackageUpdate, PackageResponse,
     FeatureCreate, FeatureUpdate, FeatureResponse,
@@ -13,9 +12,15 @@ from ..schemas import (
     SignalGroupSubscriptionCreate, SignalGroupSubscriptionUpdate, SignalGroupSubscriptionResponse,
     SignalThemeCreate, SignalThemeUpdate, SignalThemeResponse
 )
-from ..auth import get_current_user
+from backend.app.auth import get_current_user
+from backend.app.models import User, Package, Payment, SignalGroup, UserbotSession, SignalTheme, SignalGroupSubscription
+from backend.app.schemas import PaymentStatus
 import json
 from datetime import datetime
+from sqlalchemy import func
+import logging
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["admin"])
 
@@ -364,6 +369,15 @@ async def delete_userbot_session(
     db.commit()
     return {"message": "Userbot-Session erfolgreich gelöscht"}
 
+@router.delete("/userbot-sessions/by-phone/{phone}")
+async def delete_userbot_sessions_by_phone(phone: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """Löscht alle Userbot-Sessions für eine Telefonnummer (nur für Superadmins)"""
+    if not bool(current_user.is_superadmin):
+        raise HTTPException(status_code=403, detail="Keine Berechtigung")
+    deleted = db.query(UserbotSession).filter(UserbotSession.phone == phone).delete()
+    db.commit()
+    return {"success": True, "deleted": deleted}
+
 # Signalgruppen-Abonnement-Routen
 @router.get("/signal-group-subscriptions", response_model=List[SignalGroupSubscriptionResponse])
 async def get_signal_group_subscriptions(
@@ -482,17 +496,20 @@ async def delete_signal_theme(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Thematische Gruppe löschen"""
+    """Signal-Theme löschen"""
     if not bool(current_user.is_superadmin):
         raise HTTPException(status_code=403, detail="Keine Berechtigung")
     
     theme = db.query(SignalTheme).filter(SignalTheme.id == theme_id).first()
     if not theme:
-        raise HTTPException(status_code=404, detail="Thematische Gruppe nicht gefunden")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Signal-Theme nicht gefunden"
+        )
     
     db.delete(theme)
     db.commit()
-    return {"message": "Thematische Gruppe erfolgreich gelöscht"}
+    return {"message": "Signal-Theme erfolgreich gelöscht"}
 
 # Userbot-Session-Verknüpfung für Signal-Gruppen
 @router.put("/signal-groups/{signal_group_id}/link-userbot")
@@ -548,3 +565,140 @@ async def get_signal_group_themes(
     ).all()
     
     return themes 
+
+# ===== FEHLENDE ADMIN ENDPUNKTE =====
+
+@router.get("/stats")
+async def get_admin_stats(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Admin-Statistiken abrufen"""
+    if not bool(current_user.is_superadmin):
+        raise HTTPException(status_code=403, detail="Keine Berechtigung")
+    
+    try:
+        # Benutzer-Statistiken
+        total_users = db.query(User).count()
+        active_users = db.query(User).filter(User.is_active == True).count()
+        new_users_today = db.query(User).filter(
+            User.created_at >= datetime.utcnow().date()
+        ).count()
+        
+        # Paket-Statistiken
+        total_packages = db.query(Package).count()
+        active_packages = db.query(Package).filter(Package.status == "active").count()
+        
+        # Zahlungs-Statistiken
+        total_payments = db.query(Payment).count()
+        total_revenue = db.query(Payment).filter(Payment.status == "completed").with_entities(
+            func.sum(Payment.amount)
+        ).scalar() or 0
+        
+        # Signalgruppen-Statistiken
+        total_signal_groups = db.query(SignalGroup).count()
+        active_signal_groups = db.query(SignalGroup).filter(SignalGroup.is_active == True).count()
+        
+        # Userbot-Session-Statistiken
+        total_userbot_sessions = db.query(UserbotSession).count()
+        active_userbot_sessions = db.query(UserbotSession).filter(UserbotSession.is_active == True).count()
+        
+        return {
+            "users": {
+                "total": total_users,
+                "active": active_users,
+                "new_today": new_users_today
+            },
+            "packages": {
+                "total": total_packages,
+                "active": active_packages
+            },
+            "payments": {
+                "total": total_payments,
+                "revenue": float(total_revenue)
+            },
+            "signal_groups": {
+                "total": total_signal_groups,
+                "active": active_signal_groups
+            },
+            "userbot_sessions": {
+                "total": total_userbot_sessions,
+                "active": active_userbot_sessions
+            },
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Fehler beim Abrufen der Admin-Statistiken: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Abrufen der Statistiken: {str(e)}")
+
+@router.get("/settings")
+async def get_admin_settings(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Admin-Einstellungen abrufen"""
+    if not bool(current_user.is_superadmin):
+        raise HTTPException(status_code=403, detail="Keine Berechtigung")
+    
+    try:
+        # System-Einstellungen (Mock-Daten für jetzt)
+        settings = {
+            "system": {
+                "maintenance_mode": False,
+                "registration_enabled": True,
+                "userbot_enabled": True,
+                "payment_enabled": True
+            },
+            "notifications": {
+                "email_notifications": True,
+                "telegram_notifications": True,
+                "admin_alerts": True
+            },
+            "security": {
+                "session_timeout_hours": 24,
+                "max_login_attempts": 5,
+                "require_2fa": False
+            },
+            "features": {
+                "userbot_sessions": True,
+                "signal_groups": True,
+                "forwarding": True,
+                "auto_reply": True
+            },
+            "limits": {
+                "max_userbot_sessions_per_user": 5,
+                "max_signal_groups_per_user": 10,
+                "max_forwarding_mappings_per_session": 20
+            }
+        }
+        
+        return settings
+        
+    except Exception as e:
+        logger.error(f"Fehler beim Abrufen der Admin-Einstellungen: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Abrufen der Einstellungen: {str(e)}")
+
+@router.put("/settings")
+async def update_admin_settings(
+    settings_data: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Admin-Einstellungen aktualisieren"""
+    if not bool(current_user.is_superadmin):
+        raise HTTPException(status_code=403, detail="Keine Berechtigung")
+    
+    try:
+        # Hier würden die Einstellungen in der DB gespeichert werden
+        # Für jetzt geben wir nur eine Bestätigung zurück
+        
+        return {
+            "success": True,
+            "message": "Admin-Einstellungen erfolgreich aktualisiert",
+            "settings": settings_data
+        }
+        
+    except Exception as e:
+        logger.error(f"Fehler beim Aktualisieren der Admin-Einstellungen: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Aktualisieren der Einstellungen: {str(e)}") 

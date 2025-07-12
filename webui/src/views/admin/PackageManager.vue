@@ -1,412 +1,219 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <!-- Zurück-Button und Header -->
-    <div class="flex items-center justify-between mb-8">
-      <div class="flex items-center space-x-4">
-        <button
-          @click="$router.push('/dashboard')"
-          class="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-          </svg>
-          <span>Zurück zum Dashboard</span>
-        </button>
-        <h1 class="text-2xl font-bold">Paket-System verwalten</h1>
-      </div>
-      
-      <div class="flex space-x-4">
-        <button
-          @click="activeTab = 'templates'"
-          :class="['px-4 py-2 rounded transition-colors', activeTab === 'templates' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300']"
-        >
-          Paket-Templates
-        </button>
-        <button
-          @click="activeTab = 'addons'"
-          :class="['px-4 py-2 rounded transition-colors', activeTab === 'addons' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300']"
-        >
-          Add-ons
-        </button>
-        <button
-          @click="activeTab = 'features'"
-          :class="['px-4 py-2 rounded transition-colors', activeTab === 'features' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300']"
-        >
-          Feature-Matrix
-        </button>
-      </div>
+  <div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="header-section">
+      <img src="@/assets/wallstreet-header.png" alt="Wallstreet Crypto Header" class="header-image" />
+
     </div>
-
-    <!-- Paket-Templates Tab -->
-    <div v-if="activeTab === 'templates'" class="space-y-6">
-      <div class="flex justify-between items-center">
-        <h2 class="text-xl font-semibold">Paket-Templates</h2>
-        <button
-          @click="showCreateTemplateModal = true"
-          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
-        >
-          Neues Template
-        </button>
-      </div>
-
-      <!-- Template-Tabelle mit verbesserter Darstellung -->
-      <div class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Typ</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preise</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aktionen</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="template in packageTemplates" :key="template.id" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div>
-                  <div class="font-medium text-gray-900">{{ template.display_name }}</div>
-                  <div class="text-sm text-gray-500">{{ template.name }}</div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
-                  {{ template.package_type }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm">
-                  <div v-if="template.monthly_price">Monatlich: €{{ template.monthly_price }}</div>
-                  <div v-if="template.one_time_price">Einmalig: €{{ template.one_time_price }}</div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span :class="['px-2 py-1 rounded-full text-xs', template.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800']">
-                  {{ template.is_active ? 'Aktiv' : 'Inaktiv' }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button
-                  @click="editTemplate(template)"
-                  class="text-blue-600 hover:text-blue-900 mr-3 transition-colors"
-                >
-                  Bearbeiten
-                </button>
-                <button
-                  @click="manageFeatures(template)"
-                  class="text-green-600 hover:text-green-900 mr-3 transition-colors"
-                >
-                  Features
-                </button>
-                <button
-                  @click="deleteTemplate(template)"
-                  class="text-red-600 hover:text-red-900 transition-colors"
-                >
-                  Löschen
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Add-ons Tab -->
-    <div v-if="activeTab === 'addons'" class="space-y-6">
-      <div class="flex justify-between items-center">
-        <h2 class="text-xl font-semibold">Add-ons</h2>
-        <button
-          @click="showCreateAddonModal = true"
-          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          Neues Add-on
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div v-for="addon in addons" :key="addon.id" class="bg-white rounded-lg shadow p-6">
-          <div class="flex justify-between items-start mb-4">
-            <div>
-              <h3 class="font-medium text-gray-900">{{ addon.display_name }}</h3>
-              <p class="text-sm text-gray-500">{{ addon.name }}</p>
-            </div>
-            <span :class="['px-2 py-1 rounded-full text-xs', addon.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800']">
-              {{ addon.is_active ? 'Aktiv' : 'Inaktiv' }}
-            </span>
-          </div>
-          
-          <p class="text-sm text-gray-600 mb-4">{{ addon.description }}</p>
-          
-          <div class="text-sm text-gray-500 mb-4">
-            <div v-if="addon.monthly_price">Monatlich: €{{ addon.monthly_price }}</div>
-            <div v-if="addon.one_time_price">Einmalig: €{{ addon.one_time_price }}</div>
-          </div>
-
-          <div v-if="addon.tiers && addon.tiers.length > 0" class="mb-4">
-            <h4 class="font-medium text-sm mb-2">Tiers:</h4>
-            <div class="space-y-1">
-              <div v-for="tier in addon.tiers" :key="tier.id" class="text-xs text-gray-500">
-                {{ tier.level }}: €{{ tier.price }} - {{ tier.description }}
-              </div>
-            </div>
-          </div>
-
-          <div class="flex space-x-2">
-            <button
-              @click="editAddon(addon)"
-              class="text-blue-600 hover:text-blue-900 text-sm"
-            >
-              Bearbeiten
-            </button>
-            <button
-              @click="deleteAddon(addon)"
-              class="text-red-600 hover:text-red-900 text-sm"
-            >
-              Löschen
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Feature-Matrix Tab -->
-    <div v-if="activeTab === 'features'" class="space-y-6">
-      <div class="flex justify-between items-center">
-        <h2 class="text-xl font-semibold">Feature-Matrix</h2>
-        <select v-model="selectedTemplateForFeatures" class="border border-gray-300 rounded px-3 py-2">
-          <option value="">Template auswählen</option>
-          <option v-for="template in packageTemplates" :key="template.id" :value="template.id">
-            {{ template.display_name }}
-          </option>
-        </select>
-      </div>
-
-      <div v-if="selectedTemplateForFeatures" class="bg-white rounded-lg shadow p-6">
-        <h3 class="font-medium mb-4">Features für {{ getTemplateName(selectedTemplateForFeatures) }}</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div v-for="(value, key) in featureMatrix" :key="key" class="flex items-center">
-            <input
-              :id="'feature-' + key"
-              v-model="featureMatrix[key]"
-              type="checkbox"
-              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            >
-            <label :for="'feature-' + key" class="ml-2 block text-sm text-gray-900">
-              {{ key }}
-            </label>
-          </div>
-        </div>
-
-        <div class="mt-6">
-          <h4 class="font-medium mb-2">Verfügbare Add-ons:</h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div v-for="addon in addons" :key="addon.id" class="flex items-center">
-              <input
-                :id="'addon-' + addon.id"
-                v-model="addonAvailability[addon.id]"
-                type="checkbox"
-                class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-              >
-              <label :for="'addon-' + addon.id" class="ml-2 block text-sm text-gray-900">
-                {{ addon.display_name }}
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-6 flex justify-end">
-          <button
-            @click="saveFeatureMatrix"
-            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Feature-Matrix speichern
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="package-manager">
+        <div class="manager-header">
+          <h1 class="manager-title">Paketverwaltung</h1>
+          <button @click="showAddPackageModal = true" class="add-button">
+            <svg class="button-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Paket hinzufügen
           </button>
         </div>
-      </div>
-    </div>
 
-    <!-- Template Modal -->
-    <div v-if="showCreateTemplateModal || showEditTemplateModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
-        <h2 class="text-xl font-bold mb-4">
-          {{ showEditTemplateModal ? 'Template bearbeiten' : 'Neues Template' }}
-        </h2>
-
-        <form @submit.prevent="saveTemplate" class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Name (Code)</label>
-            <input
-              v-model="currentTemplate.name"
-              type="text"
-              required
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Anzeigename</label>
-            <input
-              v-model="currentTemplate.display_name"
-              type="text"
-              required
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Paket-Typ</label>
-            <select
-              v-model="currentTemplate.package_type"
-              required
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-              <option value="basic">Basic</option>
-              <option value="advanced">Advanced</option>
-              <option value="pro">Pro</option>
-              <option value="lifetime">Lifetime</option>
-            </select>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-          <div>
-              <label class="block text-sm font-medium text-gray-700">Monatspreis (€)</label>
-              <input
-                v-model="currentTemplate.monthly_price"
-                type="number"
-                step="0.01"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Einmalpreis (€)</label>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Preis</th>
+                <th>Dauer</th>
+                <th>Features</th>
+                <th>Status</th>
+                <th>Aktionen</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="pkg in packages" :key="pkg.id">
+                <td>{{ pkg.id }}</td>
+                <td>{{ pkg.name }}</td>
+                <td>{{ pkg.price }} USDT</td>
+                <td>{{ pkg.duration_days }} Tage</td>
+                <td>{{ pkg.features.join(', ') }}</td>
+                <td>
+                  <span :class="['status-badge', pkg.is_active ? 'status-active' : 'status-inactive']">
+                    {{ pkg.is_active ? 'Aktiv' : 'Inaktiv' }}
+                  </span>
+                </td>
+                <td>
+                  <button @click="editPackage(pkg)" class="action-button edit">Bearbeiten</button>
+                  <button @click="togglePackageStatus(pkg)" class="action-button toggle">
+                    {{ pkg.is_active ? 'Deaktivieren' : 'Aktivieren' }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+          
+        <!-- Add Package Modal -->
+        <div v-if="showAddPackageModal" class="modal-overlay" @click="showAddPackageModal = false">
+          <div class="modal-content" @click.stop>
+            <h2 class="modal-title">Paket hinzufügen</h2>
+            <form @submit.prevent="addPackage" class="modal-form">
+              <div class="form-group">
+                <label for="name" class="form-label">Name</label>
                 <input
-                v-model="currentTemplate.one_time_price"
-                type="number"
-                step="0.01"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-            </div>
-          </div>
+                  id="name"
+                  v-model="newPackage.name" 
+                  type="text"
+                  required
+                  class="form-input"
+                />
+              </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Status</label>
-            <select
-              v-model="currentTemplate.is_active"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-              <option :value="true">Aktiv</option>
-              <option :value="false">Inaktiv</option>
-            </select>
-          </div>
+              <div class="form-group">
+                <label for="price" class="form-label">Preis (USDT)</label>
+                <input
+                  id="price"
+                  v-model="newPackage.price" 
+                  type="number" 
+                  step="0.01"
+                  required
+                  class="form-input"
+                />
+              </div>
 
-          <div class="flex justify-end space-x-3">
-            <button
-              type="button"
-              @click="closeTemplateModal"
-              class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-            >
-              Abbrechen
-            </button>
-            <button
-              type="submit"
-              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Speichern
-            </button>
+              <div class="form-group">
+                <label for="duration" class="form-label">Dauer (Tage)</label>
+                <input 
+                  id="duration"
+                  v-model="newPackage.duration_days" 
+                  type="number"
+                  required
+                  class="form-input"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="features" class="form-label">Features (kommagetrennt)</label>
+                <input
+                  id="features"
+                  v-model="newPackage.features" 
+                  type="text"
+                  placeholder="Feature1, Feature2, Feature3"
+                  class="form-input"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Status</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input
+                      type="checkbox" 
+                      v-model="newPackage.is_active"
+                      class="checkbox-input"
+                    />
+                    Aktiv
+                  </label>
+                </div>
+              </div>
+
+              <div class="modal-actions">
+                <button type="button" @click="showAddPackageModal = false" class="cancel-button">
+                  Abbrechen
+                </button>
+                <button type="submit" class="submit-button">
+                  Hinzufügen
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
+
+        <!-- Edit Package Modal -->
+        <div v-if="showEditPackageModal" class="modal-overlay" @click="showEditPackageModal = false">
+          <div class="modal-content" @click.stop>
+            <h2 class="modal-title">Paket bearbeiten</h2>
+            <form @submit.prevent="updatePackage" class="modal-form">
+              <div class="form-group">
+                <label for="edit-name" class="form-label">Name</label>
+                <input
+                  id="edit-name"
+                  v-model="editingPackage.name" 
+                  type="text"
+                  required
+                  class="form-input"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="edit-price" class="form-label">Preis (USDT)</label>
+                <input
+                  id="edit-price"
+                  v-model="editingPackage.price" 
+                  type="number" 
+                  step="0.01"
+                  required
+                  class="form-input"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="edit-duration" class="form-label">Dauer (Tage)</label>
+                <input 
+                  id="edit-duration"
+                  v-model="editingPackage.duration_days" 
+                  type="number"
+                  required
+                  class="form-input"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="edit-features" class="form-label">Features (kommagetrennt)</label>
+                <input
+                  id="edit-features"
+                  v-model="editingPackage.features" 
+                  type="text"
+                  placeholder="Feature1, Feature2, Feature3"
+                  class="form-input"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Status</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input
+                      type="checkbox" 
+                      v-model="editingPackage.is_active"
+                      class="checkbox-input"
+                    />
+                    Aktiv
+                  </label>
+                </div>
+              </div>
+
+              <div class="modal-actions">
+                <button type="button" @click="showEditPackageModal = false" class="cancel-button">
+                  Abbrechen
+                </button>
+                <button type="submit" class="submit-button">
+                  Speichern
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Add-on Modal -->
-    <div v-if="showCreateAddonModal || showEditAddonModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
-        <h2 class="text-xl font-bold mb-4">
-          {{ showEditAddonModal ? 'Add-on bearbeiten' : 'Neues Add-on' }}
-        </h2>
-
-        <form @submit.prevent="saveAddon" class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Name (Code)</label>
-            <input
-              v-model="currentAddon.name"
-              type="text"
-              required
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Anzeigename</label>
-            <input
-              v-model="currentAddon.display_name"
-              type="text"
-              required
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Beschreibung</label>
-            <textarea
-              v-model="currentAddon.description"
-              rows="3"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            ></textarea>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Monatspreis (€)</label>
-              <input
-                v-model="currentAddon.monthly_price"
-                type="number"
-                step="0.01"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Einmalpreis (€)</label>
-              <input
-                v-model="currentAddon.one_time_price"
-                type="number"
-                step="0.01"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Status</label>
-            <select
-              v-model="currentAddon.is_active"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-              <option :value="true">Aktiv</option>
-              <option :value="false">Inaktiv</option>
-            </select>
-          </div>
-
-          <div class="flex justify-end space-x-3">
-            <button
-              type="button"
-              @click="closeAddonModal"
-              class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-            >
-              Abbrechen
-            </button>
-            <button
-              type="submit"
-              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Speichern
-            </button>
-          </div>
-        </form>
-      </div>
+    
+    <!-- Back to Dashboard Section -->
+    <div class="back-section">
+      <BaseButton @click="$router.push('/dashboard')">
+        Zurück zum Dashboard
+      </BaseButton>
     </div>
   </div>
 </template>
@@ -710,4 +517,6 @@ export default {
     }
   }
 }
-</script> 
+</script>
+
+<!-- Styles werden aus globaler index.css verwendet --> 

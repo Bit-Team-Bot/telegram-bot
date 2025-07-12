@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from ..database import get_db
-from app.models import SignalGroup, User
-from ..schemas import SignalGroupResponse, SignalGroupCreate, SignalGroupUpdate
+from backend.app.database import get_db
+from backend.app.models import SignalGroup, User
+from backend.app.schemas import SignalGroupResponse, SignalGroupCreate, SignalGroupUpdate
 
 router = APIRouter(prefix="/signalgroups", tags=["signalgroups"])
 

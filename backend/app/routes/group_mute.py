@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.database import get_db
-from app.models import GroupMute
-from app.schemas import GroupMuteCreate, GroupMuteOut
+from backend.app.database import get_db
+from backend.app.models import GroupMute
+from backend.app.schemas import GroupMuteCreate, GroupMuteOut
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Optional
 
 router = APIRouter(
     prefix="/group_mutes",
@@ -29,7 +29,7 @@ def create_group_mute(mute: GroupMuteCreate, db: Session = Depends(get_db)):
     return db_mute
 
 @router.get("/", response_model=List[GroupMuteOut])
-def get_mutes(user_id: int = None, group_id: int = None, db: Session = Depends(get_db)):
+def get_mutes(user_id: Optional[int] = None, group_id: Optional[int] = None, db: Session = Depends(get_db)):
     query = db.query(GroupMute)
     if user_id:
         query = query.filter(GroupMute.user_id == user_id)

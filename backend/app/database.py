@@ -10,14 +10,8 @@ load_dotenv()
 # Projektverzeichnis automatisch erkennen
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Datenbanktyp (sqlite oder postgres)
-DB_TYPE = os.getenv("DB_TYPE", "sqlite")
-
-if DB_TYPE == "postgres":
-    DATABASE_URL = os.getenv("POSTGRES_URL", "postgresql://user:pass@localhost:5432/bitteam")
-else:
-    # Verwende DATABASE_URL aus .env oder Standard
-    DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR}/telegram_bot.db")
+# Datenbank-URL immer aus DATABASE_URL lesen
+DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR}/telegram_bot.db")
 
 # Engine bauen
 engine = create_engine(

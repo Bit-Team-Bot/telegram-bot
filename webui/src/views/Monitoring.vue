@@ -13,7 +13,7 @@
 
       <!-- Status-Übersicht -->
       <div class="status-overview">
-        <div class="status-card" :class="overallStatus">
+        <BaseCard :class="overallStatus">
           <div class="status-icon">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
@@ -23,48 +23,24 @@
             <h3 class="status-title">Gesamtstatus</h3>
             <p class="status-value">{{ overallStatusText }}</p>
           </div>
-        </div>
+        </BaseCard>
       </div>
 
       <!-- Performance-Metriken -->
       <div class="metrics-section">
         <h2 class="section-title">Performance (letzte 24h)</h2>
         <div class="metrics-grid">
-          <div class="metric-card">
+          <BaseCard v-for="(metric, idx) in metricsList" :key="idx">
             <div class="metric-icon">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M13 2.05V4.05C17.39 4.59 20.5 8.58 19.96 12.97C19.5 16.61 16.64 19.5 13 19.93V21.93C18.5 21.38 22.5 16.5 21.95 11C21.5 6.25 17.73 2.5 13 2.03V2.05M5.67 19.74C7.18 21 9.04 21.79 11 22V20C9.58 19.82 8.23 19.25 7.1 18.37L5.67 19.74M7.1 5.74C8.22 4.84 9.57 4.26 11 4.06V2.06C9.05 2.25 7.19 3 5.67 4.26L7.1 5.74M5.69 7.1L4.26 5.67C3 7.19 2.25 9.04 2.05 11H4.05C4.24 9.58 4.8 8.23 5.69 7.1M4.06 13H2.06C2.26 14.96 3.03 16.81 4.27 18.33L5.69 16.9C4.81 15.77 4.24 14.42 4.06 13M10 16.5L16 14L13 15.5V7.5L7 10L10 8.5V16.5Z" fill="var(--accent-orange)"/>
               </svg>
             </div>
             <div class="metric-content">
-              <h3 class="metric-title">Requests</h3>
-              <p class="metric-value">{{ performance.total_requests || 0 }}</p>
+              <h3 class="metric-title">{{ metric.title }}</h3>
+              <p class="metric-value">{{ metric.value }}</p>
             </div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="var(--accent-orange)"/>
-              </svg>
-            </div>
-            <div class="metric-content">
-              <h3 class="metric-title">Erfolgsrate</h3>
-              <p class="metric-value">{{ performance.success_rate || 0 }}%</p>
-            </div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="var(--accent-orange)"/>
-              </svg>
-            </div>
-            <div class="metric-content">
-              <h3 class="metric-title">Durchschnittszeit</h3>
-              <p class="metric-value">{{ performance.avg_response_time || 0 }}ms</p>
-            </div>
-          </div>
+          </BaseCard>
         </div>
       </div>
 
@@ -145,8 +121,8 @@
 
       <div class="back-section">
         <button @click="$router.push('/dashboard')" class="btn-secondary">
-          ← Zurück zum Dashboard
-        </button>
+  ← Zurück zum Dashboard
+</button>
       </div>
       </template>
     </main>
@@ -197,7 +173,7 @@ const refreshData = async () => {
 
 const fetchPerformanceData = async () => {
   try {
-    const response = await fetch('/api/monitoring/performance')
+    const response = await fetch('/monitoring/performance')
     if (response.ok) {
       performance.value = await response.json()
     }
@@ -208,7 +184,7 @@ const fetchPerformanceData = async () => {
 
 const fetchSystemData = async () => {
   try {
-    const response = await fetch('/api/monitoring/system')
+    const response = await fetch('/monitoring/system')
     if (response.ok) {
       system.value = await response.json()
     }
@@ -219,7 +195,7 @@ const fetchSystemData = async () => {
 
 const fetchErrorData = async () => {
   try {
-    const response = await fetch('/api/monitoring/errors')
+    const response = await fetch('/monitoring/errors')
     if (response.ok) {
       errors.value = await response.json()
     }
@@ -235,269 +211,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-.monitoring-container {
-  min-height: 100vh;
-  background-color: var(--bg-primary);
-  display: flex;
-  flex-direction: column;
-}
-
-.monitoring-content {
-  flex: 1;
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.page-header {
-  text-align: center;
-  margin-bottom: 48px;
-}
-
-.page-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: var(--text-white);
-  margin: 0 0 16px 0;
-}
-
-.page-subtitle {
-  color: var(--text-gray);
-  font-size: 1.2rem;
-  margin: 0;
-}
-
-.status-overview {
-  margin-bottom: 48px;
-}
-
-.status-card {
-  background-color: var(--bg-secondary);
-  border-radius: var(--border-radius);
-  padding: 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  box-shadow: var(--shadow-3d);
-  transition: transform 0.2s ease;
-}
-
-.status-card.healthy {
-  border-left: 4px solid #27ae60;
-}
-
-.status-card.degraded {
-  border-left: 4px solid #f39c12;
-}
-
-.status-card.warning {
-  border-left: 4px solid #e67e22;
-}
-
-.status-card.error {
-  border-left: 4px solid #e74c3c;
-}
-
-.status-icon {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(255, 179, 43, 0.1);
-  border-radius: 12px;
-}
-
-.status-icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.status-content {
-  flex: 1;
-}
-
-.status-title {
-  color: var(--text-gray);
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin: 0 0 4px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status-value {
-  color: var(--text-white);
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 0;
-}
-
-.metrics-section {
-  margin-bottom: 48px;
-}
-
-.section-title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: var(--text-white);
-  margin: 0 0 24px 0;
-}
-
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
-}
-
-.metric-card {
-  background-color: var(--bg-secondary);
-  border-radius: var(--border-radius);
-  padding: 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  box-shadow: var(--shadow-3d);
-  transition: transform 0.2s ease;
-}
-
-.metric-card:hover {
-  transform: translateY(-2px);
-}
-
-.metric-icon {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(255, 179, 43, 0.1);
-  border-radius: 12px;
-}
-
-.metric-icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.metric-content {
-  flex: 1;
-}
-
-.metric-title {
-  color: var(--text-gray);
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin: 0 0 4px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.metric-value {
-  color: var(--text-white);
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 0;
-}
-
-.endpoints-list, .errors-list {
-  background-color: var(--bg-secondary);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-3d);
-}
-
-.endpoint-item, .error-item {
-  padding: 16px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.endpoint-item:last-child, .error-item:last-child {
-  border-bottom: none;
-}
-
-.endpoint-name {
-  color: var(--text-white);
-  font-weight: 500;
-}
-
-.endpoint-count {
-  color: var(--accent-orange);
-  font-weight: bold;
-}
-
-.error-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.error-type {
-  color: #e74c3c;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-.error-time {
-  color: var(--text-gray);
-  font-size: 0.8rem;
-}
-
-.error-message {
-  color: var(--text-white);
-  margin: 0 0 4px 0;
-  font-size: 0.9rem;
-}
-
-.error-endpoint {
-  color: var(--text-gray);
-  margin: 0;
-  font-size: 0.8rem;
-}
-
-.actions-section {
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.back-section {
-  text-align: center;
-  margin-top: 32px;
-}
-
-@media (max-width: 768px) {
-  .monitoring-content {
-    padding: 16px;
-  }
-  
-  .page-title {
-    font-size: 2rem;
-  }
-  
-  .page-subtitle {
-    font-size: 1rem;
-  }
-  
-  .metrics-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .metric-card {
-    padding: 20px;
-  }
-  
-  .endpoint-item, .error-item {
-    padding: 12px 16px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-}
-</style> 
+<!-- Styles werden aus globaler index.css verwendet --> 

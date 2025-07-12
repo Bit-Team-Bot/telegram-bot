@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from ..database import get_db
-from app.routes.auth import get_current_user
-from app.models import User, Package, Payment
+from .auth import get_current_user
 from datetime import datetime, timedelta
 import logging
+from ..models import User, Payment
 
 logger = logging.getLogger(__name__)
 router = APIRouter()

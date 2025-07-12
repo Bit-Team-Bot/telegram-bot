@@ -8,10 +8,14 @@ import requests
 import json
 import sys
 from time import sleep
+import os
+from dotenv import load_dotenv
 
-BACKEND_URL = "https://api.bit-team-bot.online"
-WEBUI_URL = "https://webui.bit-team-bot.online"
-USERBOT_URL = "https://userbot.bit-team-bot.online"
+load_dotenv()
+
+BACKEND_URL = os.getenv("BACKEND_URL")
+WEBUI_URL = os.getenv("WEBUI_URL")
+USERBOT_URL = os.getenv("USERBOT_URL")
 
 TEST_USER = {
     "telegram_id": "999999999",

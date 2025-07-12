@@ -1,11 +1,23 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.database import get_db
-from app.models import Group
-from pydantic import BaseModel
 from typing import Optional, Any
+from ..database import get_db
+from ..models import Group, ForwardingGroupMapping, UserbotSession
+from pydantic import BaseModel
 import json
-from app.routes.enhanced_group_management import EnhancedGroupManagement
+from .enhanced_group_management import EnhancedGroupManagement
+import sys
+import os
+
+# Userbot-Service Import - Fallback wenn userbot_handler nicht existiert
+try:
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..', 'userbot_service'))
+    from userbot_handler import UserbotHandler
+except ImportError:
+    # Fallback: Erstelle eine Mock-Klasse
+    class UserbotHandler:
+        async def get_dialogs(self):
+            return []
 
 router = APIRouter(
     tags=["groups"]
@@ -30,6 +42,145 @@ class GroupCreateRequest(BaseModel):
     settings: Optional[dict] = None
     welcome_text: Optional[str] = None
     night_mode: Optional[bool] = None
+
+class ForwardingMappingRequest(BaseModel):
+    userbot_session_id: int
+    source_group_id: str
+    target_group_id: str
+
+class DialogInfo(BaseModel):
+    id: str
+    title: str
+    type: str  # "group" oder "channel"
+    member_count: Optional[int] = None
+
+@router.get("/dialogs")
+async def get_available_dialogs():
+    """Holt alle verfügbaren Gruppen/Kanäle vom Userbot"""
+    try:
+        userbot = UserbotHandler()
+        dialogs = await userbot.get_dialogs()
+        return {
+            "status": "success",
+            "dialogs": dialogs
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Fehler beim Abrufen der Gruppen: {str(e)}")
+
+@router.post("/forwarding-mapping")
+def create_forwarding_mapping(data: ForwardingMappingRequest, db: Session = Depends(get_db)):
+    """Erstellt eine neue Weiterleitungs-Mapping"""
+    try:
+        # Prüfe ob Userbot-Session existiert
+        session = db.query(UserbotSession).filter(UserbotSession.id == data.userbot_session_id).first()
+        if not session:
+            raise HTTPException(status_code=404, detail="Userbot-Session nicht gefunden")
+        
+        # Prüfe ob Mapping bereits existiert
+        existing_mapping = db.query(ForwardingGroupMapping).filter(
+            ForwardingGroupMapping.userbot_session_id == data.userbot_session_id,
+            ForwardingGroupMapping.source_group_id == data.source_group_id,
+            ForwardingGroupMapping.target_group_id == data.target_group_id
+        ).first()
+        
+        if existing_mapping:
+            raise HTTPException(status_code=400, detail="Weiterleitungs-Mapping existiert bereits")
+        
+        # Erstelle neues Mapping
+        mapping = ForwardingGroupMapping(
+            userbot_session_id=data.userbot_session_id,
+            source_group_id=data.source_group_id,
+            target_group_id=data.target_group_id,
+            forwarding_active=True
+        )
+        
+        db.add(mapping)
+        db.commit()
+        db.refresh(mapping)
+        
+        return {
+            "status": "success",
+            "message": "Weiterleitungs-Mapping erfolgreich erstellt",
+            "mapping": {
+                "id": mapping.id,
+                "source_group_id": mapping.source_group_id,
+                "target_group_id": mapping.target_group_id,
+                "forwarding_active": mapping.forwarding_active
+            }
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Fehler beim Erstellen des Mappings: {str(e)}")
+
+@router.get("/forwarding-mappings/{userbot_session_id}")
+def get_forwarding_mappings(userbot_session_id: int, db: Session = Depends(get_db)):
+    """Holt alle Weiterleitungs-Mappings für eine Userbot-Session"""
+    try:
+        mappings = db.query(ForwardingGroupMapping).filter(
+            ForwardingGroupMapping.userbot_session_id == userbot_session_id
+        ).all()
+        
+        return {
+            "status": "success",
+            "mappings": [
+                {
+                    "id": mapping.id,
+                    "source_group_id": mapping.source_group_id,
+                    "target_group_id": mapping.target_group_id,
+                    "forwarding_active": mapping.forwarding_active,
+                    "created_at": mapping.created_at.isoformat()
+                }
+                for mapping in mappings
+            ]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Fehler beim Abrufen der Mappings: {str(e)}")
+
+@router.delete("/forwarding-mapping/{mapping_id}")
+def delete_forwarding_mapping(mapping_id: int, db: Session = Depends(get_db)):
+    """Löscht eine Weiterleitungs-Mapping"""
+    try:
+        mapping = db.query(ForwardingGroupMapping).filter(ForwardingGroupMapping.id == mapping_id).first()
+        if not mapping:
+            raise HTTPException(status_code=404, detail="Mapping nicht gefunden")
+        
+        db.delete(mapping)
+        db.commit()
+        
+        return {
+            "status": "success",
+            "message": "Weiterleitungs-Mapping erfolgreich gelöscht"
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Fehler beim Löschen des Mappings: {str(e)}")
+
+@router.patch("/forwarding-mapping/{mapping_id}/toggle")
+def toggle_forwarding_mapping(mapping_id: int, db: Session = Depends(get_db)):
+    """Aktiviert/Deaktiviert eine Weiterleitungs-Mapping"""
+    try:
+        mapping = db.query(ForwardingGroupMapping).filter(ForwardingGroupMapping.id == mapping_id).first()
+        if not mapping:
+            raise HTTPException(status_code=404, detail="Mapping nicht gefunden")
+        
+        mapping.forwarding_active = not mapping.forwarding_active
+        db.commit()
+        db.refresh(mapping)
+        
+        return {
+            "status": "success",
+            "message": f"Weiterleitung {'aktiviert' if mapping.forwarding_active else 'deaktiviert'}",
+            "forwarding_active": mapping.forwarding_active
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Fehler beim Umschalten des Mappings: {str(e)}")
 
 @router.get("/{group_id}")
 def get_group(group_id: int, db: Session = Depends(get_db)):

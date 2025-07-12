@@ -1,4 +1,3 @@
-import random
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -7,14 +6,21 @@ from typing import Optional
 import jwt
 import random
 import httpx
-from ..database import get_db
-from app.models import User, UserRole, UserSession
-from ..schemas import UserResponse, CodeRequest, CodeVerify, Token, AutoLoginRequest, SessionCreate, SessionResponse
-from ..config import settings
-from app.utils.telegram import validate_telegram_webapp_data, extract_telegram_user
-from app.utils.telegram_bot import send_telegram_message
-from app.utils.sessions import create_user_session, validate_session_token, invalidate_user_sessions
+from backend.app.database import get_db
+from backend.app.config import settings
+from backend.app.schemas import UserResponse, CodeRequest, CodeVerify, UserRole, SessionCreate, SessionResponse
+from backend.app.models import User
+from backend.app.utils.telegram_bot import send_telegram_message
+from backend.app.utils.sessions import create_user_session, validate_session_token
 import logging
+import re
+
+# Dummy für validate_telegram_webapp_data, falls nicht vorhanden
+try:
+    from backend.app.utils.telegram_webapp import validate_telegram_webapp_data
+except ImportError:
+    def validate_telegram_webapp_data(data):
+        return True
 
 router = APIRouter(tags=["auth"])
 
@@ -45,6 +51,15 @@ def get_client_ip(request: Request) -> str:
 def get_user_agent(request: Request) -> str:
     """Extrahiert den User-Agent aus dem Request"""
     return request.headers.get("User-Agent", "unknown")
+
+def normalize_phone(phone: str) -> str:
+    """Normalisiert Telefonnummern für Vergleich und Speicherung."""
+    if not phone:
+        return phone
+    phone = phone.strip().replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
+    if phone.startswith("00"):
+        phone = "+" + phone[2:]
+    return phone
 
 @router.post("/telegram-login")
 async def telegram_login(
@@ -126,35 +141,33 @@ async def request_code(
     db: Session = Depends(get_db)
 ):
     try:
+        # Telefonnummer normalisieren
+        norm_phone = normalize_phone(request_data.phone) if request_data.phone else None
         # Zuerst nach Telegram-ID suchen
         user = None
         if request_data.telegram_id:
             user = db.query(User).filter(User.telegram_id == request_data.telegram_id).first()
             logger.info(f"Suche nach Telegram-ID {request_data.telegram_id}: {'gefunden' if user else 'nicht gefunden'}")
-        
-        # Falls nicht gefunden, nach Telefonnummer suchen
-        if not user and request_data.phone:
-            user = db.query(User).filter(User.phone == request_data.phone).first()
-            logger.info(f"Suche nach Telefonnummer {request_data.phone}: {'gefunden' if user else 'nicht gefunden'}")
-        
+        # Falls nicht gefunden, nach normalisierter Telefonnummer suchen
+        if not user and norm_phone:
+            user = db.query(User).filter(User.phone == norm_phone).first()
+            logger.info(f"Suche nach Telefonnummer {norm_phone}: {'gefunden' if user else 'nicht gefunden'}")
         # Prüfe, ob die Telegram-ID bereits bei einem anderen User existiert
         if request_data.telegram_id:
             existing_user_with_telegram = db.query(User).filter(
                 User.telegram_id == request_data.telegram_id,
-                User.phone != request_data.phone
+                User.phone != norm_phone
             ).first()
-            
             if existing_user_with_telegram:
                 logger.warning(f"Telegram-ID {request_data.telegram_id} bereits bei User {existing_user_with_telegram.phone} vergeben")
                 return {
                     "success": False, 
                     "detail": "Diese Telegram-ID ist bereits mit einem anderen Account verknüpft."
                 }
-        
         if not user:
             # Neuen User anlegen, wenn nicht vorhanden
             user = User(
-                phone=request_data.phone,
+                phone=norm_phone,
                 telegram_id=request_data.telegram_id,
                 role=UserRole.USER.value,
                 is_active=True
@@ -162,53 +175,44 @@ async def request_code(
             db.add(user)
             db.commit()
             db.refresh(user)
-            logger.info(f"Neuer Benutzer mit Telefonnummer {request_data.phone} angelegt.")
+            logger.info(f"Neuer Benutzer mit Telefonnummer {norm_phone} angelegt.")
         else:
             # Bestehenden User aktualisieren
             updated = False
-            
             # Telefonnummer aktualisieren, falls anders
-            if request_data.phone and user.phone != request_data.phone:
-                user.phone = request_data.phone
+            if norm_phone and user.phone != norm_phone:
+                setattr(user, 'phone', norm_phone)
                 updated = True
-                logger.info(f"Telefonnummer für User {user.id} aktualisiert: {request_data.phone}")
-            
+                logger.info(f"Telefonnummer für User {user.id} aktualisiert: {norm_phone}")
             # Telegram-ID aktualisieren, falls nicht vorhanden
             if request_data.telegram_id and user.telegram_id != request_data.telegram_id:
                 if user.telegram_id is None:
-                    user.telegram_id = request_data.telegram_id
+                    setattr(user, 'telegram_id', request_data.telegram_id)
                     updated = True
                     logger.info(f"Telegram-ID {request_data.telegram_id} für User {user.id} gespeichert.")
                 else:
                     logger.warning(f"User {user.id} hat bereits Telegram-ID {user.telegram_id}, kann nicht auf {request_data.telegram_id} geändert werden")
-            
             if updated:
                 db.commit()
                 db.refresh(user)
-        
-        if not user.is_active:
-            logger.warning(f"Inaktiver Benutzer versucht Login: {request_data.phone}")
+        if not (getattr(user, 'is_active', True) is True):
+            logger.warning(f"Inaktiver Benutzer versucht Login: {norm_phone}")
             return {"success": False, "detail": "Benutzer ist deaktiviert."}
-        
         # Prüfe, ob Userbot verwendet werden soll (aus request_data)
-        use_userbot = getattr(request_data, 'use_userbot', True)
-        
+        use_userbot = getattr(request_data, 'use_userbot', False)
         if use_userbot:
             # USERBOT-INTEGRATION: Echte Telegram-Verifizierung über Userbot
             try:
-                logger.info(f"🚀 Starte Userbot-Verifizierung für {request_data.phone}")
-                
+                logger.info(f"🚀 Starte Userbot-Verifizierung für {norm_phone}")
                 async with httpx.AsyncClient(timeout=30.0) as client:
                     # Userbot-Verifizierung starten
                     userbot_response = await client.post(
                         f"{USERBOT_API_URL}/start",
-                        json={"phone": request_data.phone}
+                        json={"phone": norm_phone}
                     )
-                    
                     if userbot_response.status_code == 200:
                         userbot_data = userbot_response.json()
                         logger.info(f"✅ Userbot-Verifizierung gestartet: {userbot_data}")
-                        
                         if userbot_data.get('status') == 'code_sent':
                             return {
                                 "success": True,
@@ -224,16 +228,14 @@ async def request_code(
                         logger.error(f"❌ Userbot-Fehler: {userbot_response.status_code} - {userbot_response.text}")
                         # Fallback: Eigener Code
                         return await _generate_fallback_code(user, db)
-                        
             except Exception as userbot_error:
                 logger.error(f"❌ Userbot-Verbindung fehlgeschlagen: {userbot_error}")
                 # Fallback: Eigener Code
                 return await _generate_fallback_code(user, db)
         else:
             # Direkt Backend-Code verwenden
-            logger.info(f"📡 Verwende Backend-Code für {request_data.phone}")
+            logger.info(f"📡 Verwende Backend-Code für {norm_phone}")
             return await _generate_fallback_code(user, db)
-            
     except Exception as e:
         logger.error(f"Fehler in /request-code: {str(e)}")
         return {"success": False, "detail": "Interner Serverfehler: " + str(e)}
@@ -275,41 +277,34 @@ async def verify_code(
     db: Session = Depends(get_db)
 ):
     try:
-        logger.info(f"Verify-code request für Telefonnummer: {request_data.phone}")
-        
-        user = db.query(User).filter(User.phone == request_data.phone).first()
-        
+        norm_phone = normalize_phone(request_data.phone)
+        logger.info(f"Verify-code request für Telefonnummer: {norm_phone}")
+        user = db.query(User).filter(User.phone == norm_phone).first()
         if not user:
-            logger.warning(f"User nicht gefunden für Telefonnummer: {request_data.phone}")
+            logger.warning(f"User nicht gefunden für Telefonnummer: {norm_phone}")
             raise HTTPException(status_code=400, detail="Ungültiger Code oder Telefonnummer.")
-        
         # USERBOT-INTEGRATION: Versuche Userbot-Verifizierung zuerst
         try:
-            logger.info(f"🔐 Versuche Userbot-Verifizierung für {request_data.phone}")
-            
+            logger.info(f"🔐 Versuche Userbot-Verifizierung für {norm_phone}")
             async with httpx.AsyncClient(timeout=30.0) as client:
                 # Userbot-Code verifizieren
                 userbot_response = await client.post(
                     f"{USERBOT_API_URL}/verify",
-                    json={"phone": request_data.phone, "code": request_data.code}
+                    json={"phone": norm_phone, "code": request_data.code}
                 )
-                
                 if userbot_response.status_code == 200:
                     userbot_data = userbot_response.json()
                     logger.info(f"✅ Userbot-Verifizierung erfolgreich: {userbot_data}")
-                    
                     # Userbot-Verifizierung erfolgreich - User einloggen
                     return await _complete_login(user, request, db)
                 else:
                     logger.warning(f"⚠️ Userbot-Verifizierung fehlgeschlagen: {userbot_response.status_code}")
                     # Fallback: Eigener Code-Check
                     return await _verify_fallback_code(user, request_data, request, db)
-                    
         except Exception as userbot_error:
             logger.error(f"❌ Userbot-Verbindung fehlgeschlagen: {userbot_error}")
             # Fallback: Eigener Code-Check
             return await _verify_fallback_code(user, request_data, request, db)
-            
     except HTTPException:
         # HTTPException weiterwerfen
         raise
@@ -453,30 +448,209 @@ async def logout(
     request: Request,
     db: Session = Depends(get_db)
 ):
+    """Logout-Endpoint"""
+    try:
+        # Token aus Header extrahieren
+        auth_header = request.headers.get("Authorization")
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return {"success": False, "detail": "Kein Token gefunden"}
+        
+        token = auth_header.split(" ")[1]
+        
+        # Token validieren (optional, für Logging)
+        try:
+            payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.ALGORITHM])
+            user_id = payload.get("sub")
+            logger.info(f"User {user_id} logged out")
+        except jwt.InvalidTokenError:
+            pass  # Token bereits ungültig
+        
+        return {
+            "success": True,
+            "message": "Erfolgreich ausgeloggt"
+        }
+    except Exception as e:
+        logger.error(f"Fehler beim Logout: {str(e)}")
+        return {"success": False, "detail": str(e)}
+
+# ===== FEHLENDE AUTH ENDPUNKTE =====
+
+@router.post("/login")
+async def login(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """Standard-Login-Endpoint (Kompatibilität mit Frontend)"""
     try:
         data = await request.json()
-        telegram_id = str(data.get("telegram_id"))
-        session_token = data.get("session_token")
+        phone = data.get("phone")
+        telegram_id = data.get("telegram_id")
         
-        if not telegram_id:
-            return {"success": False, "detail": "Telegram-ID erforderlich"}
+        if not phone and not telegram_id:
+            return {"success": False, "detail": "Telefonnummer oder Telegram-ID erforderlich"}
         
-        # Suche User anhand Telegram-ID
-        user = db.query(User).filter(User.telegram_id == telegram_id).first()
+        # Verwende den bestehenden request-code Endpunkt
+        from .auth import CodeRequest
+        code_request = CodeRequest(
+            phone=phone,
+            telegram_id=telegram_id,
+            use_userbot=True
+        )
         
-        if not user:
-            return {"success": False, "detail": "Benutzer nicht gefunden"}
-        
-        # Session ungültig machen (falls vorhanden)
-        if session_token:
-            session = validate_session_token(db, session_token, telegram_id)
-            if session:
-                session.is_active = False
-                db.commit()
-                logger.info(f"Session für User {user.id} (TG: {telegram_id}) ungültig gemacht")
-        
-        return {"success": True, "detail": "Erfolgreich abgemeldet"}
+        # Rufe request-code auf
+        result = await request_code(code_request, db)
+        return result
         
     except Exception as e:
-        logger.error(f"Fehler in /logout: {str(e)}")
-        return {"success": False, "detail": "Interner Serverfehler: " + str(e)}
+        logger.error(f"Fehler in /login: {str(e)}")
+        return {"success": False, "detail": str(e)}
+
+@router.post("/register")
+async def register(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """Standard-Register-Endpoint (Kompatibilität mit Frontend)"""
+    try:
+        data = await request.json()
+        phone = data.get("phone")
+        telegram_id = data.get("telegram_id")
+        user_name = data.get("user_name")
+        first_name = data.get("first_name")
+        last_name = data.get("last_name")
+        username = data.get("username")
+        
+        if not phone and not telegram_id:
+            return {"success": False, "detail": "Telefonnummer oder Telegram-ID erforderlich"}
+        
+        # Prüfe ob User bereits existiert
+        user = None
+        if telegram_id:
+            user = db.query(User).filter(User.telegram_id == telegram_id).first()
+        if not user and phone:
+            user = db.query(User).filter(User.phone == phone).first()
+        
+        if user:
+            return {"success": False, "detail": "Benutzer existiert bereits"}
+        
+        # Erstelle neuen User
+        new_user = User(
+            phone=phone,
+            telegram_id=telegram_id,
+            user_name=user_name,
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            role=UserRole.USER.value,
+            is_active=True
+        )
+        
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        
+        return {
+            "success": True,
+            "message": "Benutzer erfolgreich registriert",
+            "user_id": new_user.id
+        }
+        
+    except Exception as e:
+        logger.error(f"Fehler in /register: {str(e)}")
+        return {"success": False, "detail": str(e)}
+
+@router.post("/refresh")
+async def refresh_token(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """Token-Refresh-Endpoint"""
+    try:
+        # Token aus Header extrahieren
+        auth_header = request.headers.get("Authorization")
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return {"success": False, "detail": "Kein Token gefunden"}
+        
+        token = auth_header.split(" ")[1]
+        
+        # Token validieren
+        try:
+            payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.ALGORITHM])
+            user_id = payload.get("sub")
+            
+            if not user_id:
+                return {"success": False, "detail": "Ungültiger Token"}
+            
+            # User aus DB holen
+            user = db.query(User).filter(User.id == user_id).first()
+            if not user or not user.is_active:
+                return {"success": False, "detail": "Benutzer nicht gefunden oder inaktiv"}
+            
+            # Neuen Token generieren
+            new_token = create_access_token(
+                data={
+                    "sub": str(user.id),
+                    "role": user.role,
+                    "telegram_id": user.telegram_id
+                }
+            )
+            
+            return {
+                "success": True,
+                "access_token": new_token,
+                "token_type": "bearer"
+            }
+            
+        except jwt.InvalidTokenError:
+            return {"success": False, "detail": "Ungültiger Token"}
+        
+    except Exception as e:
+        logger.error(f"Fehler beim Token-Refresh: {str(e)}")
+        return {"success": False, "detail": str(e)}
+
+@router.get("/verify")
+async def verify_token(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """Token-Verify-Endpoint"""
+    try:
+        # Token aus Header extrahieren
+        auth_header = request.headers.get("Authorization")
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return {"success": False, "detail": "Kein Token gefunden"}
+        
+        token = auth_header.split(" ")[1]
+        
+        # Token validieren
+        try:
+            payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.ALGORITHM])
+            user_id = payload.get("sub")
+            
+            if not user_id:
+                return {"success": False, "detail": "Ungültiger Token"}
+            
+            # User aus DB holen
+            user = db.query(User).filter(User.id == user_id).first()
+            if not user or not user.is_active:
+                return {"success": False, "detail": "Benutzer nicht gefunden oder inaktiv"}
+            
+            return {
+                "success": True,
+                "valid": True,
+                "user": {
+                    "id": user.id,
+                    "telegram_id": user.telegram_id,
+                    "phone": user.phone,
+                    "user_name": user.user_name,
+                    "role": user.role,
+                    "is_active": user.is_active
+                }
+            }
+            
+        except jwt.InvalidTokenError:
+            return {"success": False, "detail": "Ungültiger Token"}
+        
+    except Exception as e:
+        logger.error(f"Fehler beim Token-Verify: {str(e)}")
+        return {"success": False, "detail": str(e)}

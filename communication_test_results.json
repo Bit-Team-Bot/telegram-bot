@@ -1,0 +1,107 @@
+[
+  {
+    "test": "Backend Health",
+    "success": true,
+    "details": "Status: ok",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:10.228811"
+  },
+  {
+    "test": "Backend Status",
+    "success": true,
+    "details": "Service: backend",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:10.288330"
+  },
+  {
+    "test": "Userbot Health",
+    "success": true,
+    "details": "Status: ok",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:10.457288"
+  },
+  {
+    "test": "Userbot Status",
+    "success": false,
+    "details": "",
+    "error": "HTTP 404",
+    "timestamp": "2025-07-09T20:40:10.531967"
+  },
+  {
+    "test": "WebUI Health",
+    "success": true,
+    "details": "Frontend erreichbar",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:10.789611"
+  },
+  {
+    "test": "Backend User Registration",
+    "success": true,
+    "details": "User ID: 8",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:10.869956"
+  },
+  {
+    "test": "Backend User Status",
+    "success": true,
+    "details": "Paid: False",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:10.939953"
+  },
+  {
+    "test": "Userbot Phone Registration",
+    "success": false,
+    "details": "",
+    "error": "HTTP 404: {\"detail\":\"Not Found\"}",
+    "timestamp": "2025-07-09T20:40:11.009784"
+  },
+  {
+    "test": "Backend Packages API",
+    "success": true,
+    "details": "Packages found: 0",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:11.144154"
+  },
+  {
+    "test": "Backend Payments API",
+    "success": false,
+    "details": "",
+    "error": "HTTP 401: {\"detail\":\"Not authenticated\"}",
+    "timestamp": "2025-07-09T20:40:11.197051"
+  },
+  {
+    "test": "Backend Monitoring API",
+    "success": true,
+    "details": "Endpoints monitored: 0",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:11.272512"
+  },
+  {
+    "test": "Data Integrity",
+    "success": true,
+    "details": "User data consistent between endpoints",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:11.409813"
+  },
+  {
+    "test": "API Endpoint Consistency",
+    "success": false,
+    "details": "Success rate: 42.9%",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:11.867041"
+  },
+  {
+    "test": "Error Handling",
+    "success": false,
+    "details": "",
+    "error": "Unexpected status code: 500",
+    "timestamp": "2025-07-09T20:40:11.921471"
+  },
+  {
+    "test": "Response Time",
+    "success": true,
+    "details": "Average response time: 0.06s",
+    "error": "",
+    "timestamp": "2025-07-09T20:40:12.139865"
+  }
+]

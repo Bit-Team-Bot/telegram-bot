@@ -28,14 +28,17 @@ const packages = ref([])
 const selectedPackage = computed(() => packages.value.find(p => p.id == selectedPackageId.value))
 const myPayments = ref([])
 
+// Pakete laden
 const loadPackages = async () => {
-  const res = await fetch("https://api.bit-team-bot.online/packages/")
+  const res = await fetch("https://api.bit-team-bot.online/packages")
   packages.value = await res.json()
 }
+// Zahlungen laden
 const loadMyPayments = async () => {
   const res = await fetch(`https://api.bit-team-bot.online/payments/by_user/${authStore.userId}`)
   myPayments.value = await res.json()
 }
+// Zahlung anlegen
 const payForPackage = async () => {
   if (!selectedPackage.value) return
   const res = await fetch("https://api.bit-team-bot.online/payments/create", {

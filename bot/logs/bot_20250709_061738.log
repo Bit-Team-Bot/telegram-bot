@@ -1,0 +1,28 @@
+[DEBUG] group_admin_menu_handlers.py geladen
+[DEBUG] bot.py gestartet
+Bot startet, Handler werden registriert...
+2025-07-09 06:17:39,097 - __main__ - ERROR - Fehler bei Admin-Benachrichtigung nach Neustart: object async_generator can't be used in 'await' expression
+Python: 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]
+Pyrogram: 2.0.106
+tgcrypto nicht geladen: module 'TgCrypto' has no attribute '__version__'
+2025-07-09 06:17:39,104 - telethon.crypto.aes - INFO - libssl detected, it will be used for encryption
+Telethon: 1.34.0
+[DEBUG] Handler-Registrierung in bot.py
+[DEBUG] Handler-Registrierung abgeschlossen
+[DEBUG] bot.handlers.group_admin_menu_handlers importiert
+2025-07-09 06:17:39,276 - __main__ - INFO - 🚀 Telegram Bot wird gestartet...
+2025-07-09 06:17:39,455 - pyrogram.connection.connection - INFO - Connecting...
+2025-07-09 06:17:39,489 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-07-09 06:17:39,489 - pyrogram.session.session - INFO - NetworkTask started
+2025-07-09 06:17:39,647 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-07-09 06:17:39,647 - pyrogram.session.session - INFO - Device: CPython 3.11.2 - Pyrogram 2.0.106
+2025-07-09 06:17:39,647 - pyrogram.session.session - INFO - System: Linux 6.12.25+rpt-rpi-2712 (en)
+2025-07-09 06:17:39,647 - pyrogram.session.session - INFO - Session started
+2025-07-09 06:17:39,649 - pyrogram.session.session - INFO - PingTask started
+2025-07-09 06:17:39,732 - pyrogram.dispatcher - INFO - Started 8 HandlerTasks
+2025-07-09 06:24:04,474 - root - INFO - Stop signal received (SIGTERM). Exiting...
+2025-07-09 06:24:05,111 - pyrogram.dispatcher - INFO - Stopped 8 HandlerTasks
+2025-07-09 06:24:05,112 - pyrogram.session.session - INFO - PingTask stopped
+2025-07-09 06:24:05,112 - pyrogram.connection.connection - INFO - Disconnected
+2025-07-09 06:24:05,112 - pyrogram.session.session - INFO - NetworkTask stopped
+2025-07-09 06:24:05,112 - pyrogram.session.session - INFO - Session stopped

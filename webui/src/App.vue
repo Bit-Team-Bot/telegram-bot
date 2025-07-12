@@ -45,25 +45,18 @@ onMounted(async () => {
         console.log('ℹ️ Keine gültige Session gefunden:', error.message)
       }
 
-      // Wenn keine Session wiederhergestellt wurde, versuche automatisches Login
-      if (!sessionRestored) {
-        console.log('ℹ️ Versuche automatisches Login für registrierte User...')
-
-        // Automatisches Login nur mit Session-Token, nicht mit hardcodierten IDs
-        const session = localStorage.getItem('wallstreet_session')
-        if (session) {
-          try {
-            const sessionData = JSON.parse(session)
-            if (sessionData.telegram_id && sessionData.session_token) {
-              console.log('🔄 Versuche Session-basiertes Auto-Login...')
-
+      // Auto-Login: Nutze /auth/auto-login
+      const session = localStorage.getItem('wallstreet_session')
+      if (session) {
+        try {
+          const sessionData = JSON.parse(session)
+          if (sessionData.telegram_id && sessionData.session_token) {
+            console.log('🔄 Versuche Session-basiertes Auto-Login...')
             const response = await api.post('/auth/auto-login', {
-                telegram_id: sessionData.telegram_id,
-                session_token: sessionData.session_token
+              telegram_id: sessionData.telegram_id,
+              session_token: sessionData.session_token
             })
-
             console.log('✅ Automatisches Login erfolgreich:', response.data)
-
             await authStore.loginSession({
               phone: response.data.user.phone,
               user_id: response.data.user.id,
@@ -73,27 +66,23 @@ onMounted(async () => {
               is_superadmin: response.data.user.role === 'SUPERADMIN',
               user_name: response.data.user.username
             })
-
             console.log('✅ Login-Session gespeichert')
             console.log('🔧 Store Login Status nach Login:', authStore.isLoggedIn)
-
-              // Leite zum Dashboard weiter
-              console.log('🔄 Leite zum Dashboard weiter...')
-              router.push('/dashboard')
-              return
-            }
-          } catch (error) {
-            console.log('❌ Session-basiertes Auto-Login fehlgeschlagen:', error.response?.data)
-            // Session löschen, da sie ungültig ist
-            localStorage.removeItem('wallstreet_session')
+            // Leite zum Dashboard weiter
+            console.log('🔄 Leite zum Dashboard weiter...')
+            router.push('/dashboard')
+            return
           }
+        } catch (error) {
+          console.log('❌ Session-basiertes Auto-Login fehlgeschlagen:', error.response?.data)
+          localStorage.removeItem('wallstreet_session')
         }
+      }
 
-          console.log('ℹ️ Kein automatisches Login möglich, zeige Login-Seite')
-          // Auch bei Fehler zur Login-Seite weiterleiten, falls nicht bereits dort
-          if (route.path !== '/login') {
-            router.push('/login')
-        }
+      console.log('ℹ️ Kein automatisches Login möglich, zeige Login-Seite')
+      // Auch bei Fehler zur Login-Seite weiterleiten, falls nicht bereits dort
+      if (route.path !== '/login') {
+        router.push('/login')
       }
     } else {
       console.log('✅ Bereits eingeloggt')

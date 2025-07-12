@@ -1,17 +1,16 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import admin, auth, signalgroup, group_warning, group_mute, group_kick
-from .database import engine, Base
-from .config import settings
+from backend.app.routes import admin, auth, signalgroup, group_warning, group_mute, group_kick
+from backend.app.database import engine, Base
+from backend.app.config import settings
 import logging
 import uvicorn
 import os
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from .tasks.session_cleanup import run_daily_maintenance
+from backend.app.tasks.session_cleanup import run_daily_maintenance
 import requests
 from datetime import datetime
 import pytz
-from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages, groups
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # LOG_PATH = os.path.join(BASE_DIR, 'dist', 'app.log')
@@ -44,14 +43,18 @@ app = FastAPI(
 )
 
 # CORS-Konfiguration (nur HTTPS für Sicherheit)
-origins = [
-    "https://webui.bit-team-bot.online",
-    "https://bit-team-bot.online",
-    "https://www.bit-team-bot.online",
-    "https://api.bit-team-bot.online",
-    "https://web.telegram.org",
-    "https://t.me"
-]
+cors_env = os.getenv("CORS_ORIGINS")
+if cors_env:
+    origins = [o.strip() for o in cors_env.split(",") if o.strip()]
+else:
+    origins = [
+        "https://webui.bit-team-bot.online",
+        "https://bit-team-bot.online",
+        "https://www.bit-team-bot.online",
+        "https://api.bit-team-bot.online",
+        "https://web.telegram.org",
+        "https://t.me"
+    ]
 
 app.add_middleware(
     CORSMiddleware,
@@ -72,8 +75,8 @@ app.include_router(group_kick.router)
 
 # Importiere und binde alle anderen Router ein
 try:
-    # Versuche zuerst die Router aus app/routes zu importieren
-    from .routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages, groups
+    # Versuche zuerst die Router aus backend.app/routes zu importieren
+    from backend.app.routes import packages, payments, users, monitoring, wallet, dashboard, admin_packages, user_packages, groups, support, userbot
     
     app.include_router(packages.router, prefix="/packages", tags=["Packages"])
     app.include_router(payments.router, prefix="/payments", tags=["Payments"])
@@ -84,6 +87,8 @@ try:
     app.include_router(admin_packages.router, tags=["Admin Packages"])
     app.include_router(user_packages.router, tags=["User Packages"])
     app.include_router(groups.router, prefix="/groups", tags=["Groups"])
+    app.include_router(support.router, prefix="/support", tags=["Support"])
+    app.include_router(userbot.router, tags=["Userbot"])
     
     logger.info("✅ Alle Router erfolgreich eingebunden")
 except ImportError as e:
@@ -197,9 +202,9 @@ async def shutdown_event():
 # Server starten
 if __name__ == "__main__":
     uvicorn.run(
-        "app.main:app",
-        host=settings.HOST,
-        port=settings.PORT,
+        "backend.app.main:app",
+        host=settings.HOST or "0.0.0.0",
+        port=settings.PORT or 8000,
         reload=True,
-        log_level=settings.LOG_LEVEL.lower()
+        log_level=(settings.LOG_LEVEL or "info").lower()
     ) 

@@ -1,6 +1,39 @@
 <template>
-  <div class="packages-container">
-    <main class="packages-content">
+  <div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="header-section">
+      <img src="@/assets/wallstreet-header.png" alt="Wallstreet Crypto Header" class="header-image" />
+    </div>
+    
+    <!-- User Role Box für Paketstatus -->
+    <div class="user-role-box">
+      <div class="role-content">
+        <!-- Current Package Info -->
+        <div v-if="currentPackage.has_package" class="current-package-info">
+          <h3>🎯 Ihr aktuelles Paket</h3>
+          <div class="current-package-card">
+            <div class="package-info">
+              <h4>{{ currentPackage.template?.display_name || currentPackage.package.name }}</h4>
+              <p class="package-status">Status: {{ currentPackage.package.status }}</p>
+              <p class="package-dates">
+                {{ formatDate(currentPackage.package.start_date) }} - {{ formatDate(currentPackage.package.end_date) }}
+              </p>
+            </div>
+            <div class="package-features">
+              <h5>Features:</h5>
+              <ul>
+                <li v-for="(value, key) in currentPackage.features" :key="key">
+                  {{ key }}: {{ value ? '✅' : '❌' }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
       <div class="page-header">
         <h1 class="page-title">Pakete & Add-ons</h1>
         <p class="page-subtitle">Wählen Sie Ihr Trading-Paket und erweitern Sie es mit Add-ons</p>
@@ -18,49 +51,30 @@
         <button @click="loadPackages" class="btn-primary">Erneut versuchen</button>
       </div>
 
-      <!-- Current Package Info -->
-      <div v-if="currentPackage.has_package" class="current-package-info">
-        <h3>🎯 Ihr aktuelles Paket</h3>
-        <div class="current-package-card">
-          <div class="package-info">
-            <h4>{{ currentPackage.template?.display_name || currentPackage.package.name }}</h4>
-            <p class="package-status">Status: {{ currentPackage.package.status }}</p>
-            <p class="package-dates">
-              {{ formatDate(currentPackage.package.start_date) }} - {{ formatDate(currentPackage.package.end_date) }}
-            </p>
-          </div>
-          <div class="package-features">
-            <h5>Features:</h5>
-            <ul>
-              <li v-for="(value, key) in currentPackage.features" :key="key">
-                {{ key }}: {{ value ? '✅' : '❌' }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
       <!-- Available Packages -->
       <div v-if="packages.length > 0" class="packages-section">
         <h3>📦 Verfügbare Pakete</h3>
-        <div class="packages-grid">
+        <div class="nav-grid">
         <div 
           v-for="pkg in packages" 
           :key="pkg.id" 
-          class="package-card"
+          class="nav-card"
           :class="{ featured: pkg.featured, selected: selectedPackage?.id === pkg.id }"
         >
           <div v-if="pkg.featured" class="package-badge">Empfohlen</div>
-          <div class="package-header">
-              <h3 class="package-name">{{ pkg.display_name }}</h3>
-              <div class="package-pricing">
-                <div v-if="pkg.monthly_price" class="package-price">€{{ pkg.monthly_price }}/Monat</div>
-                <div v-if="pkg.one_time_price" class="package-price">€{{ pkg.one_time_price }} einmalig</div>
-              </div>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+            </svg>
           </div>
-            
+          <h3 class="card-title">{{ pkg.display_name }}</h3>
+          <p class="card-description">
+            <div v-if="pkg.monthly_price">€{{ pkg.monthly_price }}/Monat</div>
+            <div v-if="pkg.one_time_price">€{{ pkg.one_time_price }} einmalig</div>
+          </p>
+          
           <div class="package-features">
-              <h5>Features:</h5>
+            <h5>Features:</h5>
             <ul>
               <template v-if="Object.values(pkg.features).filter(v => v).length === 0">
                 <li>Keine Features enthalten</li>
@@ -70,18 +84,18 @@
                   ✅ {{ getFeatureName(key) }}
                 </li>
               </template>
-              </ul>
+            </ul>
             <button class="btn-secondary mt-2" @click="router.push(`/packages/details/${pkg.id}`)">
               Alle Features anzeigen
             </button>
-            </div>
+          </div>
 
-            <div v-if="pkg.available_addons && pkg.available_addons.length > 0" class="package-addons">
-              <h5>Verfügbare Add-ons:</h5>
-              <ul>
-                <li v-for="addon in pkg.available_addons" :key="addon.id">
-                  {{ addon.display_name }}
-                </li>
+          <div v-if="pkg.available_addons && pkg.available_addons.length > 0" class="package-addons">
+            <h5>Verfügbare Add-ons:</h5>
+            <ul>
+              <li v-for="addon in pkg.available_addons" :key="addon.id">
+                {{ addon.display_name }}
+              </li>
             </ul>
           </div>
 
@@ -92,26 +106,29 @@
           >
             {{ selectedPackage?.id === pkg.id ? 'Ausgewählt' : 'Paket auswählen' }}
           </button>
-          </div>
+        </div>
         </div>
       </div>
 
       <!-- Available Add-ons -->
       <div v-if="currentPackage.has_package && availableAddons.length > 0" class="addons-section">
         <h3>🔧 Verfügbare Add-ons</h3>
-        <div class="addons-grid">
+        <div class="nav-grid">
           <div 
             v-for="addon in availableAddons" 
             :key="addon.id" 
-            class="addon-card"
+            class="nav-card"
           >
-            <div class="addon-header">
-              <h4>{{ addon.display_name }}</h4>
-              <div class="addon-pricing">
-                <div v-if="addon.monthly_price" class="addon-price">€{{ addon.monthly_price }}/Monat</div>
-                <div v-if="addon.one_time_price" class="addon-price">€{{ addon.one_time_price }} einmalig</div>
-              </div>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+              </svg>
             </div>
+            <h3 class="card-title">{{ addon.display_name }}</h3>
+            <p class="card-description">
+              <div v-if="addon.monthly_price">€{{ addon.monthly_price }}/Monat</div>
+              <div v-if="addon.one_time_price">€{{ addon.one_time_price }} einmalig</div>
+            </p>
             
             <p class="addon-description">{{ addon.description }}</p>
             
@@ -138,15 +155,17 @@
       </div>
 
       <!-- Selected Package Summary -->
-      <div v-if="selectedPackage" class="selected-package">
-        <h3>Ausgewähltes Paket: {{ selectedPackage.display_name }}</h3>
-        <div class="selected-package-details">
-          <p v-if="selectedPackage.monthly_price">Monatspreis: €{{ selectedPackage.monthly_price }}</p>
-          <p v-if="selectedPackage.one_time_price">Einmalpreis: €{{ selectedPackage.one_time_price }}</p>
+      <div v-if="selectedPackage" class="user-role-box">
+        <div class="role-content">
+          <h3>Ausgewähltes Paket: {{ selectedPackage.display_name }}</h3>
+          <div class="selected-package-details">
+            <p v-if="selectedPackage.monthly_price">Monatspreis: €{{ selectedPackage.monthly_price }}</p>
+            <p v-if="selectedPackage.one_time_price">Einmalpreis: €{{ selectedPackage.one_time_price }}</p>
+          </div>
+          <button @click="purchasePackage" class="btn-primary" :disabled="loading">
+            {{ loading ? 'Verarbeite...' : 'Jetzt kaufen' }}
+          </button>
         </div>
-        <button @click="purchasePackage" class="btn-primary" :disabled="loading">
-          {{ loading ? 'Verarbeite...' : 'Jetzt kaufen' }}
-        </button>
       </div>
 
       <div class="back-section">
@@ -154,7 +173,7 @@
           ← Zurück zum Dashboard
         </button>
       </div>
-    </main>
+    </div>
   </div>
 </template>
 
@@ -329,452 +348,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-.packages-container {
-  min-height: 100vh;
-  background-color: var(--bg-primary);
-  display: flex;
-  flex-direction: column;
-}
-
-.packages-content {
-  flex: 1;
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.page-header {
-  text-align: center;
-  margin-bottom: 48px;
-}
-
-.page-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: var(--text-white);
-  margin: 0 0 16px 0;
-}
-
-.page-subtitle {
-  color: var(--text-gray);
-  font-size: 1.2rem;
-  margin: 0;
-}
-
-.loading-container {
-  text-align: center;
-  padding: 48px;
-}
-
-.loading-spinner {
-  border: 4px solid var(--bg-secondary);
-  border-top: 4px solid var(--accent-orange);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 16px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.error-container {
-  text-align: center;
-  padding: 48px;
-}
-
-.error-message {
-  color: #ff6b6b;
-  margin-bottom: 16px;
-}
-
-.packages-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-bottom: 48px;
-}
-
-.package-card {
-  background-color: var(--bg-secondary);
-  border-radius: var(--border-radius);
-  padding: 32px;
-  box-shadow: var(--shadow-3d);
-  transition: transform 0.2s ease;
-  position: relative;
-  border: 2px solid transparent;
-}
-
-.package-card:hover {
-  transform: translateY(-4px);
-}
-
-.package-card.featured {
-  border-color: var(--accent-orange);
-  transform: scale(1.05);
-}
-
-.package-card.featured:hover {
-  transform: scale(1.05) translateY(-4px);
-}
-
-.package-card.selected {
-  border-color: #4CAF50;
-  background-color: rgba(76, 175, 80, 0.1);
-}
-
-.package-badge {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--accent-orange);
-  color: var(--text-white);
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.package-header {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.package-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--text-white);
-  margin: 0 0 8px 0;
-}
-
-.package-price {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: var(--accent-orange);
-  margin: 0;
-}
-
-.package-features {
-  margin-bottom: 32px;
-}
-
-.package-features ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.package-features li {
-  color: var(--text-white);
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-}
-
-.package-button {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-}
-
-.selected-package {
-  background-color: var(--bg-secondary);
-  border-radius: var(--border-radius);
-  padding: 24px;
-  margin-bottom: 32px;
-  text-align: center;
-  border: 2px solid #4CAF50;
-}
-
-.selected-package h3 {
-  color: var(--text-white);
-  margin: 0 0 8px 0;
-}
-
-.selected-package p {
-  color: var(--text-gray);
-  margin: 0 0 16px 0;
-}
-
-.back-section {
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .packages-content {
-    padding: 16px;
-  }
-  
-  .page-title {
-    font-size: 2rem;
-  }
-  
-  .packages-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .package-card {
-    padding: 24px;
-  }
-}
-
-/* Current Package Info */
-.current-package-info {
-  margin-bottom: 48px;
-}
-
-.current-package-info h3 {
-  color: var(--text-white);
-  margin-bottom: 16px;
-  font-size: 1.5rem;
-}
-
-.current-package-card {
-  background-color: var(--bg-secondary);
-  border-radius: var(--border-radius);
-  padding: 24px;
-  border: 2px solid var(--accent-orange);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.package-info h4 {
-  color: var(--text-white);
-  margin: 0 0 12px 0;
-  font-size: 1.3rem;
-}
-
-.package-status {
-  color: var(--accent-orange);
-  font-weight: bold;
-  margin: 0 0 8px 0;
-}
-
-.package-dates {
-  color: var(--text-gray);
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.package-features h5 {
-  color: var(--text-white);
-  margin: 0 0 12px 0;
-}
-
-.package-features ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.package-features li {
-  color: var(--text-white);
-  margin-bottom: 4px;
-  font-size: 0.9rem;
-}
-
-/* Packages Section */
-.packages-section {
-  margin-bottom: 48px;
-}
-
-.packages-section h3 {
-  color: var(--text-white);
-  margin-bottom: 24px;
-  font-size: 1.5rem;
-}
-
-.package-pricing {
-  text-align: center;
-}
-
-.package-price {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: var(--accent-orange);
-  margin: 4px 0;
-}
-
-.package-addons {
-  margin-top: 16px;
-}
-
-.package-addons h5 {
-  color: var(--text-white);
-  margin: 0 0 8px 0;
-  font-size: 0.9rem;
-}
-
-.package-addons ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.package-addons li {
-  color: var(--text-gray);
-  font-size: 0.8rem;
-  margin-bottom: 2px;
-}
-
-/* Add-ons Section */
-.addons-section {
-  margin-bottom: 48px;
-}
-
-.addons-section h3 {
-  color: var(--text-white);
-  margin-bottom: 24px;
-  font-size: 1.5rem;
-}
-
-.addons-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.addon-card {
-  background-color: var(--bg-secondary);
-  border-radius: var(--border-radius);
-  padding: 20px;
-  box-shadow: var(--shadow-3d);
-  transition: transform 0.2s ease;
-  border: 2px solid transparent;
-}
-
-.addon-card:hover {
-  transform: translateY(-2px);
-}
-
-.addon-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-}
-
-.addon-header h4 {
-  color: var(--text-white);
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.addon-pricing {
-  text-align: right;
-}
-
-.addon-price {
-  color: var(--accent-orange);
-  font-weight: bold;
-  font-size: 0.9rem;
-  margin: 2px 0;
-}
-
-.addon-description {
-  color: var(--text-gray);
-  margin: 0 0 16px 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.addon-tiers h5 {
-  color: var(--text-white);
-  margin: 0 0 8px 0;
-  font-size: 0.9rem;
-}
-
-.tiers-list {
-  margin-bottom: 16px;
-}
-
-.tier-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.tier-item:last-child {
-  border-bottom: none;
-}
-
-.tier-level {
-  color: var(--accent-orange);
-  font-weight: bold;
-  font-size: 0.8rem;
-}
-
-.tier-price {
-  color: var(--text-white);
-  font-weight: bold;
-  font-size: 0.8rem;
-}
-
-.tier-description {
-  color: var(--text-gray);
-  font-size: 0.7rem;
-  flex: 1;
-  text-align: right;
-  margin-left: 8px;
-}
-
-.addon-button {
-  width: 100%;
-  padding: 10px;
-  font-size: 0.9rem;
-}
-
-/* Selected Package */
-.selected-package-details {
-  margin-bottom: 16px;
-}
-
-.selected-package-details p {
-  color: var(--text-gray);
-  margin: 4px 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .current-package-card {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .addons-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .addon-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .addon-pricing {
-    text-align: left;
-    margin-top: 8px;
-  }
-  
-  .tier-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  
-  .tier-description {
-    text-align: left;
-    margin-left: 0;
-  }
-}
-</style> 
+<!-- Styles werden aus globaler index.css verwendet --> 

@@ -8,7 +8,7 @@ WorkingDirectory=/home/manny/telegram-bot
 # .env laden und PYTHONPATH setzen
 EnvironmentFile=/home/manny/telegram-bot/.env
 Environment=PYTHONPATH=/home/manny/telegram-bot
-ExecStart=/home/manny/telegram-bot/venv/bin/python3 -m backend.app.main
+ExecStart=/home/manny/telegram-bot/venv/bin/uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
 Restart=on-failure
 User=manny
 

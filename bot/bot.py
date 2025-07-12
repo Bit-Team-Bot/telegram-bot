@@ -4,10 +4,17 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo, MenuButtonWebApp
 import requests
 import asyncio
-from bot.config import API_ID, API_HASH, BOT_TOKEN, WEBUI_URL, BACKEND_URL, USERBOT_SERVICE_URL
+import sys
+import os
+from pathlib import Path
+
+# Füge das Root-Verzeichnis zum Python-Pfad hinzu
+root_dir = Path(__file__).parent.parent
+sys.path.insert(0, str(root_dir))
+
+from bot.config import API_ID, API_HASH, BOT_TOKEN, WEBUI_URL, BACKEND_URL, USERBOT_URL
 from datetime import datetime
 from bot.handlers.group_management import GroupManagement
-import sys
 from bot.api_client import APIClient
 import aiohttp
 import xml.etree.ElementTree as ET
@@ -115,7 +122,7 @@ except Exception as e:
     print("Telethon nicht geladen:", e)
 
 backend_client = APIClient(BACKEND_URL)
-userbot_client = APIClient(USERBOT_SERVICE_URL)
+userbot_client = APIClient(USERBOT_URL)
 
 class BotError(Exception):
     """Custom exception für Bot-Fehler"""
@@ -137,7 +144,7 @@ def create_main_menu(user_id, user_status, use_webapp=True):
     """Erstellt dynamisches Hauptmenü basierend auf User-Status"""
     from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
     from bot.config import WEBUI_URL
-        btns = [
+    btns = [
         [InlineKeyboardButton("🌐 Webinterface öffnen", web_app=WebAppInfo(url=f"{WEBUI_URL}?user={user_id}"))]
     ]
     return InlineKeyboardMarkup(btns)
@@ -184,15 +191,17 @@ async def start_command(client, message):
         logger.error(f"❌ Fehler beim Senden der User-Daten: {e}")
     webapp_url = f"{WEBUI_URL}?user={user_id}"
     keyboard = create_main_menu(str(user_id), {"is_paid": False}, use_webapp=True)
+    login_url = f"https://webui.bit-team-bot.online/login?telegram_id={user_id}"
     response_text = (
         "Willkommen!\n\n"
         "🌐 Klicke auf den Button unten, um das Webinterface als Mini-App zu öffnen.\n\n"
+        f"🔑 <b>Browser-Login:</b> <a href='{login_url}'>{login_url}</a>\n\n"
         "ℹ️ <b>Wichtig:</b> <b>/start</b> funktioniert nur im <b>privaten Chat</b> mit dem Bot.\n"
         "In Gruppen kannst du als Admin das Menü mit <b>/menu</b> aufrufen.\n"
         "\n🆔 <b>Deine Telegram-ID:</b> <code>{user_id}</code>"
     )
-    await message.reply(response_text, reply_markup=keyboard)
-    logger.info(f"✅ Antwort an User {user_id} gesendet")
+    await message.reply(response_text, reply_markup=keyboard, disable_web_page_preview=False)
+    logger.info(f"✅ Antwort an User {user_id} gesendet (inkl. Login-Link)")
 
 @app.on_message(filters.contact)
 async def contact_handler(client, message):

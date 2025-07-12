@@ -1,435 +1,288 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <!-- Zurück-Button und Header -->
-    <div class="flex items-center justify-between mb-8">
-      <div class="flex items-center space-x-4">
-        <button
-          @click="$router.push('/dashboard')"
-          class="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-          </svg>
-          <span>Zurück zum Dashboard</span>
-        </button>
-        <h1 class="text-2xl font-bold">Partner verwalten</h1>
-      </div>
-      
-      <button
-        @click="showCreateModal = true"
-        class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
-      >
-        Neuen Partner erstellen
-      </button>
+  <div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="header-section">
+      <img src="@/assets/wallstreet-header.png" alt="Wallstreet Crypto Header" class="header-image" />
+
     </div>
-
-    <!-- Partner-Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="partner in partners" :key="partner.id" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h3 class="font-medium text-gray-900">{{ partner.display_name }}</h3>
-            <p class="text-sm text-gray-500">{{ partner.name }}</p>
-          </div>
-          <span :class="['px-2 py-1 rounded-full text-xs', partner.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800']">
-            {{ partner.is_active ? 'Aktiv' : 'Inaktiv' }}
-          </span>
-        </div>
-        
-        <p class="text-sm text-gray-600 mb-4">{{ partner.description }}</p>
-        
-        <div class="text-sm text-gray-500 mb-4">
-          <div>API Key: <code class="bg-gray-100 px-1 rounded">{{ partner.api_key }}</code></div>
-          <div>Webhook URL: <code class="bg-gray-100 px-1 rounded">{{ partner.webhook_url || 'Nicht gesetzt' }}</code></div>
-        </div>
-
-        <div class="mb-4">
-          <h4 class="font-medium text-sm mb-2">Berechtigungen:</h4>
-          <div class="space-y-1">
-            <div v-for="(enabled, permission) in partner.permissions" :key="permission" class="text-xs">
-              <span :class="enabled ? 'text-green-600' : 'text-gray-400'">
-                {{ enabled ? '✅' : '❌' }} {{ getPermissionName(permission) }}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex space-x-2">
-          <button
-            @click="editPartner(partner)"
-            class="text-blue-600 hover:text-blue-900 text-sm transition-colors"
-          >
-            Bearbeiten
-          </button>
-          <button
-            @click="deletePartner(partner)"
-            class="text-red-600 hover:text-red-900 text-sm transition-colors"
-          >
-            Löschen
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="partner-manager">
+        <div class="manager-header">
+          <h1 class="manager-title">Partnerverwaltung</h1>
+          <button @click="showAddPartnerModal = true" class="add-button">
+            <svg class="button-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Partner hinzufügen
           </button>
         </div>
-      </div>
-    </div>
 
-    <!-- Partner Tabelle -->
-    <div v-if="isSuperAdmin" class="mb-8">
-      <h2 class="text-xl font-semibold mb-4">Partner</h2>
-      <div class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Telegram ID
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Telefon
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Aktionen
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="partner in partners" :key="partner.id">
-              <td class="px-6 py-4 whitespace-nowrap">{{ partner.telegram_id }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ partner.phone }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  :class="[
-                    'px-2 py-1 text-xs rounded-full',
-                    partner.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                  ]"
-                >
-                  {{ partner.is_active ? 'Aktiv' : 'Inaktiv' }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <button
-                  @click="editPartner(partner)"
-                  class="text-blue-600 hover:text-blue-900 mr-3"
-                >
-                  Bearbeiten
+        <div class="tabs-container">
+          <div class="tabs">
+            <button 
+              @click="activeTab = 'partners'" 
+              :class="['tab-button', activeTab === 'partners' ? 'tab-active' : '']"
+            >
+              Partner
+            </button>
+            <button
+              @click="activeTab = 'users'" 
+              :class="['tab-button', activeTab === 'users' ? 'tab-active' : '']"
+            >
+              Benutzer
+            </button>
+            <button
+              @click="activeTab = 'payments'" 
+              :class="['tab-button', activeTab === 'payments' ? 'tab-active' : '']"
+            >
+              Zahlungen
+            </button>
+          </div>
+        </div>
+
+        <!-- Partners Tab -->
+        <div v-if="activeTab === 'partners'" class="tab-content">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Telegram</th>
+                  <th>Status</th>
+                  <th>Aktionen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="partner in partners" :key="partner.id">
+                  <td>{{ partner.id }}</td>
+                  <td>{{ partner.name }}</td>
+                  <td>{{ partner.email }}</td>
+                  <td>{{ partner.telegram_id }}</td>
+                  <td>
+                    <span :class="['status-badge', partner.is_active ? 'status-active' : 'status-inactive']">
+                      {{ partner.is_active ? 'Aktiv' : 'Inaktiv' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button @click="editPartner(partner)" class="action-button edit">Bearbeiten</button>
+                    <button @click="togglePartnerStatus(partner)" class="action-button toggle">
+                      {{ partner.is_active ? 'Deaktivieren' : 'Aktivieren' }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div v-if="activeTab === 'users'" class="tab-content">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Partner</th>
+                  <th>Status</th>
+                  <th>Aktionen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="user in partnerUsers" :key="user.id">
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.partner_name }}</td>
+                  <td>
+                    <span :class="['status-badge', user.is_active ? 'status-active' : 'status-inactive']">
+                      {{ user.is_active ? 'Aktiv' : 'Inaktiv' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button @click="editUser(user)" class="action-button edit">Bearbeiten</button>
+                    <button @click="toggleUserStatus(user)" class="action-button toggle">
+                      {{ user.is_active ? 'Deaktivieren' : 'Aktivieren' }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Payments Tab -->
+        <div v-if="activeTab === 'payments'" class="tab-content">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Partner</th>
+                  <th>Betrag</th>
+                  <th>Status</th>
+                  <th>Datum</th>
+                  <th>Aktionen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="payment in partnerPayments" :key="payment.id">
+                  <td>{{ payment.id }}</td>
+                  <td>{{ payment.partner_name }}</td>
+                  <td>{{ payment.amount }} USDT</td>
+                  <td>
+                    <span :class="['status-badge', payment.status === 'completed' ? 'status-active' : 'status-inactive']">
+                      {{ payment.status }}
+                    </span>
+                  </td>
+                  <td>{{ formatDate(payment.created_at) }}</td>
+                  <td>
+                    <button @click="editPayment(payment)" class="action-button edit">Bearbeiten</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Add Partner Modal -->
+        <div v-if="showAddPartnerModal" class="modal-overlay" @click="showAddPartnerModal = false">
+          <div class="modal-content" @click.stop>
+            <h2 class="modal-title">Partner hinzufügen</h2>
+            <form @submit.prevent="addPartner" class="modal-form">
+              <div class="form-group">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  id="name"
+                  v-model="newPartner.name" 
+                  type="text"
+                  required
+                  class="form-input"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  id="email"
+                  v-model="newPartner.email" 
+                  type="email" 
+                  required
+                  class="form-input"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label for="telegram" class="form-label">Telegram ID</label>
+                <input
+                  id="telegram"
+                  v-model="newPartner.telegram_id" 
+                  type="text"
+                  class="form-input"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Status</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input
+                      type="checkbox"
+                      v-model="newPartner.is_active"
+                      class="checkbox-input"
+                    />
+                    Aktiv
+                  </label>
+                </div>
+              </div>
+              
+              <div class="modal-actions">
+                <button type="button" @click="showAddPartnerModal = false" class="cancel-button">
+                  Abbrechen
                 </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Signal-Gruppen Tabelle -->
-    <div class="mb-8">
-      <h2 class="text-xl font-semibold mb-4">Signal-Gruppen</h2>
-      <div class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Name
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Beschreibung
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Preis
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Aktionen
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="group in signalGroups" :key="group.id">
-              <td class="px-6 py-4 whitespace-nowrap">{{ group.name }}</td>
-              <td class="px-6 py-4">{{ group.description }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ group.price }} BUSD</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  :class="[
-                    'px-2 py-1 text-xs rounded-full',
-                    group.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                  ]"
-                >
-                  {{ group.is_active ? 'Aktiv' : 'Inaktiv' }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <button
-                  @click="editSignalGroup(group)"
-                  class="text-blue-600 hover:text-blue-900"
-                >
-                  Bearbeiten
+                <button type="submit" class="submit-button">
+                  Hinzufügen
                 </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+              </div>
+            </form>
+          </div>
+        </div>
 
-    <!-- Zahlungen Tabelle -->
-    <div>
-      <h2 class="text-xl font-semibold mb-4">Zahlungen</h2>
-      <div class="mb-4">
-        <select
-          v-model="selectedPaymentType"
-          class="border rounded px-3 py-2"
-          @change="loadPayments"
-        >
-          <option value="">Alle Zahlungen</option>
-          <option value="SIGNAL_GROUP">Signal-Gruppen</option>
-          <option value="PACKAGE">Pakete</option>
-        </select>
-      </div>
-      <div class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Benutzer
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Betrag
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Typ
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Datum
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Aktionen
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="payment in payments" :key="payment.id">
-              <td class="px-6 py-4 whitespace-nowrap">{{ payment.user.telegram_id }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ payment.amount }} {{ payment.currency }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ payment.payment_type }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  :class="[
-                    'px-2 py-1 text-xs rounded-full',
-                    getStatusClass(payment.status)
-                  ]"
-                >
-                  {{ payment.status }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                {{ new Date(payment.created_at).toLocaleDateString() }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <button
-                  v-if="isSuperAdmin"
-                  @click="editPayment(payment)"
-                  class="text-blue-600 hover:text-blue-900"
-                >
-                  Bearbeiten
+        <!-- Edit Partner Modal -->
+        <div v-if="showEditPartnerModal" class="modal-overlay" @click="showEditPartnerModal = false">
+          <div class="modal-content" @click.stop>
+            <h2 class="modal-title">Partner bearbeiten</h2>
+            <form @submit.prevent="updatePartner" class="modal-form">
+              <div class="form-group">
+                <label for="edit-name" class="form-label">Name</label>
+                <input
+                  id="edit-name"
+                  v-model="editingPartner.name" 
+                  type="text"
+                  required
+                  class="form-input"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label for="edit-email" class="form-label">Email</label>
+                <input 
+                  id="edit-email"
+                  v-model="editingPartner.email" 
+                  type="email" 
+                  required
+                  class="form-input"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label for="edit-telegram" class="form-label">Telegram ID</label>
+                <input
+                  id="edit-telegram"
+                  v-model="editingPartner.telegram_id" 
+                  type="text"
+                  class="form-input"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Status</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input 
+                      type="checkbox" 
+                      v-model="editingPartner.is_active"
+                      class="checkbox-input"
+                    />
+                    Aktiv
+                  </label>
+                </div>
+              </div>
+
+              <div class="modal-actions">
+                <button type="button" @click="showEditPartnerModal = false" class="cancel-button">
+                  Abbrechen
                 </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <button type="submit" class="submit-button">
+                  Speichern
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Partner Modal -->
-    <div v-if="showCreatePartnerModal || showEditPartnerModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white rounded-lg p-6 w-full max-w-md">
-        <h3 class="text-lg font-semibold mb-4">
-          {{ showEditPartnerModal ? 'Partner bearbeiten' : 'Neuer Partner' }}
-        </h3>
-        <form @submit.prevent="savePartner">
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Telegram ID</label>
-            <input
-              v-model="currentPartner.telegram_id"
-              type="text"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Telefon</label>
-            <input
-              v-model="currentPartner.phone"
-              type="text"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div class="mb-4">
-            <h4 class="text-sm font-medium text-gray-700 mb-2">Berechtigungen</h4>
-            <div class="space-y-2">
-              <label class="flex items-center">
-                <input
-                  v-model="currentPartner.permissions.can_manage_users"
-                  type="checkbox"
-                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                />
-                <span class="ml-2 text-sm text-gray-600">Benutzer verwalten</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  v-model="currentPartner.permissions.can_manage_packages"
-                  type="checkbox"
-                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                />
-                <span class="ml-2 text-sm text-gray-600">Pakete verwalten</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  v-model="currentPartner.permissions.can_manage_payments"
-                  type="checkbox"
-                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                />
-                <span class="ml-2 text-sm text-gray-600">Zahlungen verwalten</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  v-model="currentPartner.permissions.can_manage_signal_groups"
-                  type="checkbox"
-                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                />
-                <span class="ml-2 text-sm text-gray-600">Signal-Gruppen verwalten</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  v-model="currentPartner.permissions.can_view_statistics"
-                  type="checkbox"
-                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                />
-                <span class="ml-2 text-sm text-gray-600">Statistiken einsehen</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  v-model="currentPartner.permissions.can_manage_features"
-                  type="checkbox"
-                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                />
-                <span class="ml-2 text-sm text-gray-600">Funktionen verwalten</span>
-              </label>
-            </div>
-          </div>
-          <div class="flex justify-end space-x-3">
-            <button
-              type="button"
-              @click="showCreatePartnerModal = false; showEditPartnerModal = false"
-              class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-            >
-              Abbrechen
-            </button>
-            <button
-              type="submit"
-              class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
-            >
-              Speichern
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Signal-Gruppe Modal -->
-    <div v-if="showCreateSignalGroupModal || showEditSignalGroupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white rounded-lg p-6 w-full max-w-md">
-        <h3 class="text-lg font-semibold mb-4">
-          {{ showEditSignalGroupModal ? 'Signal-Gruppe bearbeiten' : 'Neue Signal-Gruppe' }}
-        </h3>
-        <form @submit.prevent="saveSignalGroup">
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Name</label>
-            <input
-              v-model="currentSignalGroup.name"
-              type="text"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Beschreibung</label>
-            <textarea
-              v-model="currentSignalGroup.description"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              rows="3"
-              required
-            ></textarea>
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Preis (BUSD)</label>
-            <input
-              v-model="currentSignalGroup.price"
-              type="number"
-              step="0.01"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div class="flex justify-end space-x-3">
-            <button
-              type="button"
-              @click="showCreateSignalGroupModal = false; showEditSignalGroupModal = false"
-              class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-            >
-              Abbrechen
-            </button>
-            <button
-              type="submit"
-              class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
-            >
-              Speichern
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Zahlung Modal -->
-    <div v-if="showEditPaymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white rounded-lg p-6 w-full max-w-md">
-        <h3 class="text-lg font-semibold mb-4">Zahlung bearbeiten</h3>
-        <form @submit.prevent="savePayment">
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Status</label>
-            <select
-              v-model="currentPayment.status"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              required
-            >
-              <option value="PENDING">Ausstehend</option>
-              <option value="COMPLETED">Abgeschlossen</option>
-              <option value="FAILED">Fehlgeschlagen</option>
-              <option value="REFUNDED">Rückerstattet</option>
-            </select>
-          </div>
-          <div class="flex justify-end space-x-3">
-            <button
-              type="button"
-              @click="showEditPaymentModal = false"
-              class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-            >
-              Abbrechen
-            </button>
-            <button
-              type="submit"
-              class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
-            >
-              Speichern
-            </button>
-          </div>
-        </form>
-      </div>
+    
+    <!-- Back to Dashboard Section -->
+    <div class="back-section">
+      <BaseButton @click="$router.push('/dashboard')">
+        Zurück zum Dashboard
+      </BaseButton>
     </div>
   </div>
 </template>
@@ -612,3 +465,5 @@ const getStatusClass = (status) => {
   }
 }
 </script> 
+
+<!-- Styles werden aus globaler index.css verwendet --> 

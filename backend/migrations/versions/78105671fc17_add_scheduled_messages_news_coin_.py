@@ -29,7 +29,7 @@ def upgrade() -> None:
     #op.add_column('groups', sa.Column('updated_at', sa.DateTime(), nullable=True))
     op.drop_index(op.f('ix_groups_id'), table_name='groups')
     op.create_index(op.f('ix_groups_id'), 'groups', ['id'], unique=True)
-    op.create_index(op.f('ix_groups_group_id'), 'groups', ['group_id'], unique=True)
+    # op.create_index(op.f('ix_groups_group_id'), 'groups', ['group_id'], unique=True)  # Bereits vorhanden, daher auskommentiert
     op.drop_column('groups', 'paket_ablauf')
     op.drop_column('groups', 'admin_id')
     op.drop_column('groups', 'paket_status')
@@ -86,7 +86,7 @@ def downgrade() -> None:
     op.add_column('groups', sa.Column('paket_status', sa.TEXT(), nullable=True))
     op.add_column('groups', sa.Column('admin_id', sa.INTEGER(), nullable=False))
     op.add_column('groups', sa.Column('paket_ablauf', sa.DATETIME(), nullable=True))
-    op.drop_index(op.f('ix_groups_group_id'), table_name='groups')
+    # op.drop_index(op.f('ix_groups_group_id'), table_name='groups')  # Bereits vorhanden, daher auskommentiert
     op.drop_index(op.f('ix_groups_id'), table_name='groups')
     op.create_index(op.f('ix_groups_id'), 'groups', ['id'], unique=True)
     op.drop_column('groups', 'updated_at')

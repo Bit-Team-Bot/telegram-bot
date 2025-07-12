@@ -93,37 +93,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.signalgroups-manager {
-  padding: 40px;
-  color: #ffb52a;
-  background: #191c22;
-}
-table {
-  width: 100%;
-  margin-top: 24px;
-  background: #232632;
-  color: #fff;
-  border-radius: 8px;
-  overflow: hidden;
-}
-th, td {
-  padding: 10px;
-  text-align: left;
-}
-dialog {
-  position: fixed;
-  top: 15vh;
-  left: 50vw;
-  transform: translate(-50%,0);
-  background: #232632;
-  color: #fff;
-  padding: 30px;
-  border-radius: 14px;
-  box-shadow: 0 2px 24px #0007;
-}
-form > * { display: block; margin-bottom: 14px; }
-input[type="number"], input[type="text"] { background: #2c2f3a; color: #ffe199; border: none; border-radius: 6px; padding: 6px 8px; }
-button { background: #ffb52a; color: #232632; border: none; border-radius: 8px; font-weight: bold; margin-right: 12px; padding: 8px 16px; }
-button[type="button"] { background: #888; color: #fff; }
-</style>
+<!-- Styles werden aus globaler index.css verwendet -->

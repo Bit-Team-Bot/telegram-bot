@@ -501,7 +501,6 @@ export default {
 
 .status-active {
   background: #27ae60;
-  color: white;
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 0.8rem;
@@ -510,7 +509,6 @@ export default {
 
 .status-inactive {
   background: #e74c3c;
-  color: white;
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 0.8rem;
@@ -576,7 +574,6 @@ export default {
 
 .btn-primary {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
 }
 
 .btn-primary:hover {

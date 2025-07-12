@@ -10,7 +10,6 @@ from typing import Dict, Any, Optional, List
 from fastapi import HTTPException, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
-import requests
 
 # Logger-Konfiguration
 logging.basicConfig(

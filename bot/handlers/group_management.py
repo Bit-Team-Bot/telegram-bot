@@ -72,28 +72,34 @@ class GroupManagement:
             logger.info(f"Gruppe {chat_id} wurde im Backend registriert.")
         except Exception as e:
             logger.error(f"Fehler bei der Backend-Registrierung der Gruppe {chat_id}: {e}")
-        await message.reply(welcome_text)
+        # Logging vor dem Senden
+        logger.info(f"[DEBUG] Sende Begrüßungsnachricht an Gruppe {chat_id}: {welcome_text}")
+        try:
+            await message.reply(welcome_text)
+            logger.info(f"[DEBUG] Begrüßungsnachricht erfolgreich an Gruppe {chat_id} gesendet.")
+        except Exception as e:
+            logger.error(f"[ERROR] Begrüßungsnachricht konnte nicht an Gruppe {chat_id} gesendet werden: {e}")
         logger.info(f"Bot wurde zu Gruppe {chat_id} hinzugefügt.")
 
     async def on_new_member(self, message: Message):
         logger = logging.getLogger(__name__)
         try:
-        user = message.new_chat_members[0]
-        chat_id = message.chat.id
+            user = message.new_chat_members[0]
+            chat_id = message.chat.id
             logger.info(f"[DEBUG] on_new_member: user_id={user.id}, chat_id={chat_id}, user={user}")
-        settings = await self.get_group_settings(chat_id)
-        welcome_text = settings.get("welcome_message", self.get_default_welcome_message())
+            settings = await self.get_group_settings(chat_id)
+            welcome_text = settings.get("welcome_message", self.get_default_welcome_message())
             logger.info(f"[DEBUG] welcome_text (vor Platzhalter): {welcome_text}")
             # Platzhalter ersetzen
             try:
-        welcome_text = welcome_text.replace("{username}", user.first_name or "User")
+                welcome_text = welcome_text.replace("{username}", user.first_name or "User")
                 welcome_text = welcome_text.replace("{mention}", getattr(user, "mention", str(user.id)))
-        welcome_text = welcome_text.replace("{group_name}", message.chat.title)
+                welcome_text = welcome_text.replace("{group_name}", message.chat.title)
             except Exception as e:
                 logger.error(f"[DEBUG] Fehler beim Platzhalter-Ersatz: {e}")
             logger.info(f"[DEBUG] welcome_text (nach Platzhalter): {welcome_text}")
-        await message.reply(welcome_text)
-        logger.info(f"Neues Mitglied {user.id} in Gruppe {chat_id} begrüßt.")
+            await message.reply(welcome_text)
+            logger.info(f"Neues Mitglied {user.id} in Gruppe {chat_id} begrüßt.")
         except Exception as e:
             logger.error(f"[DEBUG] Fehler in on_new_member: {e}")
 

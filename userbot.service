@@ -1,0 +1,37 @@
+[Unit]
+Description=Telegram Userbot Service (FastAPI)
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/manny/telegram-bot/userbot_service
+User=manny
+Group=manny
+
+# Environment-Variablen laden
+EnvironmentFile=/home/manny/telegram-bot/.env
+Environment=PYTHONPATH=/home/manny/telegram-bot
+Environment=PATH=/home/manny/telegram-bot/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Python Virtual Environment verwenden
+ExecStart=python3 -m uvicorn main:app --host 0.0.0.0 --port 8001 --reload
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Restart-Policy
+Restart=always
+RestartSec=10
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=userbot-service
+
+# Sicherheit
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/home/manny/telegram-bot/userbot_service/sessions
+
+[Install]
+WantedBy=multi-user.target 

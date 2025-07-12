@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.database import get_db
-from app.models import (
+from ..database import get_db
+from ..models import (
     PackageTemplate, Addon, AddonTier, PackageAddon, 
     User, Package, UserAddon, Payment
 )
-from app.routes.auth import get_current_user
+from .auth import get_current_user
 from typing import List, Optional
 import json
 from datetime import datetime
@@ -86,10 +86,11 @@ def get_current_package(db: Session = Depends(get_db), current_user: User = Depe
     # Aktives Paket des Users finden
     active_package = db.query(Package).filter(
         Package.user_id == current_user.id,
-        Package.status == "active"
+        getattr(Package, 'status', None) == "active"
     ).first()
     
-    if not active_package:
+    # Superadmin/Partner: Immer Zugriff, auch ohne aktives Paket
+    if active_package is None and not (getattr(current_user, 'is_superadmin', False) or getattr(current_user, 'role', None) == 'partner'):
         return {
             "has_package": False,
             "package": None,
@@ -101,9 +102,9 @@ def get_current_package(db: Session = Depends(get_db), current_user: User = Depe
     # Template-Informationen holen
     template = None
     features = {}
-    if active_package.template_id:
+    if active_package is not None and getattr(active_package, 'template_id', None) is not None:
         template = db.query(PackageTemplate).filter(PackageTemplate.id == active_package.template_id).first()
-        if template:
+        if template is not None:
             features = template.features
             if isinstance(features, str):
                 try:
@@ -122,9 +123,9 @@ def get_current_package(db: Session = Depends(get_db), current_user: User = Depe
     addons_data = []
     for ua in user_addons:
         addon = db.query(Addon).filter(Addon.id == ua.addon_id).first()
-        if addon:
+        if addon is not None:
             tier = None
-            if ua.tier_id:
+            if getattr(ua, 'tier_id', None) is not None:
                 tier = db.query(AddonTier).filter(AddonTier.id == ua.tier_id).first()
             
             addons_data.append({
@@ -137,28 +138,28 @@ def get_current_package(db: Session = Depends(get_db), current_user: User = Depe
                     "level": tier.level,
                     "price": tier.price,
                     "description": tier.description
-                } if tier else None,
-                "start_date": ua.start_date.isoformat() if ua.start_date else None,
-                "end_date": ua.end_date.isoformat() if ua.end_date else None
+                } if tier is not None else None,
+                "start_date": ua.start_date.isoformat() if getattr(ua, 'start_date', None) is not None else None,
+                "end_date": ua.end_date.isoformat() if getattr(ua, 'end_date', None) is not None else None
             })
     
     return {
         "has_package": True,
         "package": {
-            "id": active_package.id,
-            "name": active_package.name,
-            "price": active_package.price,
-            "duration_days": active_package.duration_days,
-            "status": active_package.status,
-            "start_date": active_package.start_date.isoformat() if active_package.start_date else None,
-            "end_date": active_package.end_date.isoformat() if active_package.end_date else None
+            "id": active_package.id if active_package is not None else 0,
+            "name": active_package.name if active_package is not None else "Superadmin/Partner-Zugriff",
+            "price": active_package.price if active_package is not None else 0,
+            "duration_days": active_package.duration_days if active_package is not None else 0,
+            "status": active_package.status if active_package is not None else "active",
+            "start_date": active_package.start_date.isoformat() if active_package is not None and getattr(active_package, 'start_date', None) is not None else None,
+            "end_date": active_package.end_date.isoformat() if active_package is not None and getattr(active_package, 'end_date', None) is not None else None
         },
         "template": {
-            "id": template.id,
-            "name": template.name,
-            "display_name": template.display_name,
-            "package_type": template.package_type
-        } if template else None,
+            "id": template.id if template is not None else 0,
+            "name": template.name if template is not None else "Superadmin/Partner-Zugriff",
+            "display_name": template.display_name if template is not None else "Superadmin/Partner-Zugriff",
+            "package_type": template.package_type if template is not None else "all"
+        } if template is not None or (getattr(current_user, 'is_superadmin', False) or getattr(current_user, 'role', None) == 'partner') else None,
         "features": features,
         "addons": addons_data
     }
@@ -167,13 +168,13 @@ def get_current_package(db: Session = Depends(get_db), current_user: User = Depe
 @router.post("/addons/{addon_id}/book", response_model=dict)
 def book_addon(addon_id: int, tier_id: Optional[int] = None, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Add-on für den User buchen"""
-    # Prüfen ob User ein aktives Paket hat
+    # Prüfen ob User ein aktives Paket hat ODER Superadmin/Partner ist
     active_package = db.query(Package).filter(
         Package.user_id == current_user.id,
-        Package.status == "active"
+        getattr(Package, 'status', None) == "active"
     ).first()
     
-    if not active_package:
+    if not (active_package or current_user.is_superadmin or current_user.role == 'partner'):
         raise HTTPException(status_code=400, detail="Sie benötigen ein aktives Paket, um Add-ons zu buchen")
     
     # Add-on prüfen
@@ -182,15 +183,16 @@ def book_addon(addon_id: int, tier_id: Optional[int] = None, db: Session = Depen
         raise HTTPException(status_code=400, detail="Add-on nicht gefunden")
     
     # Prüfen ob Add-on für das aktuelle Paket verfügbar ist
-    if active_package.template_id:
+    if active_package and active_package.template_id:
         package_addon = db.query(PackageAddon).filter(
             PackageAddon.package_template_id == active_package.template_id,
             PackageAddon.addon_id == addon_id,
             PackageAddon.is_enabled == True
         ).first()
         
-        if not package_addon:
+        if not package_addon and not (current_user.is_superadmin or current_user.role == 'partner'):
             raise HTTPException(status_code=400, detail="Dieses Add-on ist für Ihr Paket nicht verfügbar")
+    # Wenn kein aktives Paket, aber Superadmin/Partner: Add-on trotzdem erlauben
     
     # Prüfen ob User das Add-on bereits hat
     existing_addon = db.query(UserAddon).filter(
@@ -229,11 +231,11 @@ def book_addon(addon_id: int, tier_id: Optional[int] = None, db: Session = Depen
     
     db.add(user_addon)
     
-    # Payment erstellen
+    # Payment erstellen (optional: für Superadmin/Partner auf 0 setzen)
     payment = Payment(
         user_id=current_user.id,
         addon_id=addon_id,
-        amount=price,
+        amount=0 if (current_user.is_superadmin or current_user.role == 'partner') else price,
         status="pending"
     )
     
@@ -246,7 +248,7 @@ def book_addon(addon_id: int, tier_id: Optional[int] = None, db: Session = Depen
         "message": f"Add-on '{addon.display_name}' wurde erfolgreich gebucht",
         "user_addon_id": user_addon.id,
         "payment_id": payment.id,
-        "price": price
+        "price": 0 if (current_user.is_superadmin or current_user.role == 'partner') else price
     }
 
 # --- Add-on kündigen ---
@@ -259,12 +261,12 @@ def cancel_addon(addon_id: int, db: Session = Depends(get_db), current_user: Use
         UserAddon.status == "active"
     ).first()
     
-    if not user_addon:
+    if user_addon is None:
         raise HTTPException(status_code=404, detail="Add-on nicht gefunden")
     
     # Add-on deaktivieren
-    user_addon.status = "inactive"
-    user_addon.end_date = datetime.utcnow()
+    setattr(user_addon, 'status', "inactive")
+    setattr(user_addon, 'end_date', datetime.utcnow())
     
     db.commit()
     
@@ -282,9 +284,9 @@ def list_user_addons(db: Session = Depends(get_db), current_user: User = Depends
     result = []
     for ua in user_addons:
         addon = db.query(Addon).filter(Addon.id == ua.addon_id).first()
-        if addon:
+        if addon is not None:
             tier = None
-            if ua.tier_id:
+            if getattr(ua, 'tier_id', None) is not None:
                 tier = db.query(AddonTier).filter(AddonTier.id == ua.tier_id).first()
             
             result.append({
@@ -300,10 +302,10 @@ def list_user_addons(db: Session = Depends(get_db), current_user: User = Depends
                     "level": tier.level,
                     "price": tier.price,
                     "description": tier.description
-                } if tier else None,
+                } if tier is not None else None,
                 "status": ua.status,
-                "start_date": ua.start_date.isoformat() if ua.start_date else None,
-                "end_date": ua.end_date.isoformat() if ua.end_date else None
+                "start_date": ua.start_date.isoformat() if getattr(ua, 'start_date', None) is not None else None,
+                "end_date": ua.end_date.isoformat() if getattr(ua, 'end_date', None) is not None else None
             })
     
     return result 

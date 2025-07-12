@@ -2,9 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from ..database import get_db
-from app.models import User, Package
+from ..models import User, Package, UserbotSession
 from ..auth import get_current_user
 from pydantic import BaseModel
+from ..schemas import UserbotSessionCreate
+import logging
 
 router = APIRouter()
 
@@ -75,7 +77,33 @@ async def purchase_package(
     
     # Hier würde die Zahlungslogik implementiert werden
     # Für jetzt erstellen wir nur eine einfache Bestätigung
-    
+
+    # Userbot-Session automatisch anlegen, falls noch keine existiert
+    try:
+        existing_session = db.query(UserbotSession).filter(
+            UserbotSession.user_id == current_user.id
+        ).first()
+        if not existing_session:
+            session_data = UserbotSessionCreate(
+                session_name="Auto-Session",
+                session_type="message_forwarding",
+                phone=current_user.phone or "",
+                is_active=True
+            )
+            new_session = UserbotSession(
+                user_id=current_user.id,
+                session_name=session_data.session_name,
+                session_type=session_data.session_type,
+                phone=session_data.phone,
+                is_active=True
+            )
+            db.add(new_session)
+            db.commit()
+            db.refresh(new_session)
+            logging.info(f"Userbot-Session automatisch für User {current_user.id} nach Paketkauf angelegt.")
+    except Exception as e:
+        logging.error(f"Fehler beim automatischen Anlegen der Userbot-Session: {e}")
+
     return {
         "status": "success",
         "message": f"Paket {package['name']} erfolgreich gekauft",

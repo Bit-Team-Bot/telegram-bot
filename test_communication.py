@@ -10,6 +10,10 @@ import time
 import logging
 from datetime import datetime
 from typing import Dict, List, Any
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Logging konfigurieren
 logging.basicConfig(
@@ -19,9 +23,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Konfiguration
-BACKEND_URL = "https://api.bit-team-bot.online"
-USERBOT_URL = "https://userbot.bit-team-bot.online"
-WEBUI_URL = "https://webui.bit-team-bot.online"
+BACKEND_URL = os.getenv("BACKEND_URL")
+USERBOT_URL = os.getenv("USERBOT_URL")
+WEBUI_URL = os.getenv("WEBUI_URL")
 
 # Test-Daten
 TEST_USER = {

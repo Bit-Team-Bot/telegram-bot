@@ -61,3 +61,5 @@ flask==3.0.3
 
 # ===== APScheduler =====
 apscheduler==3.10.4
+# ===== SQL Datenbank =====
+psycopg2-binary-2.9.10

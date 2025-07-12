@@ -1,4 +1,4 @@
-from app.models import Payment
+from ..models import Payment
 from sqlalchemy.orm import Session
 from datetime import datetime
 

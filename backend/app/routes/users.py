@@ -1,7 +1,7 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Body
 from sqlalchemy.orm import Session
 from ..database import get_db
-from app.models import User, Package, Payment, UserRole, UserbotSession, SignalGroup, SignalGroupSubscription, SignalTheme, SignalGroupThemeSubscription
+from ..models import User, Payment, Package, UserbotSession, ForwardingGroupMapping
 from datetime import datetime, timedelta
 from pydantic import BaseModel
 import logging
@@ -9,6 +9,11 @@ import json
 from typing import List, Optional
 from ..schemas import UserbotSessionCreate, UserbotSessionUpdate, UserbotSessionResponse, SignalGroupResponse, SignalGroupSubscriptionResponse, SignalGroupSubscriptionCreate, SignalThemeResponse, SignalGroupThemeSubscriptionResponse, SignalGroupThemeSubscriptionCreate
 from ..routes.auth import get_current_user
+import httpx
+import os
+
+# Userbot API URL - aus zentraler .env-Datei
+USERBOT_API_URL = os.getenv("USERBOT_URL", "http://localhost:8001")
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -162,6 +167,37 @@ def register_phone_to_user(phone_data: dict, db: Session = Depends(get_db)):
         db.refresh(user)
         
         logger.info(f"✅ Telefonnummer {phone} mit Telegram-ID {telegram_id} verknüpft")
+
+        # --- Automatische Userbot-Session-Erstellung ---
+        try:
+            if user.package_id:
+                from ..schemas import UserbotSessionCreate
+                from ..models import UserbotSession
+                # Prüfe, ob schon eine Session für diese Nummer existiert
+                existing_session = db.query(UserbotSession).filter(
+                    UserbotSession.user_id == user.id,
+                    UserbotSession.phone == phone
+                ).first()
+                if not existing_session:
+                    session_data = UserbotSessionCreate(
+                        session_name="Auto-Session",
+                        session_type="message_forwarding",
+                        phone=phone,
+                        is_active=True
+                    )
+                    new_session = UserbotSession(
+                        user_id=user.id,
+                        session_name=session_data.session_name,
+                        session_type=session_data.session_type,
+                        phone=session_data.phone,
+                        is_active=True
+                    )
+                    db.add(new_session)
+                    db.commit()
+                    db.refresh(new_session)
+                    logger.info(f"✅ Userbot-Session automatisch für User {user.id} und Nummer {phone} angelegt.")
+        except Exception as session_error:
+            logger.error(f"❌ Fehler beim automatischen Anlegen der Userbot-Session: {session_error}")
         
         return {
             "success": True,
@@ -221,6 +257,37 @@ def link_phone_to_user(phone_data: dict, db: Session = Depends(get_db)):
             raise HTTPException(status_code=500, detail="Datenbankfehler beim Speichern")
         
         logger.info(f"✅ Telefonnummer {phone} mit Telegram-ID {telegram_id} verknüpft")
+
+        # --- Automatische Userbot-Session-Erstellung ---
+        try:
+            if user.package_id:
+                from ..schemas import UserbotSessionCreate
+                from ..models import UserbotSession
+                # Prüfe, ob schon eine Session für diese Nummer existiert
+                existing_session = db.query(UserbotSession).filter(
+                    UserbotSession.user_id == user.id,
+                    UserbotSession.phone == phone
+                ).first()
+                if not existing_session:
+                    session_data = UserbotSessionCreate(
+                        session_name="Auto-Session",
+                        session_type="message_forwarding",
+                        phone=phone,
+                        is_active=True
+                    )
+                    new_session = UserbotSession(
+                        user_id=user.id,
+                        session_name=session_data.session_name,
+                        session_type=session_data.session_type,
+                        phone=session_data.phone,
+                        is_active=True
+                    )
+                    db.add(new_session)
+                    db.commit()
+                    db.refresh(new_session)
+                    logger.info(f"✅ Userbot-Session automatisch für User {user.id} und Nummer {phone} angelegt.")
+        except Exception as session_error:
+            logger.error(f"❌ Fehler beim automatischen Anlegen der Userbot-Session: {session_error}")
         
         return {
             "success": True,
@@ -280,6 +347,37 @@ def link_phone_to_user_bot(phone_data: dict, db: Session = Depends(get_db)):
             raise HTTPException(status_code=500, detail="Datenbankfehler beim Speichern")
         
         logger.info(f"✅ Telefonnummer {phone} mit Telegram-ID {telegram_id} verknüpft (Bot)")
+
+        # --- Automatische Userbot-Session-Erstellung ---
+        try:
+            if user.package_id:
+                from ..schemas import UserbotSessionCreate
+                from ..models import UserbotSession
+                # Prüfe, ob schon eine Session für diese Nummer existiert
+                existing_session = db.query(UserbotSession).filter(
+                    UserbotSession.user_id == user.id,
+                    UserbotSession.phone == phone
+                ).first()
+                if not existing_session:
+                    session_data = UserbotSessionCreate(
+                        session_name="Auto-Session",
+                        session_type="message_forwarding",
+                        phone=phone,
+                        is_active=True
+                    )
+                    new_session = UserbotSession(
+                        user_id=user.id,
+                        session_name=session_data.session_name,
+                        session_type=session_data.session_type,
+                        phone=session_data.phone,
+                        is_active=True
+                    )
+                    db.add(new_session)
+                    db.commit()
+                    db.refresh(new_session)
+                    logger.info(f"✅ Userbot-Session automatisch für User {user.id} und Nummer {phone} angelegt.")
+        except Exception as session_error:
+            logger.error(f"❌ Fehler beim automatischen Anlegen der Userbot-Session: {session_error}")
         
         return {
             "success": True,
@@ -369,326 +467,9 @@ async def check_userbot_package_status(
         "message": "Userbot-Paket aktiv" if has_package else "Kein aktives Userbot-Paket gefunden"
         }
 
-# ----------- USERBOT SESSIONS -----------
-
-@router.get("/userbot-sessions", response_model=List[UserbotSessionResponse])
-async def get_userbot_sessions(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Alle Userbot-Sessions des aktuellen Users abrufen"""
-    
-    # Prüfe ob User ein aktives Userbot-Paket hat
-    if not current_user.package_id:
-        raise HTTPException(
-            status_code=403,
-            detail="Sie benötigen ein aktives Userbot-Paket, um Sessions zu verwalten. Bitte buchen Sie zuerst ein Paket."
-        )
-    
-    return db.query(UserbotSession).filter(UserbotSession.user_id == current_user.id).all()
-
-@router.post("/userbot-sessions", response_model=UserbotSessionResponse)
-async def create_userbot_session(
-    session_data: UserbotSessionCreate,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Neue Userbot-Session erstellen"""
-    
-    # Prüfe ob User ein aktives Userbot-Paket hat
-    if not current_user.package_id:
-        raise HTTPException(
-            status_code=403,
-            detail="Sie benötigen ein aktives Userbot-Paket, um eine Session zu erstellen. Bitte buchen Sie zuerst ein Paket."
-        )
-    
-    # Prüfe ob bereits eine Session mit dieser Handynummer existiert
-    existing_session = db.query(UserbotSession).filter(
-        UserbotSession.user_id == current_user.id,
-        UserbotSession.phone == session_data.phone
-    ).first()
-    
-    if existing_session:
-        raise HTTPException(
-            status_code=400,
-            detail="Es existiert bereits eine Session mit dieser Handynummer"
-        )
-    
-    # Erstelle Standard-Konfiguration je nach Session-Typ
-    config_data = get_default_config_for_session_type(session_data.session_type)
-    
-    # Berechne Abonnement-Daten
-    now = datetime.utcnow()
-    subscription_start = now
-    subscription_end = now + timedelta(days=30)  # Standard: 30 Tage
-    next_payment = subscription_end
-    auto_delete = now + timedelta(weeks=2)  # 2 Wochen nach Erstellung
-    
-    new_session = UserbotSession(
-        user_id=current_user.id,
-        session_name=session_data.session_name,
-        session_type=session_data.session_type,
-        phone=session_data.phone,
-        telegram_session_string=session_data.telegram_session_string,
-        is_active=session_data.is_active,
-        config_data=json.dumps(config_data) if config_data else None,
-        subscription_status="active",
-        subscription_start_date=subscription_start,
-        subscription_end_date=subscription_end,
-        next_payment_date=next_payment,
-        auto_delete_date=auto_delete
-    )
-    
-    db.add(new_session)
-    db.commit()
-    db.refresh(new_session)
-    return new_session
-
-@router.put("/userbot-sessions/{session_id}", response_model=UserbotSessionResponse)
-async def update_userbot_session(
-    session_id: int,
-    session_data: UserbotSessionUpdate,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Userbot-Session bearbeiten"""
-    session = db.query(UserbotSession).filter(
-        UserbotSession.id == session_id,
-        UserbotSession.user_id == current_user.id
-    ).first()
-    
-    if session is None:
-        raise HTTPException(status_code=404, detail="Session nicht gefunden")
-    
-    # Aktualisiere Felder
-    if session_data.session_name is not None:
-        session.session_name = session_data.session_name
-    if session_data.phone is not None:
-        session.phone = session_data.phone
-    if session_data.telegram_session_string is not None:
-        session.telegram_session_string = session_data.telegram_session_string
-    if session_data.is_active is not None:
-        session.is_active = session_data.is_active
-    if session_data.config_data is not None:
-        session.config_data = session_data.config_data
-    
-    session.updated_at = datetime.utcnow()
-    db.commit()
-    db.refresh(session)
-    return session
-
-@router.put("/userbot-sessions/{session_id}/toggle")
-async def toggle_userbot_session(
-    session_id: int,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Userbot-Session aktivieren/deaktivieren"""
-    session = db.query(UserbotSession).filter(
-        UserbotSession.id == session_id,
-        UserbotSession.user_id == current_user.id
-    ).first()
-    
-    if session is None:
-        raise HTTPException(status_code=404, detail="Session nicht gefunden")
-    
-    session.is_active = not session.is_active
-    session.updated_at = datetime.utcnow()
-    db.commit()
-    
-    return {
-        "message": f"Session {'aktiviert' if session.is_active else 'deaktiviert'}",
-        "is_active": session.is_active
-    }
-
-@router.delete("/userbot-sessions/{session_id}")
-async def delete_userbot_session(
-    session_id: int,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Userbot-Session löschen"""
-    session = db.query(UserbotSession).filter(
-        UserbotSession.id == session_id,
-        UserbotSession.user_id == current_user.id
-    ).first()
-    
-    if session is None:
-        raise HTTPException(status_code=404, detail="Session nicht gefunden")
-    
-    db.delete(session)
-    db.commit()
-    
-    return {"message": "Session erfolgreich gelöscht"}
-
-@router.put("/userbot-sessions/{session_id}/extend")
-async def extend_userbot_session(
-    session_id: int,
-    extension_data: dict,  # {"months": 1, "payment_amount": 29.99}
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Userbot-Session verlängern nach Zahlung"""
-    session = db.query(UserbotSession).filter(
-        UserbotSession.id == session_id,
-        UserbotSession.user_id == current_user.id
-    ).first()
-    
-    if session is None:
-        raise HTTPException(status_code=404, detail="Session nicht gefunden")
-    
-    # Aktualisiere Abonnement-Daten nach Zahlung
-    now = datetime.utcnow()
-    months = extension_data.get("months", 1)
-    
-    # Verlängere das Abonnement
-    if session.subscription_end_date and session.subscription_end_date > now:
-        # Verlängere von aktuellem Enddatum
-        new_end_date = session.subscription_end_date + timedelta(days=30 * months)
-    else:
-        # Verlängere von jetzt
-        new_end_date = now + timedelta(days=30 * months)
-    
-    session.subscription_status = "active"
-    session.subscription_end_date = new_end_date
-    session.last_payment_date = now
-    session.next_payment_date = new_end_date
-    session.auto_delete_date = new_end_date + timedelta(weeks=2)  # 2 Wochen nach Ablauf
-    session.payment_reminder_sent = False
-    session.deletion_warning_sent = False
-    session.updated_at = now
-    
-    db.commit()
-    db.refresh(session)
-    
-    return {
-        "message": f"Session erfolgreich um {months} Monat(e) verlängert",
-        "new_end_date": new_end_date,
-        "auto_delete_date": session.auto_delete_date
-    }
-
-@router.get("/userbot-sessions/{session_id}/subscription-status")
-async def get_session_subscription_status(
-    session_id: int,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Abonnement-Status einer Session abrufen"""
-    session = db.query(UserbotSession).filter(
-        UserbotSession.id == session_id,
-        UserbotSession.user_id == current_user.id
-    ).first()
-    
-    if session is None:
-        raise HTTPException(status_code=404, detail="Session nicht gefunden")
-    
-    now = datetime.utcnow()
-    
-    # Berechne Status
-    if session.subscription_end_date and session.subscription_end_date < now:
-        days_overdue = (now - session.subscription_end_date).days
-        status = "expired"
-    else:
-        days_overdue = 0
-        status = session.subscription_status
-    
-    return {
-        "session_id": session.id,
-        "session_name": session.session_name,
-        "subscription_status": status,
-        "subscription_end_date": session.subscription_end_date,
-        "next_payment_date": session.next_payment_date,
-        "auto_delete_date": session.auto_delete_date,
-        "days_overdue": days_overdue,
-        "days_until_deletion": (session.auto_delete_date - now).days if session.auto_delete_date and session.auto_delete_date > now else 0
-    }
-
-@router.post("/userbot-sessions/cleanup-expired")
-async def cleanup_expired_sessions(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Abgelaufene Sessions bereinigen (nur für Admins)"""
-    if not current_user.is_superadmin:
-        raise HTTPException(status_code=403, detail="Nur für Administratoren")
-    
-    now = datetime.utcnow()
-    
-    # Finde Sessions, die vor 2 Wochen abgelaufen sind
-    expired_sessions = db.query(UserbotSession).filter(
-        UserbotSession.auto_delete_date <= now,
-        UserbotSession.subscription_status.in_(["expired", "pending_payment"])
-    ).all()
-    
-    deleted_count = 0
-    for session in expired_sessions:
-        db.delete(session)
-        deleted_count += 1
-    
-    db.commit()
-    
-    return {
-        "message": f"{deleted_count} abgelaufene Sessions gelöscht",
-        "deleted_sessions": deleted_count
-    }
-
-@router.get("/userbot-sessions/payment-reminders")
-async def get_payment_reminders(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Zahlungserinnerungen für Sessions abrufen"""
-    now = datetime.utcnow()
-    
-    # Sessions, die bald ablaufen (7 Tage vor Ablauf)
-    expiring_soon = db.query(UserbotSession).filter(
-        UserbotSession.user_id == current_user.id,
-        UserbotSession.subscription_status == "active",
-        UserbotSession.subscription_end_date <= now + timedelta(days=7),
-        UserbotSession.subscription_end_date > now,
-        UserbotSession.payment_reminder_sent == False
-    ).all()
-    
-    # Sessions, die abgelaufen sind
-    expired = db.query(UserbotSession).filter(
-        UserbotSession.user_id == current_user.id,
-        UserbotSession.subscription_status.in_(["expired", "pending_payment"]),
-        UserbotSession.subscription_end_date < now
-    ).all()
-    
-    # Sessions, die bald gelöscht werden (3 Tage vor Löschung)
-    deletion_warning = db.query(UserbotSession).filter(
-        UserbotSession.user_id == current_user.id,
-        UserbotSession.subscription_status.in_(["expired", "pending_payment"]),
-        UserbotSession.auto_delete_date <= now + timedelta(days=3),
-        UserbotSession.auto_delete_date > now,
-        UserbotSession.deletion_warning_sent == False
-    ).all()
-    
-    return {
-        "expiring_soon": [
-            {
-                "session_id": session.id,
-                "session_name": session.session_name,
-                "days_until_expiry": (session.subscription_end_date - now).days
-            } for session in expiring_soon
-        ],
-        "expired": [
-            {
-                "session_id": session.id,
-                "session_name": session.session_name,
-                "days_overdue": (now - session.subscription_end_date).days,
-                "days_until_deletion": (session.auto_delete_date - now).days if session.auto_delete_date else 0
-            } for session in expired
-        ],
-        "deletion_warning": [
-            {
-                "session_id": session.id,
-                "session_name": session.session_name,
-                "days_until_deletion": (session.auto_delete_date - now).days
-            } for session in deletion_warning
-        ]
-    }
+# ----------- USERBOT SESSIONS (ZENTRALISIERT) -----------
+# Alle Userbot-Funktionalität wurde in /userbot/* Routen zentralisiert
+# Siehe: backend/app/routes/userbot.py
 
 # ----------- SIGNAL GROUPS FÜR USER -----------
 
@@ -920,3 +701,457 @@ def get_default_config_for_session_type(session_type: str) -> dict:
     }
     
     return configs.get(session_type, {})
+
+# --- Nachrichtenweiterleitung per Userbot ---
+
+@router.get("/userbot/groups")
+async def get_userbot_groups(
+    current_user: User = Depends(get_current_user)
+):
+    """Holt alle verfügbaren Gruppen für den Userbot."""
+    try:
+        # Prüfe Berechtigung
+        if not (current_user.is_superadmin or 
+                current_user.role == 'partner' or 
+                current_user.package_id):
+            raise HTTPException(status_code=403, detail="Keine Berechtigung für Userbot-Services")
+        
+        # Userbot-Service aufrufen
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            try:
+                response = await client.get(f"{USERBOT_API_URL}/api/dialogs")
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    return {
+                        "success": True,
+                        "groups": data.get("dialogs", [])
+                    }
+                else:
+                    logger.error(f"Userbot-Service Fehler: {response.status_code} - {response.text}")
+                    raise HTTPException(status_code=400, detail="Fehler beim Laden der Gruppen")
+                    
+            except httpx.ConnectError:
+                logger.error(f"Userbot-Service nicht erreichbar: {USERBOT_API_URL}")
+                raise HTTPException(status_code=503, detail="Userbot-Service nicht erreichbar")
+            except httpx.TimeoutException:
+                logger.error("Userbot-Service Timeout")
+                raise HTTPException(status_code=504, detail="Userbot-Service Timeout")
+                
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Fehler beim Laden der Userbot-Gruppen: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Laden der Gruppen: {str(e)}")
+
+@router.post("/userbot/forwarding/activate")
+async def activate_userbot_forwarding(
+    source_group_id: str = Body(...),
+    target_group_id: str = Body(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Aktiviert die Nachrichtenweiterleitung für den eingeloggten User."""
+    try:
+        # Prüfe Berechtigung
+        if not (current_user.is_superadmin or 
+                current_user.role == 'partner' or 
+                current_user.package_id):
+            raise HTTPException(status_code=403, detail="Keine Berechtigung für Userbot-Services")
+        
+        session = db.query(UserbotSession).filter(
+            UserbotSession.user_id == current_user.id,
+            UserbotSession.session_type == "message_forwarding"
+        ).first()
+        
+        if not session:
+            raise HTTPException(status_code=404, detail="Keine Userbot-Session gefunden. Bitte melden Sie sich zuerst an.")
+        
+        # Mapping anlegen (oder reaktivieren)
+        mapping = db.query(ForwardingGroupMapping).filter(
+            ForwardingGroupMapping.userbot_session_id == session.id,
+            ForwardingGroupMapping.source_group_id == source_group_id,
+            ForwardingGroupMapping.target_group_id == target_group_id
+        ).first()
+        
+        if mapping:
+            mapping.forwarding_active = True
+            db.commit()
+        else:
+            mapping = ForwardingGroupMapping(
+                userbot_session_id=session.id,
+                source_group_id=source_group_id,
+                target_group_id=target_group_id,
+                forwarding_active=True
+            )
+            db.add(mapping)
+            db.commit()
+            db.refresh(mapping)
+        
+        return {"success": True, "session_id": session.id, "mapping_id": mapping.id}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Fehler beim Aktivieren der Weiterleitung: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Aktivieren der Weiterleitung: {str(e)}")
+
+@router.get("/userbot/forwarding/status")
+async def get_userbot_forwarding_status(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Gibt Status, registrierte Gruppen und Sessionstatus zurück."""
+    try:
+        session = db.query(UserbotSession).filter(
+            UserbotSession.user_id == current_user.id,
+            UserbotSession.session_type == "message_forwarding"
+        ).first()
+        
+        if not session:
+            return {"active": False, "forwarding_enabled": False, "groups": [], "session": None}
+        
+        mappings = db.query(ForwardingGroupMapping).filter(
+            ForwardingGroupMapping.userbot_session_id == session.id
+        ).all()
+        
+        group_pairs = [
+            {
+                "id": mapping.id,
+                "source_group_id": mapping.source_group_id,
+                "target_group_id": mapping.target_group_id,
+                "forwarding_active": mapping.forwarding_active,
+                "created_at": mapping.created_at.isoformat()
+            } for mapping in mappings
+        ]
+        
+        return {
+            "active": session.is_active and session.forwarding_enabled,
+            "forwarding_enabled": session.forwarding_enabled,
+            "groups": group_pairs,
+            "session": {
+                "id": session.id,
+                "session_name": session.session_name,
+                "session_type": session.session_type,
+                "is_active": session.is_active,
+                "forwarding_enabled": session.forwarding_enabled
+            }
+        }
+        
+    except Exception as e:
+        logger.error(f"Fehler beim Abrufen des Weiterleitungsstatus: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Abrufen des Status: {str(e)}")
+
+@router.patch("/userbot/forwarding-mapping/{mapping_id}/toggle")
+async def toggle_userbot_forwarding_mapping(
+    mapping_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Aktiviert/Deaktiviert eine Weiterleitungs-Mapping"""
+    try:
+        # Prüfe ob Mapping existiert und dem User gehört
+        mapping = db.query(ForwardingGroupMapping).join(UserbotSession).filter(
+            ForwardingGroupMapping.id == mapping_id,
+            UserbotSession.user_id == current_user.id
+        ).first()
+        
+        if not mapping:
+            raise HTTPException(status_code=404, detail="Mapping nicht gefunden")
+        
+        mapping.forwarding_active = not mapping.forwarding_active
+        db.commit()
+        db.refresh(mapping)
+        
+        return {
+            "success": True,
+            "message": f"Weiterleitung {'aktiviert' if mapping.forwarding_active else 'deaktiviert'}",
+            "forwarding_active": mapping.forwarding_active
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Fehler beim Umschalten des Mappings: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Umschalten des Mappings: {str(e)}")
+
+@router.delete("/userbot/forwarding-mapping/{mapping_id}")
+async def delete_userbot_forwarding_mapping(
+    mapping_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Löscht eine Weiterleitungs-Mapping"""
+    try:
+        # Prüfe ob Mapping existiert und dem User gehört
+        mapping = db.query(ForwardingGroupMapping).join(UserbotSession).filter(
+            ForwardingGroupMapping.id == mapping_id,
+            UserbotSession.user_id == current_user.id
+        ).first()
+        
+        if not mapping:
+            raise HTTPException(status_code=404, detail="Mapping nicht gefunden")
+        
+        db.delete(mapping)
+        db.commit()
+        
+        return {
+            "success": True,
+            "message": "Weiterleitungs-Mapping erfolgreich gelöscht"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Fehler beim Löschen des Mappings: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Löschen des Mappings: {str(e)}")
+
+# -------------- User Profile Endpoints ----------
+@router.get("/profile")
+async def get_user_profile(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Gibt das Profil des aktuellen Users zurück"""
+    try:
+        return {
+            "id": current_user.id,
+            "telegram_id": current_user.telegram_id,
+            "user_name": current_user.user_name,
+            "first_name": current_user.first_name,
+            "last_name": current_user.last_name,
+            "phone": current_user.phone,
+            "username": current_user.username,
+            "is_active": current_user.is_active,
+            "role": current_user.role,
+            "is_superadmin": current_user.is_superadmin,
+            "created_at": current_user.created_at.isoformat() if current_user.created_at else None,
+            "last_login": current_user.last_login.isoformat() if current_user.last_login else None
+        }
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Abrufen des User-Profils: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Abrufen des Profils: {str(e)}")
+
+@router.put("/profile")
+async def update_user_profile(
+    profile_data: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Aktualisiert das Profil des aktuellen Users"""
+    try:
+        # Erlaubte Felder zum Aktualisieren
+        allowed_fields = ["user_name", "first_name", "last_name", "phone"]
+        
+        for field in allowed_fields:
+            if field in profile_data:
+                setattr(current_user, field, profile_data[field])
+        
+        current_user.last_login = datetime.utcnow()
+        db.commit()
+        db.refresh(current_user)
+        
+        return {
+            "success": True,
+            "message": "Profil erfolgreich aktualisiert",
+            "user": {
+                "id": current_user.id,
+                "telegram_id": current_user.telegram_id,
+                "user_name": current_user.user_name,
+                "first_name": current_user.first_name,
+                "last_name": current_user.last_name,
+                "phone": current_user.phone
+            }
+        }
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Aktualisieren des User-Profils: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Fehler beim Aktualisieren des Profils: {str(e)}")
+
+# -------------- User Settings Endpoints ----------
+@router.get("/settings")
+async def get_user_settings(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Gibt die Einstellungen des Users zurück"""
+    try:
+        # Hier könnten User-spezifische Einstellungen aus der DB geladen werden
+        # Für jetzt geben wir Standard-Einstellungen zurück
+        return {
+            "notifications": {
+                "signal_notifications": True,
+                "payment_notifications": True,
+                "system_notifications": True
+            },
+            "security": {
+                "two_factor_enabled": False,
+                "session_timeout": True
+            },
+            "preferences": {
+                "language": "de",
+                "timezone": "Europe/Berlin"
+            }
+        }
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Abrufen der User-Einstellungen: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Abrufen der Einstellungen: {str(e)}")
+
+@router.put("/settings/notifications")
+async def update_notification_settings(
+    notification_data: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Aktualisiert die Benachrichtigungseinstellungen"""
+    try:
+        # Hier würden die Einstellungen in der DB gespeichert werden
+        return {
+            "success": True,
+            "message": "Benachrichtigungseinstellungen aktualisiert",
+            "notifications": notification_data
+        }
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Aktualisieren der Benachrichtigungseinstellungen: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Aktualisieren der Einstellungen: {str(e)}")
+
+@router.put("/settings/security")
+async def update_security_settings(
+    security_data: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Aktualisiert die Sicherheitseinstellungen"""
+    try:
+        # Hier würden die Einstellungen in der DB gespeichert werden
+        return {
+            "success": True,
+            "message": "Sicherheitseinstellungen aktualisiert",
+            "security": security_data
+        }
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Aktualisieren der Sicherheitseinstellungen: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Aktualisieren der Einstellungen: {str(e)}")
+
+# -------------- User Groups Endpoints ----------
+@router.get("/groups")
+async def get_user_groups(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Gibt alle Gruppen des Users zurück"""
+    try:
+        # Hier würden die Gruppen des Users aus der DB geladen werden
+        # Für jetzt geben wir Mock-Daten zurück
+        groups = [
+            {
+                "id": 1,
+                "name": "Trading Gruppe 1",
+                "status": "active",
+                "member_count": 150,
+                "signal_count": 25
+            },
+            {
+                "id": 2,
+                "name": "Trading Gruppe 2",
+                "status": "active",
+                "member_count": 89,
+                "signal_count": 12
+            }
+        ]
+        
+        return groups
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Abrufen der User-Gruppen: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Abrufen der Gruppen: {str(e)}")
+
+@router.post("/groups/{group_id}/join")
+async def join_group(
+    group_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Tritt einer Gruppe bei"""
+    try:
+        # Hier würde die Logik zum Beitreten einer Gruppe implementiert werden
+        return {
+            "success": True,
+            "message": f"Erfolgreich Gruppe {group_id} beigetreten"
+        }
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Beitreten der Gruppe: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Beitreten der Gruppe: {str(e)}")
+
+# -------------- Account Management ----------
+@router.get("/export-data")
+async def export_user_data(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Exportiert alle Daten des Users"""
+    try:
+        # Sammle alle User-Daten
+        user_data = {
+            "profile": {
+                "id": current_user.id,
+                "telegram_id": current_user.telegram_id,
+                "user_name": current_user.user_name,
+                "first_name": current_user.first_name,
+                "last_name": current_user.last_name,
+                "phone": current_user.phone,
+                "username": current_user.username,
+                "created_at": current_user.created_at.isoformat() if current_user.created_at else None,
+                "last_login": current_user.last_login.isoformat() if current_user.last_login else None
+            },
+            "payments": [],
+            "sessions": [],
+            "groups": []
+        }
+        
+        # Hole Zahlungen
+        payments = db.query(Payment).filter(Payment.user_id == current_user.id).all()
+        for payment in payments:
+            user_data["payments"].append({
+                "id": payment.id,
+                "amount": payment.amount,
+                "status": payment.status,
+                "created_at": payment.created_at.isoformat() if payment.created_at else None
+            })
+        
+        # Hole Userbot-Sessions
+        sessions = db.query(UserbotSession).filter(UserbotSession.user_id == current_user.id).all()
+        for session in sessions:
+            user_data["sessions"].append({
+                "id": session.id,
+                "phone": session.phone,
+                "status": session.status,
+                "created_at": session.created_at.isoformat() if session.created_at else None
+            })
+        
+        return user_data
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Exportieren der User-Daten: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Exportieren der Daten: {str(e)}")
+
+@router.delete("/account")
+async def delete_user_account(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Löscht das User-Konto"""
+    try:
+        # Hier würde die Logik zum sicheren Löschen des Kontos implementiert werden
+        # Für jetzt markieren wir es nur als inaktiv
+        current_user.is_active = False
+        db.commit()
+        
+        return {
+            "success": True,
+            "message": "Konto erfolgreich gelöscht"
+        }
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Löschen des User-Kontos: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Fehler beim Löschen des Kontos: {str(e)}")

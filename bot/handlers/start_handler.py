@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 import os
 
-WEBUI_URL = os.getenv("WEBUI_URL", "https://webui.bit-team-bot.online")
+WEBUI_URL = os.getenv("WEBUI_URL")
 
 @Client.on_message(filters.command("start") & filters.private)
 async def start_private(client: Client, message: Message):

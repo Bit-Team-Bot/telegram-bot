@@ -1,98 +1,51 @@
 <template>
-  <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-6">
-    <h2 class="text-2xl font-bold mb-6">Zahlung für {{ package.name }}</h2>
+  <div class="payment-form-container">
+    <div class="payment-form-card">
+      <h2 class="payment-form-title">Zahlung bearbeiten</h2>
     
-    <div class="mb-6">
-      <p class="text-gray-600">Preis: {{ package.price }} BUSD</p>
-      <p class="text-gray-600">Laufzeit: {{ package.duration_days }} Tage</p>
+      <form @submit.prevent="handleSubmit" class="payment-form">
+        <div class="form-group">
+          <label for="amount" class="form-label">Betrag (USDT)</label>
+          <input 
+            id="amount"
+            v-model="form.amount" 
+            type="number" 
+            step="0.01" 
+            required
+            class="form-input"
+          />
     </div>
     
-    <div v-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-      {{ error }}
-    </div>
-    
-    <form @submit.prevent="submitPayment" class="space-y-4">
-      <div>
-        <label class="block text-gray-700 mb-2">Transaktions-Hash</label>
-        <input
-          v-model="txHash"
-          type="text"
+        <div class="form-group">
+          <label for="status" class="form-label">Status</label>
+          <select 
+            id="status"
+            v-model="form.status" 
           required
-          class="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-          placeholder="0x..."
+            class="form-select"
         >
+            <option value="pending">Ausstehend</option>
+            <option value="completed">Abgeschlossen</option>
+            <option value="failed">Fehlgeschlagen</option>
+          </select>
       </div>
       
-      <div class="bg-gray-100 p-4 rounded">
-        <h3 class="font-bold mb-2">Zahlungsanweisung:</h3>
-        <p class="text-sm text-gray-600">
-          1. Sende genau {{ package.price }} BUSD an:<br>
-          <code class="bg-gray-200 px-2 py-1 rounded">{{ botWallet }}</code>
-        </p>
-        <p class="text-sm text-gray-600 mt-2">
-          2. Füge den Transaktions-Hash oben ein
-        </p>
+        <div class="form-group">
+          <label for="notes" class="form-label">Notizen</label>
+          <textarea 
+            id="notes"
+            v-model="form.notes" 
+            rows="3"
+            class="form-textarea"
+          ></textarea>
       </div>
       
-      <button
-        type="submit"
-        :disabled="loading"
-        class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors disabled:opacity-50"
-      >
-        {{ loading ? 'Wird verarbeitet...' : 'Zahlung bestätigen' }}
+        <button type="submit" class="submit-button" :disabled="loading">
+          {{ loading ? 'Speichern...' : 'Speichern' }}
       </button>
     </form>
+    </div>
   </div>
 </template>
 
-<script>
-import { ref } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
-
-export default {
-  name: 'PaymentForm',
-  
-  props: {
-    package: {
-      type: Object,
-      required: true
-    }
-  },
-  
-  setup(props) {
-    const router = useRouter()
-    const txHash = ref('')
-    const loading = ref(false)
-    const error = ref(null)
-    const botWallet = import.meta.env.VITE_BOT_WALLET || '0x...'
-    
-    const submitPayment = async () => {
-      loading.value = true
-      error.value = null
-      
-      try {
-        await axios.post('/api/payments', {
-          package_id: props.package.id,
-          tx_hash: txHash.value
-        })
-        
-        router.push('/packages')
-      } catch (err) {
-        error.value = err.response?.data?.detail || 'Fehler bei der Zahlungsverarbeitung'
-        console.error(err)
-      } finally {
-        loading.value = false
-      }
-    }
-    
-    return {
-      txHash,
-      loading,
-      error,
-      botWallet,
-      submitPayment
-    }
-  }
-}
-</script> 
+<!-- Styles werden aus globaler index.css verwendet --> 

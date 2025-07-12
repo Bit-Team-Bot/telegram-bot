@@ -103,20 +103,15 @@ class GroupAdminMenu:
             # Prüfe auf 'not found' und lege ggf. an
             error_str = str(e)
             if '404' in error_str or 'not found' in error_str.lower():
-                # Gruppe anlegen
-                try:
-                    backend_client.post("/groups/", {
-                        "group_id": str(chat_id),
-                        "owner_id": callback_query.from_user.id,
-                        "name": None
-                    })
-                    group_data = backend_client.get(f"/groups/{chat_id}")
-                except Exception as e2:
-                    await callback_query.edit_message_text(f"🌙 Nachtmodus\n\nFehler beim Anlegen der Gruppe: {e2}", reply_markup=self.get_back_to_admin_menu(chat_id))
-                    return
+                # Gruppe anlegen (zentraler Endpunkt)
+                backend_client.post("/groups/", {
+                    "group_id": str(chat_id),
+                    "owner_id": callback_query.from_user.id,
+                    "name": None
+                })
+                group_data = backend_client.get(f"/groups/{chat_id}")
             else:
-                await callback_query.edit_message_text(f"🌙 Nachtmodus\n\nFehler beim Laden des Status: {e}", reply_markup=self.get_back_to_admin_menu(chat_id))
-                return
+                raise
         night_mode = group_data.get("night_mode", False)
         night_mode_start = group_data.get("night_mode_start") or "22:00"
         night_mode_end = group_data.get("night_mode_end") or "08:00"
@@ -207,13 +202,13 @@ def register_group_admin_menu_handlers(app, group_admin_menu, group_management):
             except Exception as e:
                 error_str = str(e)
                 if '404' in error_str or 'not found' in error_str.lower():
-                    # Gruppe anlegen
+                    # Gruppe anlegen (zentraler Endpunkt)
                     backend_client.post("/groups/", {
                         "group_id": str(chat_id),
                         "owner_id": callback_query.from_user.id,
                         "name": None
                     })
-            group_data = backend_client.get(f"/groups/{chat_id}")
+                    group_data = backend_client.get(f"/groups/{chat_id}")
                 else:
                     raise
             welcome_text = group_data.get("welcome_text") or "Willkommen in der Gruppe!"
@@ -267,6 +262,7 @@ def register_group_admin_menu_handlers(app, group_admin_menu, group_management):
             return
         try:
             from bot.bot import backend_client
+            # Begrüßungstext speichern (zentraler Endpunkt)
             backend_client.patch(f"/groups/{chat_id}", {"welcome_text": new_text})
             del pending_welcome_edit[key]
             await message.reply("✅ Begrüßungstext gespeichert!", reply_markup=InlineKeyboardMarkup([
@@ -586,6 +582,7 @@ def register_group_admin_menu_handlers(app, group_admin_menu, group_management):
             end = text
             from bot.bot import backend_client
             try:
+                # Nachtmodus speichern (zentraler Endpunkt)
                 backend_client.patch(f"/groups/{chat_id}", {"night_mode_start": start, "night_mode_end": end})
                 await message.reply(f"🌙 Nachtmodus-Zeiten gespeichert: {start} – {end}")
             except Exception as e:

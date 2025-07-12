@@ -8,7 +8,7 @@ Dieses Modul bietet:
 - Logout und Session-Refresh
 """
 
-from app.routes.auth import router, create_access_token, get_current_user
+from ..routes.auth import get_current_user, create_access_token, router
 
 __all__ = [
     'router',

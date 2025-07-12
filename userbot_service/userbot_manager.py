@@ -7,14 +7,26 @@ import logging
 from typing import Dict, Optional, List
 from datetime import datetime, timedelta
 import os
+import sys
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Finde das Root-Verzeichnis und lade .env
+root_dir = Path(__file__).parent.parent
+env_file = root_dir / ".env"
+if env_file.exists():
+    load_dotenv(env_file)
+else:
+    load_dotenv()
 
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.errors import (
     PhoneCodeInvalidError,
     SessionPasswordNeededError,
-    PhoneNumberInvalidError
+    PhoneNumberInvalidError,
+    AuthRestartError,
+    FloodWaitError
 )
 
 logger = logging.getLogger(__name__)
@@ -72,8 +84,11 @@ class UserbotManager:
             
             client = self.session_data[phone_number]["client"]
             
+            # Client verbinden (falls nicht verbunden)
+            if not client.is_connected():
+                await client.connect()
+            
             # Code senden
-            await client.connect()
             sent_code = await client.send_code_request(phone_number)
             
             # Session-Status aktualisieren
@@ -91,29 +106,57 @@ class UserbotManager:
             
         except PhoneNumberInvalidError:
             return {"success": False, "error": "Ungültige Telefonnummer"}
+        except AuthRestartError:
+            logger.warning(f"AuthRestartError für {phone_number} - Session neu erstellen")
+            # Session löschen und neu erstellen
+            if phone_number in self.session_data:
+                try:
+                    client = self.session_data[phone_number]["client"]
+                    await client.disconnect()
+                except:
+                    pass
+                del self.session_data[phone_number]
+            
+            # Neue Session erstellen
+            return await self.create_session(phone_number)
+            
+        except FloodWaitError as e:
+            wait_time = e.seconds
+            return {"success": False, "error": f"Zu viele Anfragen. Bitte warten Sie {wait_time} Sekunden."}
+            
         except Exception as e:
             logger.error(f"Fehler beim Senden des Codes an {phone_number}: {str(e)}")
-            return {"success": False, "error": str(e)}
+            return {"success": False, "error": f"Telegram-Fehler: {str(e)}"}
     
     async def verify_code(self, phone_number: str, code: str, password: Optional[str] = None) -> Dict:
         """Login-Code verifizieren"""
+        logger.info(f"🚀 VERIFY_CODE CALLED für {phone_number} mit Code {code}")
         try:
+            logger.info(f"🔐 Verifiziere Code für {phone_number}")
+            
             if phone_number not in self.session_data:
+                logger.error(f"Session nicht gefunden für {phone_number}")
                 return {"success": False, "error": "Session nicht gefunden"}
             
             client = self.session_data[phone_number]["client"]
             phone_code_hash = self.session_data[phone_number].get("phone_code_hash")
             
             if not phone_code_hash:
+                logger.error(f"Kein Code gesendet für {phone_number}")
                 return {"success": False, "error": "Kein Code gesendet"}
+            
+            logger.info(f"🔐 Code verifizieren für {phone_number}")
             
             # Code verifizieren
             try:
                 await client.sign_in(phone_number, code, phone_code_hash=phone_code_hash)
+                logger.info(f"✅ Code erfolgreich verifiziert für {phone_number}")
             except SessionPasswordNeededError:
+                logger.info(f"🔐 2FA erforderlich für {phone_number}")
                 if not password:
                     return {"success": False, "error": "2FA-Passwort erforderlich", "requires_2fa": True}
                 await client.sign_in(password=password)
+                logger.info(f"✅ 2FA erfolgreich für {phone_number}")
             
             # Session aktivieren
             self.active_sessions[phone_number] = client
@@ -122,8 +165,17 @@ class UserbotManager:
             
             # User-Informationen abrufen
             me = await client.get_me()
+            logger.info(f"👤 User-Daten abgerufen für {phone_number}: {me.first_name} {me.last_name}")
             
-            logger.info(f"Session für {phone_number} erfolgreich aktiviert")
+            # Session-String generieren
+            try:
+                session_string = client.session.save()
+                logger.info(f"📱 Session-String generiert für {phone_number}")
+            except Exception as e:
+                logger.warning(f"⚠️ Session-String konnte nicht generiert werden für {phone_number}: {e}")
+                session_string = None
+            
+            logger.info(f"✅ Session für {phone_number} erfolgreich aktiviert")
             
             return {
                 "success": True,
@@ -131,7 +183,8 @@ class UserbotManager:
                 "user_id": me.id,
                 "username": me.username,
                 "first_name": me.first_name,
-                "last_name": me.last_name
+                "last_name": me.last_name,
+                "session_string": session_string
             }
             
         except PhoneCodeInvalidError:
@@ -164,7 +217,8 @@ class UserbotManager:
         try:
             if phone_number in self.active_sessions:
                 client = self.active_sessions[phone_number]
-                await client.disconnect()
+                if client and hasattr(client, 'disconnect'):
+                    await client.disconnect()
                 del self.active_sessions[phone_number]
                 
                 # Status aktualisieren

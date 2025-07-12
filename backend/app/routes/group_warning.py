@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.database import get_db
-from app.models import GroupWarning, User, Group
-from app.schemas import GroupWarningCreate, GroupWarningOut
+from backend.app.database import get_db
 from datetime import datetime
-from typing import List
+from typing import List, Optional
+from backend.app.models import GroupWarning
+from backend.app.schemas import GroupWarningCreate, GroupWarningOut
 
 router = APIRouter(
     prefix="/group_warnings",
@@ -26,7 +26,7 @@ def create_group_warning(warning: GroupWarningCreate, db: Session = Depends(get_
     return db_warning
 
 @router.get("/", response_model=List[GroupWarningOut])
-def get_warnings(user_id: int = None, group_id: int = None, db: Session = Depends(get_db)):
+def get_warnings(user_id: Optional[int] = None, group_id: Optional[int] = None, db: Session = Depends(get_db)):
     query = db.query(GroupWarning)
     if user_id:
         query = query.filter(GroupWarning.user_id == user_id)

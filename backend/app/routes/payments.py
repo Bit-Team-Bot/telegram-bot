@@ -1,12 +1,13 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from ..database import get_db
-from app.models import Payment, User, Package
+from ..models import Payment, User, Package
 from ..schemas import PaymentResponse, PaymentCreate
-from datetime import datetime, timedelta
 from typing import List
 from ..auth import get_current_user
 from ..payments.utils import verify_transaction, create_payment
+from datetime import datetime, timedelta
+import logging
 
 router = APIRouter(tags=["payments"])
 
@@ -48,6 +49,21 @@ async def get_payments(
         return db.query(Payment).all()
     return db.query(Payment).filter(Payment.user_id == current_user.id).all()
 
+# ----------- AUSSTEHENDE ZAHLUNGEN ABRUFEN -----------
+
+@router.get("/pending", response_model=List[PaymentResponse])
+async def get_pending_payments(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Gibt ausstehende Zahlungen für den aktuellen User zurück"""
+    if bool(current_user.is_superadmin):
+        return db.query(Payment).filter(Payment.status == "pending").all()
+    return db.query(Payment).filter(
+        Payment.user_id == current_user.id,
+        Payment.status == "pending"
+    ).all()
+
 # ----------- EINZELNE ZAHLUNG ABRUFEN -----------
 
 @router.get("/{payment_id}", response_model=PaymentResponse)
@@ -87,42 +103,60 @@ async def verify_payment(
 # ----------- ZAHLUNGEN NACH USER -----------
 
 @router.get("/user/{user_id}")
-def payments_by_user(
+async def get_user_payments(
     user_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
 ):
-    if not bool(current_user.is_superadmin) and current_user.id != user_id:
+    """Zahlungen eines Users abrufen"""
+    if current_user.id != user_id and not current_user.is_superadmin:
         raise HTTPException(status_code=403, detail="Keine Berechtigung")
     
-    payments = db.query(Payment).filter(Payment.user_id == user_id).order_by(Payment.created_at.desc()).all()
-    result = []
-    for p in payments:
-        result.append({
-            "id": p.id,
-            "package_name": p.package.name if p.package else "Unbekannt",
-            "amount_usdt": p.amount,
-            "duration_days": p.package.duration_days if p.package else 0,
-            "status": p.status,
-            "timestamp": p.created_at.strftime("%Y-%m-%d %H:%M"),
-            "ablaufdatum": (
-                (p.created_at + timedelta(days=p.package.duration_days)).strftime("%Y-%m-%d")
-                if p.package and p.package.duration_days > 0 else "Lifetime"
-            )
-        })
-    return result 
+    payments = db.query(Payment).filter(Payment.user_id == user_id).all()
+    return payments
 
-# ----------- AUSSTEHENDE ZAHLUNGEN ABRUFEN -----------
+# ===== FEHLENDER PAYMENTS ENDPUNKT =====
 
-@router.get("/pending", response_model=List[PaymentResponse])
-async def get_pending_payments(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+@router.get("/history")
+async def get_payment_history(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
 ):
-    """Gibt ausstehende Zahlungen für den aktuellen User zurück"""
-    if bool(current_user.is_superadmin):
-        return db.query(Payment).filter(Payment.status == "pending").all()
-    return db.query(Payment).filter(
-        Payment.user_id == current_user.id,
-        Payment.status == "pending"
-    ).all() 
+    """Zahlungshistorie des aktuellen Users abrufen"""
+    try:
+        payments = db.query(Payment).filter(
+            Payment.user_id == current_user.id
+        ).order_by(Payment.created_at.desc()).all()
+        
+        payment_history = []
+        for payment in payments:
+            payment_data = {
+                "id": payment.id,
+                "amount": payment.amount,
+                "status": payment.status,
+                "created_at": payment.created_at.isoformat() if payment.created_at else None,
+                "completed_at": payment.completed_at.isoformat() if payment.completed_at else None,
+                "tx_hash": payment.tx_hash
+            }
+            
+            # Paket-Informationen hinzufügen
+            if payment.package_id:
+                package = db.query(Package).filter(Package.id == payment.package_id).first()
+                if package:
+                    payment_data["package"] = {
+                        "id": package.id,
+                        "name": package.name,
+                        "price": package.price
+                    }
+            
+            payment_history.append(payment_data)
+        
+        return {
+            "success": True,
+            "payments": payment_history,
+            "total_count": len(payment_history)
+        }
+        
+    except Exception as e:
+        logger.error(f"Fehler beim Abrufen der Zahlungshistorie: {e}")
+        raise HTTPException(status_code=500, detail=f"Fehler beim Abrufen der Zahlungshistorie: {str(e)}") 

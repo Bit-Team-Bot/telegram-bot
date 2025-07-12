@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/manny/telegram-bot/bot/bot.py", line 15, in <module>
+    from bot.config import API_ID, API_HASH, BOT_TOKEN, WEBUI_URL, BACKEND_URL, USERBOT_URL
+  File "/home/manny/telegram-bot/bot/config.py", line 16
+    load_dotenv()
+    ^
+IndentationError: expected an indented block after 'else' statement on line 14

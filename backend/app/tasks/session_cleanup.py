@@ -1,5 +1,5 @@
-from app.database import SessionLocal
-from app.utils.sessions import cleanup_expired_sessions
+from backend.app.database import SessionLocal
+from backend.app.utils.sessions import cleanup_expired_sessions
 import logging
 
 def run_daily_maintenance():

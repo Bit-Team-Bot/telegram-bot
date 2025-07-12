@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, ForeignKey, Text, JSON
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from enum import Enum
@@ -49,11 +48,11 @@ class User(Base):
     username = Column(String, nullable=True)
     last_login = Column(DateTime, nullable=True)
     
-    packages = relationship("Package", back_populates="user")
-    payments = relationship("Payment", back_populates="user")
-    sessions = relationship("UserSession", back_populates="user")
-    user_addons = relationship("UserAddon", back_populates="user")
-    userbot_sessions = relationship("UserbotSession", back_populates="user")
+    packages = relationship("Package", back_populates="user", cascade="all, delete")
+    payments = relationship("Payment", back_populates="user", cascade="all, delete")
+    sessions = relationship("UserSession", back_populates="user", cascade="all, delete")
+    user_addons = relationship("UserAddon", back_populates="user", cascade="all, delete")
+    userbot_sessions = relationship("UserbotSession", back_populates="user", cascade="all, delete")
     
     @property
     def package_id(self):
@@ -68,7 +67,7 @@ class UserSession(Base):
     __tablename__ = "user_sessions"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     session_token = Column(String, unique=True, index=True)
     telegram_id = Column(String, index=True)
     ip_address = Column(String, nullable=True)
@@ -95,8 +94,8 @@ class PackageTemplate(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    packages = relationship("Package", back_populates="template")
-    package_addons = relationship("PackageAddon", back_populates="package_template")
+    packages = relationship("Package", back_populates="template", cascade="all, delete")
+    package_addons = relationship("PackageAddon", back_populates="package_template", cascade="all, delete")
 
 class Addon(Base):
     __tablename__ = "addons"
@@ -111,15 +110,15 @@ class Addon(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    addon_tiers = relationship("AddonTier", back_populates="addon")
-    package_addons = relationship("PackageAddon", back_populates="addon")
-    user_addons = relationship("UserAddon", back_populates="addon")
+    addon_tiers = relationship("AddonTier", back_populates="addon", cascade="all, delete")
+    package_addons = relationship("PackageAddon", back_populates="addon", cascade="all, delete")
+    user_addons = relationship("UserAddon", back_populates="addon", cascade="all, delete")
 
 class AddonTier(Base):
     __tablename__ = "addon_tiers"
     
     id = Column(Integer, primary_key=True, index=True)
-    addon_id = Column(Integer, ForeignKey("addons.id"))
+    addon_id = Column(Integer, ForeignKey("addons.id", ondelete="CASCADE"))
     level = Column(String)  # 1, 2, 3, VIP
     price = Column(Float)
     description = Column(Text, nullable=True)
@@ -132,8 +131,8 @@ class PackageAddon(Base):
     __tablename__ = "package_addons"
     
     id = Column(Integer, primary_key=True, index=True)
-    package_template_id = Column(Integer, ForeignKey("package_templates.id"))
-    addon_id = Column(Integer, ForeignKey("addons.id"))
+    package_template_id = Column(Integer, ForeignKey("package_templates.id", ondelete="CASCADE"))
+    addon_id = Column(Integer, ForeignKey("addons.id", ondelete="CASCADE"))
     is_enabled = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     
@@ -148,8 +147,8 @@ class Package(Base):
     price = Column(Float)
     duration_days = Column(Integer)
     features = Column(Text)  # JSON string (Legacy)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    template_id = Column(Integer, ForeignKey("package_templates.id"), nullable=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    template_id = Column(Integer, ForeignKey("package_templates.id", ondelete="SET NULL"), nullable=True)
     status = Column(String, default=PackageStatus.INACTIVE.value)
     start_date = Column(DateTime, nullable=True)
     end_date = Column(DateTime, nullable=True)
@@ -157,15 +156,15 @@ class Package(Base):
     
     user = relationship("User", back_populates="packages")
     template = relationship("PackageTemplate", back_populates="packages")
-    payments = relationship("Payment", back_populates="package")
+    payments = relationship("Payment", back_populates="package", cascade="all, delete")
 
 class UserAddon(Base):
     __tablename__ = "user_addons"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    addon_id = Column(Integer, ForeignKey("addons.id"))
-    tier_id = Column(Integer, ForeignKey("addon_tiers.id"), nullable=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    addon_id = Column(Integer, ForeignKey("addons.id", ondelete="CASCADE"))
+    tier_id = Column(Integer, ForeignKey("addon_tiers.id", ondelete="SET NULL"), nullable=True)
     status = Column(String, default=AddonStatus.ACTIVE.value)
     start_date = Column(DateTime, default=datetime.utcnow)
     end_date = Column(DateTime, nullable=True)
@@ -179,9 +178,9 @@ class Payment(Base):
     __tablename__ = "payments"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    package_id = Column(Integer, ForeignKey("packages.id"))
-    addon_id = Column(Integer, ForeignKey("addons.id"), nullable=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    package_id = Column(Integer, ForeignKey("packages.id", ondelete="CASCADE"))
+    addon_id = Column(Integer, ForeignKey("addons.id", ondelete="SET NULL"), nullable=True)
     amount = Column(Float)
     status = Column(String, default=PaymentStatus.PENDING.value)
     tx_hash = Column(String, unique=True, nullable=True)
@@ -262,7 +261,7 @@ class UserbotSession(Base):
     __tablename__ = "userbot_sessions"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     session_name = Column(String, nullable=False)
     session_type = Column(String, nullable=False)  # message_forwarding, signal_groups, auto_reply, custom
     phone = Column(String, nullable=False)
@@ -270,6 +269,7 @@ class UserbotSession(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    telegram_id = Column(String, index=True)  # NEU: Telegram-ID für Zuordnung
     
     # Spezifische Konfiguration je nach Session-Typ
     config_data = Column(Text, nullable=True)  # JSON-Konfiguration für die Session
@@ -283,10 +283,15 @@ class UserbotSession(Base):
     payment_reminder_sent = Column(Boolean, default=False)
     deletion_warning_sent = Column(Boolean, default=False)
     auto_delete_date = Column(DateTime, nullable=True)  # Datum für automatische Löschung (2 Wochen nach letzter Zahlung)
+
+    # NEU: Weiterleitungs-Flag
+    forwarding_enabled = Column(Boolean, default=False)
     
     # Beziehungen
     user = relationship("User", back_populates="userbot_sessions")
-    signal_groups = relationship("SignalGroup", back_populates="userbot_session")
+    signal_groups = relationship("SignalGroup", back_populates="userbot_session", cascade="all, delete")
+    # NEU: ForwardingGroupMapping-Relation
+    forwarding_mappings = relationship("ForwardingGroupMapping", back_populates="userbot_session", cascade="all, delete")
 
 class SignalGroupSubscription(Base):
     __tablename__ = "signal_group_subscriptions"
@@ -402,6 +407,21 @@ class GroupMute(Base):
     group = relationship("Group")
     issuer = relationship("User", foreign_keys=[issued_by])
 
+class GroupKick(Base):
+    __tablename__ = "group_kicks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    group_id = Column(Integer, ForeignKey("groups.id"))
+    reason = Column(Text, nullable=True)
+    issued_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    # Beziehungen
+    user = relationship("User", foreign_keys=[user_id])
+    group = relationship("Group")
+    issuer = relationship("User", foreign_keys=[issued_by])
+
 class ScheduledMessage(Base):
     __tablename__ = "scheduled_messages"
 
@@ -490,3 +510,16 @@ class ForwardedMessage(Base):
     status = Column(String, default="success")
     source_group = relationship("SourceGroup")
     user = relationship("User")
+
+# NEU: Mapping-Tabelle für Quell- und Zielgruppen der Weiterleitung
+class ForwardingGroupMapping(Base):
+    __tablename__ = "forwarding_group_mappings"
+    id = Column(Integer, primary_key=True, index=True)
+    userbot_session_id = Column(Integer, ForeignKey("userbot_sessions.id"))
+    source_group_id = Column(String, nullable=False)  # Telegram-ID der Quellgruppe
+    target_group_id = Column(String, nullable=False)  # Telegram-ID der Zielgruppe
+    forwarding_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    userbot_session = relationship("UserbotSession", back_populates="forwarding_mappings")

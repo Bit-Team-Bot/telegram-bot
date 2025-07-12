@@ -1,8 +1,8 @@
 import secrets
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-from app.models import UserSession
-from app.schemas import SessionCreate
+from backend.app.models import UserSession
+from backend.app.schemas import SessionCreate
 from typing import Optional
 
 SESSION_DURATION_DAYS = 30  # Standard-Gültigkeit einer Session

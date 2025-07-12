@@ -49,19 +49,8 @@ const iconComponent = computed(() => {
     }
   }
   
-  return icons[props.icon] || icons.dashboard
+  return icons[props.icon] || icons.packages
 })
 </script>
 
-<style scoped>
-.nav-icon {
-  width: 32px;
-  height: 32px;
-  fill: var(--text-white);
-}
-
-.nav-text {
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-</style> 
+<!-- Styles werden aus globaler index.css verwendet --> 

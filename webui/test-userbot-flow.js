@@ -190,21 +190,26 @@ async function testFrontendIntegration() {
   // Simuliere die API-Calls, die das Frontend machen würde
   const frontendCalls = [
     {
-      name: 'Code anfordern (Frontend)',
+      name: 'Userbot Create Session (Frontend)',
       method: 'POST',
-      url: `${USERBOT_API_URL}/start`,
-      data: { phone: TEST_PHONE }
+      url: `${USERBOT_API_URL}/userbot/create-session`,
+      data: { phone_number: TEST_PHONE }
     },
     {
-      name: 'Code verifizieren (Frontend)',
+      name: 'Userbot Verify Code (Frontend)',
       method: 'POST',
-      url: `${USERBOT_API_URL}/verify`,
-      data: { phone: TEST_PHONE, code: '123456' }
+      url: `${USERBOT_API_URL}/userbot/verify-code`,
+      data: { phone_number: TEST_PHONE, code: '123456' }
     },
     {
-      name: 'Status abrufen (Frontend)',
+      name: 'Userbot Session Status (Frontend)',
       method: 'GET',
-      url: `${USERBOT_API_URL}/status`
+      url: `${USERBOT_API_URL}/userbot/session-status/${TEST_PHONE}`
+    },
+    {
+      name: 'Userbot Chats (Frontend)',
+      method: 'GET',
+      url: `${USERBOT_API_URL}/userbot/chats/${TEST_PHONE}`
     }
   ];
   

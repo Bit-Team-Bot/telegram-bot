@@ -1,367 +1,446 @@
-# 🤖 Bit-Team-Bot - Telegram Bot Management System
+# Telegram Bot System - Vollständige Dokumentation
 
-Ein vollständiges Telegram Bot Management System mit WebUI, Backend API und Userbot-Integration.
+## 📋 Übersicht
 
-## 📋 Projektübersicht
+Dieses System besteht aus einem umfassenden Telegram-Bot mit Backend-API, Userbot-Funktionalität, WebUI und Datenbank-Integration. Das System bietet Signal-Gruppen-Management, Zahlungsabwicklung, Userbot-Sessions und ein modernes Dashboard.
 
-Das Bit-Team-Bot System besteht aus mehreren Modulen, die zusammen ein vollständiges Telegram Bot Management System bilden:
+## 🏗️ Systemarchitektur
 
-### 🌐 **Online-Adressen & IPs**
+```
+telegram-bot/
+├── backend/           # FastAPI Backend
+├── userbot/          # Telegram Userbot
+├── webui/            # React WebUI
+├── bot/              # Telegram Bot
+├── database/         # SQLite Datenbank
+└── docs/            # Dokumentation
+```
 
-**Produktions-Domains:**
-- `https://api.bit-team-bot.online` - Backend API
-- `https://webui.bit-team-bot.online` - Frontend WebUI
-- `https://t.me` - Telegram Web Integration
-- `https://web.telegram.org` - Telegram Web Integration
-
-**Entwicklungs-IPs:**
-- `127.0.0.1` - Localhost (Development)
-- `0.0.0.0` - Alle Interfaces
-- `192.168.0.96` - SSH Remote Host
-
-**Ports:**
-- `8000` - Backend API
-- `8080` - Frontend Development
-- `9000` - Userbot Service
-
-## 🏗️ **Modul-Architektur**
-
-### 1. **Authentifizierung & Session-Management** (`backend/app/auth/`)
-- ✅ User-Login mit Telefonnummer
-- ✅ JWT Token Management
-- ✅ Session-Überprüfung
-- ✅ Logout und Session-Refresh
-
-### 2. **Userbot-Integration** (`userbot_service/`)
-- ✅ Telegram-Session-Handling pro Telefonnummer
-- ✅ Senden und Prüfen von Login-Codes via Telegram
-- ✅ Verknüpfung von WebUI-Login und Userbot-Session
-- ✅ Fehlerbehandlung und Session-Verwaltung
-
-### 3. **Userverwaltung** (`backend/app/users/`)
-- ✅ Verwaltung der Userdaten, User-IDs (Telegram), Handynummern
-- ✅ CRUD-Endpoints (Backend)
-- ✅ Datenmodell und User-DB-Anbindung
-
-### 4. **Payments & Pakete** (`backend/app/payments/`)
-- ✅ Zahlungsabwicklung (USDT, Stripe, etc.)
-- ✅ Abfrage des Zahlungsstatus
-- ✅ Buchung und Freischaltung von Paketen
-- ✅ Payment-Webhook-Handling
-
-### 5. **Dashboard & WebUI-Komponenten** (`webui/src/components/`)
-- ✅ Zentrale UI-Komponente für Paketstatus, Zahlungen, Begrüßung
-- ✅ Übersicht aller Funktionen, User-Aktionen, Payment-Status
-- ✅ Gruppen-Management UI
-- ✅ Einstellungen für User
-
-### 6. **Telegram-Bot-Integration** (`bot/`)
-- ✅ Steuerung des Telegram-Bots
-- ✅ Verknüpfung von User-IDs, Gruppen, Paketstatus
-- ✅ Steuerung von Zugang/Features je nach Paket/Zahlstatus
-
-### 7. **API & Backend** (`backend/`)
-- ✅ Zentrale Schnittstelle für alle Module
-- ✅ Absicherung aller Endpunkte
-- ✅ Fehlerhandling, Logging
-- ✅ Saubere REST-Strukturierung
-
-### 8. **Frontend-Store/Session** (`webui/src/store/`)
-- ✅ State-Management (Vuex)
-- ✅ Synchronisierung von Auth-Status, Payment, Gruppen
-- ✅ UI-State Management
-
-### 9. **Dokumentation** (`docs/`)
-- ✅ README, Installationsanleitung
-- ✅ Modul-Beschreibungen
-- ✅ Start-/Deploy-Hinweise
-
-### 10. **Extras & Utilities** (`backend/app/utils/`)
-- ✅ Hilfsfunktionen, Fehlerbehandlung
-- ✅ Logging, Validierung
-- ✅ Sicherheitsfunktionen
-
-## 🚀 **Installation & Setup**
+## 🚀 Schnellstart
 
 ### Voraussetzungen
-- Python 3.11+
-- Node.js 18+
-- PostgreSQL oder SQLite
+
+- Python 3.8+
+- Node.js 16+
+- SQLite3
+- Telegram Bot Token
 - Telegram API Credentials
 
-### 1. Repository klonen
+### Installation
+
+1. **Repository klonen**
 ```bash
-git clone https://github.com/your-repo/telegram-bot.git
+git clone <repository-url>
 cd telegram-bot
 ```
 
-### 2. Backend Setup
+2. **Umgebungsvariablen konfigurieren**
 ```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# oder: venv\Scripts\activate  # Windows
-
-pip install -r requirements.txt
-cp env.example .env
-# .env Datei konfigurieren
+cp .env.example .env
+# .env-Datei mit Ihren Werten bearbeiten
 ```
 
-### 3. Frontend Setup
+3. **Backend starten**
+```bash
+cd backend
+pip install -r requirements.txt
+python -m uvicorn app.main:app --reload
+```
+
+4. **WebUI starten**
 ```bash
 cd webui
 npm install
-cp .env.example .env
-# .env Datei konfigurieren
-```
-
-### 4. Userbot Service Setup
-```bash
-cd userbot_service
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-### 5. Bot Setup
-```bash
-cd bot
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-cp env.example .env
-# .env Datei konfigurieren
-```
-
-## ⚙️ **Konfiguration**
-
-### Environment Variables
-
-**Backend (.env):**
-```env
-JWT_SECRET=your-super-secret-jwt-key
-DATABASE_URL=sqlite:///./telegram_bot.db
-CORS_ORIGINS=["https://webui.bit-team-bot.online"]
-USERBOT_URL=https://localhost:9000
-LOG_LEVEL=INFO
-ENVIRONMENT=production
-```
-
-**Frontend (.env):**
-```env
-VITE_API_BASE_URL=https://api.bit-team-bot.online
-VITE_APP_TITLE=Bit-Team-Bot
-```
-
-**Bot (.env):**
-```env
-API_ID=your-telegram-api-id
-API_HASH=your-telegram-api-hash
-BOT_TOKEN=your-bot-token
-WEBUI_URL=https://webui.bit-team-bot.online
-BACKEND_URL=https://api.bit-team-bot.online
-```
-
-## 🏃‍♂️ **Start der Services**
-
-### Development Mode
-
-**Backend:**
-```bash
-cd backend
-source venv/bin/activate
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-**Frontend:**
-```bash
-cd webui
 npm run dev
 ```
 
-**Userbot Service:**
+5. **Bot starten**
 ```bash
-cd userbot_service
-source venv/bin/activate
+cd bot
 python main.py
 ```
 
-**Bot:**
+6. **Userbot starten**
 ```bash
-cd bot
-source venv/bin/activate
-python bot.py
+cd userbot
+python main.py
 ```
 
-### Production Mode
+## ⚙️ Konfiguration
 
-**Mit Docker:**
-```bash
-docker-compose up -d
+### .env-Datei
+
+```env
+# Server-Konfiguration
+HOST=0.0.0.0
+PORT=8000
+ENVIRONMENT=production
+
+# Datenbank
+DATABASE_URL=sqlite:///./telegram_bot.db
+
+# JWT
+JWT_SECRET=your-secret-key
+ALGORITHM=HS256
+
+# Telegram
+BOT_TOKEN=your-bot-token
+USERBOT_URL=http://localhost:8001
+
+# WebUI
+WEBUI_URL=http://localhost:3000
+
+# Logging
+LOG_LEVEL=INFO
 ```
 
-**Mit Systemd Services:**
-```bash
-sudo systemctl start telegram-backend
-sudo systemctl start telegram-bot
-```
+## 📊 Datenmodelle
 
-## 📊 **API Endpoints**
+### User Management
+- **User**: Zentrale Benutzerentität mit Telegram-Integration
+- **UserSession**: Session-Management für WebUI
+- **UserbotSession**: Userbot-Session-Verwaltung
 
-### Authentication
-- `POST /auth/login` - User-Login
-- `POST /auth/logout` - User-Logout
-- `GET /auth/me` - Aktuelle User-Info
-- `POST /auth/refresh` - Token erneuern
-- `GET /auth/verify` - Session-Überprüfung
+### Paket-System
+- **PackageTemplate**: Vorlagen für Pakete (Basic, Advanced, Pro, Lifetime)
+- **Package**: Benutzer-spezifische Pakete
+- **Addon**: Zusätzliche Features
+- **AddonTier**: Verschiedene Stufen für Addons
+- **PackageAddon**: Verknüpfung zwischen Paketen und Addons
+- **UserAddon**: Benutzer-spezifische Addons
 
-### Users
-- `GET /users` - Alle Users (Admin)
-- `GET /users/{id}` - User-Details
-- `PUT /users/{id}` - User aktualisieren
-- `DELETE /users/{id}` - User löschen (Admin)
+### Zahlungssystem
+- **Payment**: Zahlungsverwaltung
+- **Wallet**: Wallet-Funktionalität
 
-### Payments
+### Gruppen-Management
+- **Group**: Telegram-Gruppen
+- **GroupMember**: Gruppenmitglieder
+- **GroupWarning**: Verwarnungen
+- **GroupMute**: Stummschaltungen
+- **GroupKick**: Ausschlüsse
+
+## 🔐 Authentifizierung
+
+### Telegram-Login
+1. User sendet Telegram-ID an `/auth/telegram-login`
+2. System generiert Login-Code
+3. User gibt Code in WebUI ein
+4. JWT-Token wird erstellt
+
+### Session-Management
+- Automatische Token-Erneuerung
+- Session-Timeout nach 24 Stunden
+- Sichere Logout-Funktionalität
+
+## 💰 Zahlungssystem
+
+### Paket-Kauf
+1. User wählt Paket im WebUI
+2. Zahlungsanfrage wird erstellt
+3. User führt Zahlung durch
+4. Paket wird automatisch aktiviert
+5. Userbot-Session wird gestartet
+
+### Zahlungsstatus
+- `PENDING`: Zahlung ausstehend
+- `COMPLETED`: Zahlung erfolgreich
+- `FAILED`: Zahlung fehlgeschlagen
+- `REFUNDED`: Zahlung erstattet
+
+## 🤖 Userbot-Funktionalität
+
+### Session-Management
+- Automatischer Start nach Paketkauf
+- Session-Monitoring
+- Automatische Beendigung bei Paket-Ablauf
+
+### Gruppen-Integration
+- Automatischer Beitritt zu Signal-Gruppen
+- Nachrichten-Monitoring
+- Verwarnungs-System
+
+## 📱 WebUI Features
+
+### Dashboard
+- 4 Hauptkacheln: Aktive Gruppen, Zahlungen, Verbleibende Tage, Verfügbare Features
+- Paket-Panel mit aktiven Paketen
+- Ladeindikatoren und Fehlerbehandlung
+
+### Paket-Verwaltung
+- Übersicht aller verfügbaren Pakete
+- Kauf-Funktionalität
+- Paket-Details und Features
+
+### Admin-Bereich
+- User-Management
+- Paket-Verwaltung
+- Zahlungsübersicht
+- System-Monitoring
+
+## 🔧 Backend-API
+
+### Haupt-Endpoints
+
+#### Authentifizierung
+- `POST /auth/telegram-login` - Telegram-Login
+- `POST /auth/verify-code` - Code-Verifikation
+- `POST /auth/logout` - Logout
+
+#### User-Management
+- `POST /users/register_or_update` - User-Registrierung
+- `POST /users/link_phone` - Telefonnummer verknüpfen
+- `GET /users/profile` - User-Profil
+
+#### Paket-System
+- `GET /packages/` - Alle Pakete
+- `POST /packages/purchase` - Paket kaufen
+- `GET /user_packages/active` - Aktive Pakete
+
+#### Zahlungen
 - `POST /payments/create` - Zahlung erstellen
 - `GET /payments/history` - Zahlungshistorie
-- `GET /payments/pending` - Ausstehende Zahlungen
-- `POST /payments/{id}/complete` - Zahlung abschließen
-- `POST /payments/{id}/cancel` - Zahlung abbrechen
+- `POST /payments/verify` - Zahlung verifizieren
 
-### Packages
-- `GET /packages` - Verfügbare Pakete
-- `GET /packages/current` - Aktuelles User-Paket
-- `POST /packages/upgrade` - Paket upgraden
+#### Userbot
+- `POST /userbot/start_session` - Session starten
+- `GET /userbot/sessions` - Aktive Sessions
+- `POST /userbot/stop_session` - Session beenden
 
-### Groups
-- `GET /groups` - Alle Gruppen
-- `POST /groups` - Gruppe erstellen
-- `PUT /groups/{id}` - Gruppe aktualisieren
-- `DELETE /groups/{id}` - Gruppe löschen
-
-### Monitoring
-- `GET /monitoring/health` - System-Health
+#### Monitoring
 - `GET /monitoring/stats` - System-Statistiken
-- `GET /monitoring/logs` - System-Logs
+- `GET /monitoring/performance` - Performance-Metriken
+- `GET /monitoring/errors` - Fehler-Logs
 
-## 🔐 **Sicherheit**
+## 🛡️ Sicherheit
 
-### Implementierte Sicherheitsmaßnahmen:
-- ✅ JWT Token Authentication
-- ✅ Password Hashing mit Salt
-- ✅ CORS Protection
-- ✅ Rate Limiting
-- ✅ Input Validation
-- ✅ SQL Injection Protection
-- ✅ XSS Protection
-- ✅ CSRF Protection
+### Datenbank-Sicherheit
+- Foreign Keys mit `ondelete="CASCADE"`
+- Relationships mit `cascade="all, delete"`
+- Automatische Datenleichen-Bereinigung
 
-### Security Headers:
-```javascript
-'X-Content-Type-Options': 'nosniff'
-'X-Frame-Options': 'DENY'
-'X-XSS-Protection': '1; mode=block'
-'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
-'Content-Security-Policy': "default-src 'self'"
-```
+### API-Sicherheit
+- JWT-Token-Authentifizierung
+- Rate-Limiting
+- Input-Validierung
+- SQL-Injection-Schutz
 
-## 📈 **Monitoring & Logging**
+### Error-Handling
+- Umfassendes Error-Logging
+- Strukturierte Fehlerantworten
+- Monitoring-Integration
 
-### Logging-Konfiguration:
-- **Backend:** Structured JSON Logging
-- **Frontend:** Console Logging mit Error Tracking
-- **Bot:** File-based Logging
-- **Userbot:** Session-based Logging
+## 📈 Monitoring & Logging
 
-### Monitoring-Endpoints:
-- Health Checks
-- Performance Metrics
-- Error Tracking
-- User Activity
+### Performance-Monitoring
+- API-Response-Zeiten
+- Datenbank-Performance
+- System-Ressourcen
 
-## 🧪 **Testing**
+### Error-Monitoring
+- Automatische Fehler-Erkennung
+- Kritische Fehler-Benachrichtigung
+- Error-Trend-Analyse
 
-### Backend Tests:
+### Logging
+- Strukturiertes Logging
+- Verschiedene Log-Level
+- Log-Rotation
+
+## 🧪 Testing
+
+### API-Tests
 ```bash
 cd backend
-pytest tests/
+pytest tests/test_api.py -v
 ```
 
-### Frontend Tests:
+### Test-Coverage
+- Unit-Tests für alle Module
+- Integration-Tests für API-Endpoints
+- End-to-End-Tests für kritische Workflows
+
+## 🚀 Deployment
+
+### Systemd-Services
+
+#### Backend Service
+```ini
+[Unit]
+Description=Telegram Bot Backend
+After=network.target
+
+[Service]
+Type=simple
+User=manny
+WorkingDirectory=/home/manny/telegram-bot/backend
+Environment=PATH=/home/manny/telegram-bot/backend/venv/bin
+ExecStart=/home/manny/telegram-bot/backend/venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+#### Bot Service
+```ini
+[Unit]
+Description=Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+User=manny
+WorkingDirectory=/home/manny/telegram-bot/bot
+Environment=PATH=/home/manny/telegram-bot/bot/venv/bin
+ExecStart=/home/manny/telegram-bot/bot/venv/bin/python main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+#### Userbot Service
+```ini
+[Unit]
+Description=Telegram Userbot
+After=network.target
+
+[Service]
+Type=simple
+User=manny
+WorkingDirectory=/home/manny/telegram-bot/userbot
+Environment=PATH=/home/manny/telegram-bot/userbot/venv/bin
+ExecStart=/home/manny/telegram-bot/userbot/venv/bin/python main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Nginx-Konfiguration
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    # WebUI
+    location / {
+        root /home/manny/telegram-bot/webui/dist;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Backend API
+    location /api/ {
+        proxy_pass http://localhost:8000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+## 🔧 Wartung
+
+### Datenbank-Migrationen
 ```bash
+cd backend
+alembic upgrade head
+```
+
+### Log-Rotation
+```bash
+# Automatische Log-Rotation konfigurieren
+sudo logrotate /etc/logrotate.d/telegram-bot
+```
+
+### Backup-Strategie
+```bash
+# Tägliches Backup
+0 2 * * * /home/manny/telegram-bot/scripts/backup.sh
+```
+
+## 🐛 Troubleshooting
+
+### Häufige Probleme
+
+#### Backend startet nicht
+```bash
+# Logs prüfen
+sudo journalctl -u telegram-bot-backend -f
+
+# Port-Konflikte prüfen
+sudo netstat -tlnp | grep :8000
+```
+
+#### Userbot-Sessions funktionieren nicht
+```bash
+# Session-Logs prüfen
+tail -f /home/manny/telegram-bot/userbot/logs/userbot.log
+
+# API-Verbindung testen
+curl http://localhost:8000/userbot/sessions
+```
+
+#### WebUI lädt nicht
+```bash
+# Build-Status prüfen
 cd webui
-npm run test
+npm run build
+
+# Nginx-Logs prüfen
+sudo tail -f /var/log/nginx/error.log
 ```
 
-### E2E Tests:
+## 📞 Support
+
+### Logs finden
+- Backend: `/home/manny/telegram-bot/backend/logs/`
+- Bot: `/home/manny/telegram-bot/bot/logs/`
+- Userbot: `/home/manny/telegram-bot/userbot/logs/`
+- System: `sudo journalctl -u telegram-bot-*`
+
+### Monitoring-Dashboard
+- URL: `http://your-domain.com/monitoring`
+- Performance-Metriken
+- Error-Logs
+- System-Status
+
+## 🔄 Updates
+
+### Automatische Updates
 ```bash
-npm run test:e2e
+# Update-Script ausführen
+./scripts/update.sh
 ```
 
-## 📦 **Deployment**
-
-### Docker Deployment:
+### Manuelle Updates
 ```bash
-# Build Images
-docker build -t bit-team-bot-backend ./backend
-docker build -t bit-team-bot-frontend ./webui
-docker build -t bit-team-bot-userbot ./userbot_service
-docker build -t bit-team-bot-bot ./bot
+# Code aktualisieren
+git pull origin main
 
-# Run with Docker Compose
-docker-compose up -d
+# Dependencies aktualisieren
+cd backend && pip install -r requirements.txt
+cd ../webui && npm install
+
+# Services neu starten
+sudo systemctl restart telegram-bot-*
 ```
 
-### Production Checklist:
-- [ ] SSL Certificates konfiguriert
-- [ ] Environment Variables gesetzt
-- [ ] Database Migration ausgeführt
-- [ ] Static Files gebaut
-- [ ] Monitoring aktiviert
-- [ ] Backup-Strategy implementiert
-- [ ] Security Headers konfiguriert
-- [ ] Rate Limiting aktiviert
+## 📝 Changelog
 
-## 📚 **Dokumentation**
-
-Die vollständige Dokumentation findest du im [`docs/`](docs/) Ordner:
-
-- **📖 [API Dokumentation](docs/api/)** - API Endpoints und Integration
-- **🚀 [Deployment Guide](docs/deployment/)** - Installation und Deployment
-- **🔧 [Development Guide](docs/development/)** - Entwicklung und Debugging
-- **🔧 [Maintenance Guide](docs/maintenance/)** - Wartung und Troubleshooting
-
-## 🤝 **Contributing**
-
-1. Fork das Repository
-2. Erstelle einen Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit deine Änderungen (`git commit -m 'Add some AmazingFeature'`)
-4. Push zum Branch (`git push origin feature/AmazingFeature`)
-5. Öffne einen Pull Request
-
-## 📄 **Lizenz**
-
-Dieses Projekt ist unter der MIT Lizenz lizenziert - siehe [LICENSE](LICENSE) Datei für Details.
-
-## 🆘 **Support**
-
-- **Dokumentation:** [docs/](docs/)
-- **Issues:** [GitHub Issues](https://github.com/your-repo/telegram-bot/issues)
-- **Discord:** [Bit-Team Discord](https://discord.gg/bit-team)
-- **Email:** support@bit-team-bot.online
-
-## 🔄 **Changelog**
-
-### Version 1.0.0 (2024-01-XX)
-- ✅ Vollständige Modul-Implementierung
-- ✅ Authentifizierung & Session-Management
+### Version 1.0.0
+- ✅ Vollständiges Backend-System
 - ✅ Userbot-Integration
-- ✅ Payment-System
-- ✅ Dashboard & WebUI
-- ✅ API & Backend
-- ✅ State-Management
-- ✅ Dokumentation
+- ✅ WebUI mit Dashboard
+- ✅ Zahlungssystem
+- ✅ Monitoring & Logging
+- ✅ Umfassende Tests
+- ✅ Deployment-Konfiguration
+
+## 📄 Lizenz
+
+Dieses Projekt ist proprietär und nicht zur öffentlichen Nutzung bestimmt.
 
 ---
 
-**Entwickelt mit ❤️ vom Bit-Team** 
+**Entwickelt für professionelle Telegram-Bot-Lösungen mit umfassender Funktionalität und robuster Architektur.** 
