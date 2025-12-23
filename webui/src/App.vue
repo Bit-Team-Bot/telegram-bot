@@ -8,7 +8,7 @@
 import { computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from './stores/auth'
-import api from './api'
+import api from './api/index'
 
 // Hooks auf Top-Level deklarieren
 const router = useRouter()

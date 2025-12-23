@@ -54,7 +54,7 @@ import { ref, onMounted } from 'vue'
 import { useAuthStore } from '../src/stores/auth'
 import BaseCard from '../src/components/BaseCard.vue'
 import BaseButton from '../src/components/BaseButton.vue'
-import api from '../src/api'
+import api from '../src/api/index'
 
 const authStore = useAuthStore()
 const pendingPayments = ref([])
