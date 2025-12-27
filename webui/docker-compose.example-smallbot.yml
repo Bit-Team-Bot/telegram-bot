@@ -1,0 +1,129 @@
+version: "3.9"
+
+networks:
+  smallbot_net:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redisdata:
+
+services:
+  postgres:
+    image: postgres:15
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+      POSTGRES_DB: ${POSTGRES_DB:-smallbotdb}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-smallbotdb}"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - smallbot_net
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - smallbot_net
+
+  api:
+    build: ./api
+    env_file: .env
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app
+    environment:
+      PYTHONPATH: /app
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      DATABASE_URL: ${DATABASE_URL:-}
+    entrypoint: ["sh", "-c", "./wait-for-postgres.py && python3 -m app.main"]
+    restart: unless-stopped
+    networks:
+      - smallbot_net
+
+  bot:
+    build: ./bot
+    env_file: .env
+    depends_on:
+      - api
+      - redis
+    volumes:
+      - ./bot:/app/bot
+    environment:
+      PYTHONPATH: /app
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      API_URL: http://api:8000
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_OWNER_ID: ${TELEGRAM_OWNER_ID}
+      PRICE: ${PRICE}
+      PAYPAL_LINK: ${PAYPAL_LINK}
+    entrypoint: ["sh", "-c", "./wait-for-api.sh && python3 bot/bot.py"]
+    restart: unless-stopped
+    networks:
+      - smallbot_net
+
+  userbot:
+    build: ./userbot
+    env_file: .env
+    depends_on:
+      - redis
+    volumes:
+      - ./userbot:/app
+    environment:
+      PYTHONPATH: /app
+      PYRO_API_ID: ${PYRO_API_ID}
+      PYRO_API_HASH: ${PYRO_API_HASH}
+      USERBOT_SESSION_STRING: ${USERBOT_SESSION_STRING}
+      TELEGRAM_OWNER_ID: ${TELEGRAM_OWNER_ID}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+    command: python3 -u main.py
+    restart: unless-stopped
+    networks:
+      - smallbot_net
+
+  # ============================================
+  # WebUI Service - Neu hinzugefügt
+  # ============================================
+  webui:
+    build: ./webui
+    container_name: smallbot-webui
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+    environment:
+      # API-URLs für Docker-Netzwerk (Container-Namen verwenden)
+      - VITE_API_URL=http://api:8000
+      # Falls dein Userbot einen API-Port hat, hier anpassen:
+      - VITE_USERBOT_URL=http://userbot:9000
+    restart: unless-stopped
+    networks:
+      - smallbot_net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
